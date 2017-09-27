@@ -10,7 +10,7 @@ namespace SeniorProject_ECS.Models
         public int CenterID { get; set; }
         public String Name { get; set; }
         public String County { get; set; }
-        public String Region { get; set; }
+        public String Region { get; set; } 
 
         public virtual ICollection<StaffMember> StaffMembers { get; set; }
     }
