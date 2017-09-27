@@ -14,6 +14,7 @@ namespace SeniorProject_ECS.Models
         public String Position { get; set; }
 
         //Covers fields Region, County, and Center (name)
+        public int CenterID { get; set; }
         public virtual Center Center { get; set; }
 
         //Possibly combine with others?
@@ -22,7 +23,7 @@ namespace SeniorProject_ECS.Models
 
         //May want to combine these
         public bool CDAInProgress { get; set; }
-        public String CDAType { get; set; }
+        public String CDAType { get; set; } //Only 3 types could could create an enum for this one
         public DateTime CDAExpiration { get; set; }
         public String CDARenewalProcess { get; set; }
 
