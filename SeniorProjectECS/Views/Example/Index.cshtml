@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ExampleModel>
+
+<table>
+    @foreach (var item in Model){
+        <tr>
+            <td>@item.ExampleModelID</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.DoB</td>
+            <td>@item.DoesNotExistInDB</td>
+        </tr>
+    }
+</table>
+
+It works!foreach
