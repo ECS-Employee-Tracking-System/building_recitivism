@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,10 @@ namespace SeniorProjectECS.Controllers
     {
         public IActionResult Index()
         {
-            String connectionString = "";
-            using (System.Data.IDbConnection dbConnection = new SqlConnection(connectionString))
-            {
-                dbConnection.Open();
-                var people = dbConnection.Query<ExampleModel>("SELECT *, Firstname+'@'+Lastname AS [FullName] FROM ExampleTable").ToList();
+            var con = DBHandler.GetSqlConnection();
+            var people = con.Query<ExampleModel>("SELECT *, Firstname+'@'+Lastname AS [FullName] FROM ExampleTable").ToList();
 
-                ExampleModel test = new ExampleModel();
-                test.FirstName = "hard coded";
-
-                people.Add(test);
-
-                return View(people);
-            }
+            return View(people);
         }
     }
 }

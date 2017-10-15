@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Example\" />
+    <Folder Include="Views\Staff\" />
   </ItemGroup>
 
 </Project>
