@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 
 namespace SeniorProjectECS.Models
 {
-    public class ExampleModel
+    public class StaffMember
     {
-        public int ExampleModelID { get; set; }
+        // basic information
         public String FirstName { get; set; }
         public String LastName { get; set; }
-        public DateTime DoB { get; set; }
-        public String DoesNotExistInDB { get; set; }
-        public String FullName { get; set; }
+        public String Email { get; set; }
+        public DateTime DateOfHire { get; set; }
+        public String Position { get; set; }
+
+        public Center Center { get; set; }
     }
 }
