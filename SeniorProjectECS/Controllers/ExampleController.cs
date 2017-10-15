@@ -13,11 +13,11 @@ namespace SeniorProjectECS.Controllers
     {
         public IActionResult Index()
         {
-            String connectionString = "<Connection String Here>";
+            String connectionString = "";
             using (System.Data.IDbConnection dbConnection = new SqlConnection(connectionString))
             {
                 dbConnection.Open();
-                var people = dbConnection.Query<ExampleModel>("SELECT * FROM ExampleTable").ToList();
+                var people = dbConnection.Query<ExampleModel>("SELECT *, Firstname+'@'+Lastname AS [FullName] FROM ExampleTable").ToList();
 
                 ExampleModel test = new ExampleModel();
                 test.FirstName = "hard coded";
