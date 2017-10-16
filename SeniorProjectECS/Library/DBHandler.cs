@@ -10,7 +10,7 @@ namespace SeniorProjectECS.Library
     {
         public static SqlConnection GetSqlConnection()
         {
-            String connectionString = "Connection String Here";
+            String connectionString = "Connection string here";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;
