@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Example\" />
-    <Folder Include="Views\Staff\" />
+    <Folder Include="Views\StaffMember\" />
   </ItemGroup>
 
 </Project>
