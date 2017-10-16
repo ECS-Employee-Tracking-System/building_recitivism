@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SeniorProjectECS.Views.Staff
+namespace SeniorProjectECS.Views.StaffMember
 {
     public class IndexModel : PageModel
     {
