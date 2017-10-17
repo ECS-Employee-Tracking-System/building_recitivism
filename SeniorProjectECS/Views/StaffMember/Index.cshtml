@@ -1,12 +1,21 @@
 ﻿@model IEnumerable<StaffMember>
-<table>
+<table class="table table-hover">
 @foreach (var staff in Model)
 {
     <tr>
-        <td>@staff.FirstName</td>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Position</th>
+        <th>Date of Hire</th>
+        <th>Center</th>
+    </tr>
+    <tr>
+        <td class="">@staff.FirstName</td>
         <td>@staff.LastName</td>
         <td>@staff.Email</td>
-        <td>@staff.DateOfHire</td>
+        <td>@staff.Position</td>
+        <td>@staff.DateOfHire.ToShortDateString()</td>
         <td>@staff.Center.Name</td>
     </tr>
 }
