@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<StaffMember>
+@using SeniorProjectECS.Library;
+
 <table class="table table-hover">
-@foreach (var staff in Model)
-{
     <tr>
         <th>First Name</th>
         <th>Last Name</th>
@@ -9,14 +9,28 @@
         <th>Position</th>
         <th>Date of Hire</th>
         <th>Center</th>
+        <th>CDA Expiration</th>
     </tr>
-    <tr>
-        <td class="">@staff.FirstName</td>
+@foreach (var staff in Model)
+{
+    // check if member is about to expire
+    String rowFormat;
+    if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 30)
+    {
+        rowFormat = "danger";
+    } else
+    {
+        rowFormat = "";
+    }//end expiration check
+
+    <tr class="@rowFormat">
+        <td>@staff.FirstName</td>
         <td>@staff.LastName</td>
         <td>@staff.Email</td>
         <td>@staff.Position</td>
         <td>@staff.DateOfHire.ToShortDateString()</td>
         <td>@staff.Center.Name</td>
+        <td>@staff.CDAExpiration.ToShortDateString()</td>
     </tr>
 }
 </table>
