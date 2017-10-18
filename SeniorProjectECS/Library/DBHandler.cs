@@ -10,9 +10,13 @@ namespace SeniorProjectECS.Library
 {
     public class DBHandler
     {
+        /// <summary>
+        /// Get the SQL connection.
+        /// </summary>
+        /// <returns>A SQLConnection to a database</returns>
         public static SqlConnection GetSqlConnection()
         {
-            String connectionString = "Connection String Here";
+            String connectionString = "Connection String here";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;

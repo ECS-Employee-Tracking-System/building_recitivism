@@ -26,6 +26,11 @@ namespace SeniorProjectECS.Models
 
         public IEnumerable<Education> Education { get; set; }
 
+        /// <summary>
+        /// This function gets a staff member and build all object nessisary for it.
+        /// </summary>
+        /// <param name="id">The ID of the staff member that we want to get.</param>
+        /// <returns>A staff member</returns>
         public static StaffMember GetStaffMember(int? id)
         {
             if (id == null) { return null; }
@@ -37,8 +42,13 @@ namespace SeniorProjectECS.Models
             BuildStaffMember(staffMember, con);
 
             return staffMember;
-        }
+        }// end GetStaffMember
 
+        /// <summary>
+        /// This function gets all staff members that fall within certain criteria.
+        /// </summary>
+        /// <param name="where">The WHERE statement, leave blank to get everything</param>
+        /// <returns>An IEnumerable contianing a list of StaffMembers</returns>
         public static IEnumerable<StaffMember> GetStaffMembers(String where)
         {
             var con = DBHandler.GetSqlConnection();
@@ -63,6 +73,11 @@ namespace SeniorProjectECS.Models
             return staffMembers;
         }//end GetSTaffMembers
 
+        /// <summary>
+        /// Create the rest of a staff member.
+        /// </summary>
+        /// <param name="staff">The staff member to finish building</param>
+        /// <param name="con">The SQLConnection</param>
         private static void BuildStaffMember(StaffMember staff, SqlConnection con)
         {
             // add the center
@@ -78,5 +93,5 @@ namespace SeniorProjectECS.Models
                 edu.StaffMember = staff;
             }
         }//end BuildStaffMember
-    }
-}
+    }//end class StaffMember
+}//end namespace SeniorProjecECS
