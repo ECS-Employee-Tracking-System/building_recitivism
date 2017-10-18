@@ -7,6 +7,7 @@ namespace SeniorProjectECS.Library
 {
     public class Utilities
     {
+        // The default date that is assigned to NULL dates in the database
         public static DateTime NullDate = new DateTime(1, 1, 1);
     }
 }

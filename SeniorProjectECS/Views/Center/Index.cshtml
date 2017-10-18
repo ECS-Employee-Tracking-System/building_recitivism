@@ -9,7 +9,7 @@
 @foreach(var center in Model)
 {
     <tr>
-        <td>@center.Name</td>
+        <td>@Html.ActionLink(center.Name, "Details", new { id = center.CenterID })</td>
         <td>@center.County</td>
         <td>@center.Region</td>
     </tr>
