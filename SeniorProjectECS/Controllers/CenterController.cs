@@ -19,6 +19,11 @@ namespace SeniorProjectECS.Controllers
             var centers = con.Query<Center>(sql);
 
             return View(centers);
-        }
+        }//end View Index
+
+        public IActionResult Details(int? id)
+        {
+            return View(Center.GetCenter(id));
+        }//end View Details
     }
 }

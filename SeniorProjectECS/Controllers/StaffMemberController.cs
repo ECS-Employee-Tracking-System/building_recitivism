@@ -21,6 +21,6 @@ namespace SeniorProjectECS.Controllers
         public IActionResult Details(int? id)
         {          
             return View(StaffMember.GetStaffMember(id));
-        }//end View View
+        }//end View Details
     }
 }
