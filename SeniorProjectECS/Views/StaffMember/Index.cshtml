@@ -9,6 +9,7 @@
         <th>Position</th>
         <th>Date of Hire</th>
         <th>Center</th>
+        <th>CDA Type</th>
         <th>CDA Expiration</th>
     </tr>
 @foreach (var staff in Model)
@@ -30,7 +31,16 @@
         <td>@staff.Position</td>
         <td>@staff.DateOfHire.ToShortDateString()</td>
         <td>@staff.Center.Name</td>
+
+        <!-- do they have a cda? -->
+        <td>@staff.CDAType</td>
+        @if (!staff.CDAExpiration.Equals(Utilities.NullDate))
+        {
         <td>@staff.CDAExpiration.ToShortDateString()</td>
+        } else
+        {
+            <td></td>
+        }<!-- end CDA check -->
     </tr>
 }
 </table>
