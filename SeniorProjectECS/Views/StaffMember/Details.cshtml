@@ -1,0 +1,19 @@
+﻿@model StaffMember
+
+<h1>@Model.FirstName @Model.LastName</h1>
+<h2>Education</h2>
+
+<table class="table">
+    <tr>
+        <th>Level</th>
+        <th>Type</th>
+        <th>Degree</th>
+    </tr>
+@foreach (var edu in Model.Education) {
+    <tr>
+        <td>@edu.DegreeLevel</td>
+        <td>@edu.DegreeType</td>
+        <td>@edu.DegreeDetail</td>
+    </tr>
+}
+</table>

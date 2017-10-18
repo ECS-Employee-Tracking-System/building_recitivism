@@ -8,6 +8,7 @@ namespace SeniorProjectECS.Models
     public class StaffMember
     {
         // basic information
+        public int StaffMemberID { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Email { get; set; }
@@ -18,5 +19,7 @@ namespace SeniorProjectECS.Models
 
         public String CDAType { get; set; }
         public DateTime CDAExpiration { get; set; }
+
+        public IEnumerable<Education> Education { get; set; }
     }
 }

@@ -25,7 +25,7 @@
     }//end expiration check
 
     <tr class="@rowFormat">
-        <td>@staff.FirstName</td>
+        <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
         <td>@staff.LastName</td>
         <td>@staff.Email</td>
         <td>@staff.Position</td>

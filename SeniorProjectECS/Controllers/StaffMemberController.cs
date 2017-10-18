@@ -37,6 +37,21 @@ namespace SeniorProjectECS.Controllers
             //staffMembers.Add(testStaff);
 
             return View(staffMembers);
-        }
+        }//end View Index
+
+        public IActionResult Details(int? id)
+        {
+            if(id == null)
+            {
+                // handle nulls
+            }
+
+            var con = DBHandler.GetSqlConnection();
+            String sql = "SELECT * FROM StaffMember LEFT JOIN Center ON StaffMember.CenterID = Center.CenterID WHERE StaffMemberID=" + id;
+
+            var staffMember = con.Query<StaffMember, Center, StaffMember>(sql, (staff, center) => { staff.Center = center; return staff; }, splitOn: "CenterID");
+
+            return View(staffMember.First());
+        }//end View View
     }
 }
