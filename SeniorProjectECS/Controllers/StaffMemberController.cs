@@ -13,45 +13,14 @@ namespace SeniorProjectECS.Controllers
     {
         public IActionResult Index()
         {
-            var con = DBHandler.GetSqlConnection();
-            // do a join to get the centers as well
-            String sql = "SELECT * FROM StaffMember LEFT JOIN Center ON StaffMember.CenterID = Center.CenterID";
-
-            // tell dapper that we want multiple objects mapped from our query (staff member and center)
-            var staffMembers = con.Query<StaffMember, Center, StaffMember>(sql, (staffMember, center) => { staffMember.Center = center; return staffMember; }, splitOn: "CenterID");
-
-            // offline testing
-            //Center testCenter = new Center();
-            //testCenter.Name = "UNF";
-            //testCenter.County = "Duval";
-            //testCenter.Region = "North East Florida";
-            //StaffMember testStaff = new StaffMember();
-            //testStaff.FirstName = "Chris";
-            //testStaff.LastName = "Kingdon";
-            //testStaff.Email = "n00827188@ospreys.unf.edu";
-            //testStaff.Position = "Developer";
-            //testStaff.DateOfHire = new DateTime(2017, 8, 1);
-            //testStaff.Center = testCenter;
-
-            //List<StaffMember> staffMembers = new List<StaffMember>();
-            //staffMembers.Add(testStaff);
+            var staffMembers = StaffMember.GetStaffMembers("");
 
             return View(staffMembers);
         }//end View Index
 
         public IActionResult Details(int? id)
-        {
-            if(id == null)
-            {
-                // handle nulls
-            }
-
-            var con = DBHandler.GetSqlConnection();
-            String sql = "SELECT * FROM StaffMember LEFT JOIN Center ON StaffMember.CenterID = Center.CenterID WHERE StaffMemberID=" + id;
-
-            var staffMember = con.Query<StaffMember, Center, StaffMember>(sql, (staff, center) => { staff.Center = center; return staff; }, splitOn: "CenterID");
-
-            return View(staffMember.First());
+        {          
+            return View(StaffMember.GetStaffMember(id));
         }//end View View
     }
 }
