@@ -15,5 +15,7 @@ namespace SeniorProjectECS.Models
         public String Position { get; set; }
 
         public Center Center { get; set; }
+
+        public DateTime CDAExpiration { get; set; }
     }
 }
