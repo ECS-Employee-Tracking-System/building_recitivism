@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Example\" />
+    <Folder Include="Views\Center\" />
     <Folder Include="Views\StaffMember\" />
   </ItemGroup>
 
