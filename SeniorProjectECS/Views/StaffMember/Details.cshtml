@@ -1,19 +1,178 @@
-﻿@model StaffMember
+﻿@model SeniorProjectECS.Models.StaffMember
 
-<h1>@Model.FirstName @Model.LastName</h1>
-<h2>Education</h2>
-
-<table class="table">
-    <tr>
-        <th>Level</th>
-        <th>Type</th>
-        <th>Degree</th>
-    </tr>
-@foreach (var edu in Model.Education) {
-    <tr>
-        <td>@edu.DegreeLevel</td>
-        <td>@edu.DegreeType</td>
-        <td>@edu.DegreeDetail</td>
-    </tr>
-}
-</table>
+<div>
+    <h4>StaffMember</h4>
+    <h2>Education</h2>
+    <table>
+        <tr>
+            <th>Education Detail</th>
+        </tr>
+        @foreach(var edu in Model.Education)
+        {
+            <tr><td>@edu.DegreeDetail</td></tr>
+        }
+    </table>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffMemberID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StaffMemberID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfHire)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfHire)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DirectorCredentials)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DirectorCredentials)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DCExpiration)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DCExpiration)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CDAInProgress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CDAInProgress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CDAType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CDAType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CDAExpiration)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CDAExpiration)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CDARenewalProcess)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CDARenewalProcess)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Goal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MidYear)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MidYear)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndYear)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndYear)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GoalMet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GoalMet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TAndAApp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TAndAApp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppApp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppApp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassCompleted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClassCompleted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassPaid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClassPaid)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiredHours)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequiredHours)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HoursEarned)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HoursEarned)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TermDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TermDate)
+        </dd>
+        <dt>
+            Center Name
+        </dt>
+        <dd>
+           @Model.Center.Name
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

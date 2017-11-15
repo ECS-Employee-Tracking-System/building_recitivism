@@ -12,7 +12,5 @@ namespace SeniorProjectECS.Models
         public String DegreeLevel { get; set; } // Masters
         public String DegreeType { get; set; } // Computing
         public String DegreeDetail { get; set; } // Master of Sciences in Computer Science
-
-        public StaffMember StaffMember { get; set; }
     }
 }
