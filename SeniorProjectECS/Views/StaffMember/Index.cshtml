@@ -19,7 +19,19 @@
     if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 30)
     {
         rowFormat = "danger";
-    } else
+    }
+
+    else if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 60)
+    {
+        rowFormat = "warning";
+    }
+
+    else if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 90)
+    {
+        rowFormat = "info";
+
+    }
+    else
     {
         rowFormat = "";
     }//end expiration check
