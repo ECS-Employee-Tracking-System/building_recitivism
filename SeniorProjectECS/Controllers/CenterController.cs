@@ -23,7 +23,8 @@ namespace SeniorProjectECS.Controllers
 
         public IActionResult Details(int? id)
         {
-            return View(Center.GetCenter(id));
+            var handler = new CenterHandlerDapper();
+            return View(handler.GetModel(id.GetValueOrDefault()));
         }//end View Details
     }
 }
