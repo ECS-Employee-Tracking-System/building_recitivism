@@ -40,6 +40,15 @@ namespace SeniorProjectECS.Models
         public String Notes{ get; set; }
         public String TermDate { get; set; }
 
+        public String CenterName { get; set; }
+        public String CenterCounty { get; set; }
+        public String CenterRegion { get; set; }
+
+        public String DegreeAbrv { get; set; }
+        public String DegreeLevel { get; set; }
+        public String DegreeType { get; set; }
+        public String DegreeDetail { get; set; }
+
         public Center Center { get; set; }
         public IEnumerable<Education> Education { get; set; }
 
