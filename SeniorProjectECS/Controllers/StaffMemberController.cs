@@ -22,5 +22,10 @@ namespace SeniorProjectECS.Controllers
         {          
             return View(StaffMember.GetStaffMember(id));
         }//end View Details
+        public IActionResult Index1()
+        {
+      
+            return View(StaffMember.GetStaffMembers(""));
+        }//end View Index1
     }
 }
