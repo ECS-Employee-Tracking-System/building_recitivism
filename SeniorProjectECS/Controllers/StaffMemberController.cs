@@ -13,20 +13,26 @@ namespace SeniorProjectECS.Controllers
     {
         public IActionResult Index()
         {
-            var staffMembers = StaffMember.GetStaffMembers("");
+            var handler = new StaffHandlerDapper();
+            var results = handler.GetModels();
 
-            return View(staffMembers);
+            return View(results);
         }//end View Index
 
         public IActionResult Details(int? id)
-        {          
-            return View(StaffMember.GetStaffMember(id));
+        {     
+            if(id != null)
+            {
+                var handle = new StaffHandlerDapper();
+                var result = handle.GetModel(id.GetValueOrDefault());
+                return View(result);
+            } else
+            {
+                return View();
+            }
+            //return View(StaffMember.GetStaffMember(id));
         }//end View Details
-        public IActionResult Index1()
-        {
-      
-            return View(StaffMember.GetStaffMembers(""));
-        }//end View Index1
+
         public IActionResult Index2()
         {
             StaffDBHandler dbhandle = new StaffDBHandler();

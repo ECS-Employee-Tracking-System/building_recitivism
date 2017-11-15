@@ -38,7 +38,7 @@ namespace SeniorProjectECS.Models
                         Email = Convert.ToString(dr["Email"]),
                         DateOfHire = Convert.ToDateTime(dr["DateOfHire"] as DateTime?),
                         Position = Convert.ToString(dr["Position"]),
-                        CenterID = Convert.ToInt32(dr["CenterID"]),
+                        //CenterID = Convert.ToInt32(dr["CenterID"]),
                         DirectorCredentials = Convert.ToBoolean(dr["DirectorCredentials"] as int?),
                         DCExpiration = Convert.ToDateTime(dr["DCExpiration"] as DateTime?),
                         CDAInProgress = Convert.ToBoolean(dr["CDAInProgress"] as int?),
@@ -58,13 +58,13 @@ namespace SeniorProjectECS.Models
                         HoursEarned = Convert.ToInt32(dr["HoursEarned"] as int?),
                         Notes = Convert.ToString(dr["Notes"]),
                         TermDate = Convert.ToString(dr["TermDate"]),
-                        CenterName = Convert.ToString(dr["CenterName"]),
-                        CenterCounty = Convert.ToString(dr["CenterCounty"]),
-                        CenterRegion= Convert.ToString(dr["CenterRegion"]),
-                        DegreeAbrv = Convert.ToString(dr["DegreeAbrv"]),
-                        DegreeDetail = Convert.ToString(dr["DegreeDetail"]),
-                        DegreeLevel = Convert.ToString(dr["DegreeLevel"]),
-                        DegreeType = Convert.ToString(dr["DegreeType"])
+                        //CenterName = Convert.ToString(dr["CenterName"]),
+                        //CenterCounty = Convert.ToString(dr["CenterCounty"]),
+                        //CenterRegion= Convert.ToString(dr["CenterRegion"]),
+                        //DegreeAbrv = Convert.ToString(dr["DegreeAbrv"]),
+                        //DegreeDetail = Convert.ToString(dr["DegreeDetail"]),
+                        //DegreeLevel = Convert.ToString(dr["DegreeLevel"]),
+                        //DegreeType = Convert.ToString(dr["DegreeType"])
                     });
             }
             return Stafflist;
@@ -74,13 +74,13 @@ namespace SeniorProjectECS.Models
             var con = DBHandler.GetSqlConnection();
             SqlCommand cmd = new SqlCommand("AddNewStaffMember", con);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CenterName", smodel.CenterName);
-            cmd.Parameters.AddWithValue("@CenterCounty", smodel.CenterCounty);
-            cmd.Parameters.AddWithValue("@CenterRegion", smodel.CenterRegion);
-            cmd.Parameters.AddWithValue("@DegreeAbrv", smodel.DegreeAbrv);
-            cmd.Parameters.AddWithValue("DegreeLevel", smodel.DegreeLevel);
-            cmd.Parameters.AddWithValue("@DegreeType", smodel.DegreeType);
-            cmd.Parameters.AddWithValue("@DegreeDetail", smodel.DegreeDetail);
+            //cmd.Parameters.AddWithValue("@CenterName", smodel.CenterName);
+            //cmd.Parameters.AddWithValue("@CenterCounty", smodel.CenterCounty);
+            //cmd.Parameters.AddWithValue("@CenterRegion", smodel.CenterRegion);
+            //cmd.Parameters.AddWithValue("@DegreeAbrv", smodel.DegreeAbrv);
+            //cmd.Parameters.AddWithValue("DegreeLevel", smodel.DegreeLevel);
+            //cmd.Parameters.AddWithValue("@DegreeType", smodel.DegreeType);
+            //cmd.Parameters.AddWithValue("@DegreeDetail", smodel.DegreeDetail);
             cmd.Parameters.AddWithValue("@FirstName", smodel.FirstName);
             cmd.Parameters.AddWithValue("@LastName", smodel.LastName);
             cmd.Parameters.AddWithValue("@Email", smodel.Email);

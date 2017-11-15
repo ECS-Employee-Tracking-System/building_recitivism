@@ -25,9 +25,6 @@
                     @Html.DisplayNameFor(model => model.Position)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CenterID)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.DirectorCredentials)
                 </th>
                 <th>
@@ -85,13 +82,13 @@
                     @Html.DisplayNameFor(model => model.TermDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CenterName)
+                    Center Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CenterCounty)
+                    Center County
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CenterRegion)
+                    Center Region
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.DegreeAbrv)
@@ -128,9 +125,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CenterID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DirectorCredentials)
@@ -190,13 +184,13 @@
                 @Html.DisplayFor(modelItem => item.TermDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CenterName)
+                @item.Center.Name;
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CenterCounty)
+                @item.Center.County;
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CenterRegion)
+                @item.Center.Region;
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DegreeAbrv)
