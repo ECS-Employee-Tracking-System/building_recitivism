@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace SeniorProjectECS.Library
 {
     // A comment
@@ -17,7 +18,7 @@ namespace SeniorProjectECS.Library
         /// <returns>A SQLConnection to a database</returns>
         public static SqlConnection GetSqlConnection()
         {
-            String connectionString = "";
+            String connectionString = "Your conn string here";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;
