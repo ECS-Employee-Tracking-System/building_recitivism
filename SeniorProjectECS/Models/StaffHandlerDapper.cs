@@ -19,7 +19,7 @@ namespace SeniorProjectECS.Models
         {
             var staffMembers = new Dictionary<int, StaffMember>();
             var con = DBHandler.GetSqlConnection();
-            con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMemberSingle", (staff, center, edu) => 
+            con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMember", (staff, center, edu) => 
             {
                 if (staffMembers.ContainsKey(staff.StaffMemberID))
                 {
@@ -44,7 +44,7 @@ namespace SeniorProjectECS.Models
             var con = DBHandler.GetSqlConnection();
 
             var staffMembers = new Dictionary<int, StaffMember>();
-            con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMemberMulti", (staff, center, edu) =>
+            con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMember", (staff, center, edu) =>
             {
                 if(staffMembers.ContainsKey(staff.StaffMemberID))
                 {
