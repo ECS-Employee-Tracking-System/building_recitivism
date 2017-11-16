@@ -18,7 +18,7 @@ namespace SeniorProjectECS.Library
         /// <returns>A SQLConnection to a database</returns>
         public static SqlConnection GetSqlConnection()
         {
-            String connectionString = "Server=tcp:ecs2.database.windows.net;Database=ESC2;User ID=ECSAdmin@ecs2.database.windows.net;Password=Testuser1;Trusted_Connection=False;Encrypt=True;";
+            String connectionString = "Your Conn String here";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;
