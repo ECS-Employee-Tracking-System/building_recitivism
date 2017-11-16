@@ -9,8 +9,8 @@ Allows for the retrieval of one center an all its staffmemers by using @CenterId
 
 **GetStaffMember (@StaffMemberId)**
 Allows the user to get a list of StaffMembers with their associated education and centers, use the @StaffMemberID to retrieve just one StaffMember
-**AddNewStaffMember (@CenterName,@CenterCounty,@CenterRegion,@DegreeAbrv,@DegreeLevel,@DegreeType,@DegreeDetail,@FirstName,@LastName,@Email,@DateOfHire,@Position,@DirectorCredentials,@DCExpiration,@CDAInProgress,@CDAType,@CDAExpiration,@CDARenewalProcess,@Comments,@Goal,@MidYear,@EndYear,@GoalMet,@TAndAApp,@AppApp,
-@ClassCompleted,@ClassPaid,@RequiredHours,@HoursEarned,@Notes,@TermDate)**
+
+**AddNewStaffMember (@CenterName,@CenterCounty,@CenterRegion,@DegreeAbrv,@DegreeLevel,@DegreeType,@DegreeDetail,@FirstName,@LastName,@Email,@DateOfHire,@Position,@DirectorCredentials,@DCExpiration,@CDAInProgress,@CDAType,@CDAExpiration,@CDARenewalProcess,@Comments,@Goal,@MidYear,@EndYear,@GoalMet,@TAndAApp,@AppApp,@ClassCompleted,@ClassPaid,@RequiredHours,@HoursEarned,@Notes,@TermDate)**
 All nullable except @FirstName and @LastName
 Allows the user to Add a new staff member with every available option, procedure will check @CenterID against @CenterName, @EducationID against @DegreeAbbrv and @DegreeType
 --@StaffMemberId against @FirstName and LastName to see if item already exist in the database  
