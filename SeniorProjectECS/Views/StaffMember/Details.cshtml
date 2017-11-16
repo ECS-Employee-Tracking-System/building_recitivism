@@ -9,7 +9,7 @@
         </tr>
         @foreach(var edu in Model.Education)
         {
-            <tr><td>@edu.DegreeDetail</td></tr>
+            <tr><td>@edu?.DegreeDetail</td></tr>
         }
     </table>
     <hr />
