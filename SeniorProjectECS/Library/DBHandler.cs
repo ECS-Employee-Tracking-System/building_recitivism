@@ -18,7 +18,7 @@ namespace SeniorProjectECS.Library
         /// <returns>A SQLConnection to a database</returns>
         public static SqlConnection GetSqlConnection()
         {
-            String connectionString = "Your Conn String here";
+            String connectionString = "Your conn string here";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;
