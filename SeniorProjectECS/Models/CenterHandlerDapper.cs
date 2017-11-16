@@ -14,7 +14,7 @@ namespace SeniorProjectECS.Models
         {
             var con = DBHandler.GetSqlConnection();
             var centers = new Dictionary<int, Center>();
-            con.Query<Center, StaffMember, Center>("GetCenterSingle", (center, staff) =>
+            con.Query<Center, StaffMember, Center>("GetCenter", (center, staff) =>
             {
                 if(centers.ContainsKey(center.CenterID))
                 {

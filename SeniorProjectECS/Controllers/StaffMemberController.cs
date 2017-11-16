@@ -33,28 +33,17 @@ namespace SeniorProjectECS.Controllers
             //return View(StaffMember.GetStaffMember(id));
         }//end View Details
 
-        public IActionResult Index2()
-        {
-            StaffDBHandler dbhandle = new StaffDBHandler();
-            ModelState.Clear();
-            return View(dbhandle.GetStaffMember());
-        }//end View Index1
-        // GET: Movie/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: StaffMember/Create
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult Create(StaffMember smodel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    StaffDBHandler sdb = new StaffDBHandler();
-                    if (sdb.AddStaffMember(smodel))
+                    var handle = new StaffHandlerDapper();
+                    if (handle.AddStaffMember(smodel))
                     {
                         ViewBag.Message = "Staff Member Details Added Successfully";
                         ModelState.Clear();
@@ -66,7 +55,7 @@ namespace SeniorProjectECS.Controllers
             {
                 return View();
             }
-        }
+        }*/
     }
 
 
