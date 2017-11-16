@@ -16,20 +16,17 @@
 {
     // check if member is about to expire
     String rowFormat;
-    if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 30)
+    if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
     {
         rowFormat = "danger";
     }
-
-    else if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 60)
+    else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
     {
         rowFormat = "warning";
     }
-
-    else if (!staff.CDAExpiration.Equals(Utilities.NullDate) && staff.CDAExpiration.Subtract(DateTime.Now).Days <= 90)
+    else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
     {
         rowFormat = "info";
-
     }
     else
     {
@@ -41,18 +38,11 @@
         <td>@staff.LastName</td>
         <td>@staff.Email</td>
         <td>@staff.Position</td>
-        <td>@staff.DateOfHire.ToShortDateString()</td>
+        <td>@staff.DateOfHire.Value.ToShortDateString()</td>
         <td>@staff.Center.Name</td>
 
-        <!-- do they have a cda? -->
         <td>@staff.CDAType</td>
-        @if (!staff.CDAExpiration.Equals(Utilities.NullDate))
-        {
-        <td>@staff.CDAExpiration.ToShortDateString()</td>
-        } else
-        {
-            <td></td>
-        }<!-- end CDA check -->
+        <td>@staff.CDAExpiration?.ToShortDateString()</td>
     </tr>
 }
 </table>

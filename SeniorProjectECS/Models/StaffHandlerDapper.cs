@@ -55,7 +55,7 @@ namespace SeniorProjectECS.Models
                     staffMembers.Add(staff.StaffMemberID, staff);
                 }
                 return staff;
-            }, splitOn: "CenterID", commandType: CommandType.StoredProcedure);
+            }, splitOn: "CenterID,EducationID", commandType: CommandType.StoredProcedure);
             return staffMembers.Values.ToList();
         }
     }
