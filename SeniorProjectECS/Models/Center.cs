@@ -15,5 +15,10 @@ namespace SeniorProjectECS.Models
         public String Region { get; set; }
 
         public List<StaffMember> Staff { get; set; }
+
+        public Center()
+        {
+            Staff = new List<StaffMember>();
+        }
     }
 }
