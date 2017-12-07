@@ -5,7 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AppData\**" />
+    <Content Remove="AppData\**" />
+    <EmbeddedResource Remove="AppData\**" />
+    <None Remove="AppData\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\ExampleModel.cs" />
+    <Compile Remove="Models\StaffDBHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

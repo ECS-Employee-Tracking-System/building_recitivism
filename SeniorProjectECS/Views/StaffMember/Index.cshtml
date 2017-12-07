@@ -1,0 +1,155 @@
+﻿@model IEnumerable<StaffMember>
+@using SeniorProjectECS.Library;
+
+<style type='text/css'>
+
+
+
+
+   #page-wrap {
+        width: 600px;
+        margin: 15px auto;
+        position: relative;
+    }
+
+   #main {
+        width: 390px;
+        float: left;
+    }
+
+    #sidebar {
+        width: 190px;
+        position: fixed;
+        left: 50%;
+        top: 90px;
+        margin: 0 0 0 110px;
+    }
+    
+    
+    
+    .my-legend .legend-title {
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 90%;
+    }
+
+    .my-legend .legend-scale ul {
+        margin: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        float: left;
+        list-style: none;
+    }
+
+        .my-legend .legend-scale ul li {
+            font-size: 80%;
+            list-style: none;
+            margin-left: 0;
+            line-height: 18px;
+            margin-bottom: 2px;
+        }
+
+    .my-legend ul.legend-labels li span {
+        display: block;
+        float: left;
+        height: 16px;
+        width: 30px;
+        margin-right: 5px;
+        margin-left: 0;
+        border: 1px solid #999;
+    }
+
+    .my-legend .legend-source {
+        font-size: 70%;
+        color: #999;
+        clear: both;
+    }
+
+    .my-legend a {
+        color: #777;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            
+        </div>
+        <div class="col">
+            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-8"></div>
+    <div class="col-6 col-md-4">.</div>
+</div>
+
+
+<div class="col-2 col-md-2">
+    <div class='my-legend'>
+        <div class='legend-title'>Color Legend</div>
+        <div class='legend-scale'>
+            <ul class='legend-labels'>
+                <li><span style='background:#FB8072;'></span>30 Days before CDA Expires</li>
+                <li><span style='background:#FFFFB3;'></span>60 Days before CDA Expires</li>
+                <li><span style='background:#80B1D3;'></span>90 Days before CDA Expires</li>
+            </ul>
+        </div>
+        <div class='legend-source'><a href="StaffMember">Back to Top</a></div>
+    </div>
+</div>
+
+
+   
+
+    <div class="col-12 col-md-10">
+        <table class="table table-hover">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Date of Hire</th>
+                <th>Center</th>
+                <th>CDA Type</th>
+                <th>CDA Expiration</th>
+            </tr>
+            @foreach (var staff in Model)
+            {
+                // check if member is about to expire
+                String rowFormat;
+                if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
+                {
+                    rowFormat = "danger";
+                }
+                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    rowFormat = "warning";
+                }
+                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    rowFormat = "info";
+                }
+                else
+                {
+                    rowFormat = "";
+                }//end expiration check
+
+                <tr class="@rowFormat">
+                    <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                    <td>@staff.LastName</td>
+                    <td>@staff.Email</td>
+                    <td>@staff.Position</td>
+                    <td>@staff.DateOfHire.Value.ToShortDateString()</td>
+                    <td>@staff.Center.Name</td>
+
+                    <td>@staff.CDAType</td>
+                    <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
