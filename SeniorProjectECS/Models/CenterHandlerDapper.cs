@@ -14,13 +14,13 @@ namespace SeniorProjectECS.Models
         {
             var con = DBHandler.GetSqlConnection();
             var centers = new Dictionary<int, Center>();
-            con.Query<Center, StaffMember, Center>("GetCenter", (center, staff) =>
+            con.Query<Center, StaffMember, Center>("GetCenter", (center, staffMember) =>
             {
                 if(centers.ContainsKey(center.CenterID))
                 {
-                    centers[center.CenterID].Staff.Add(staff);
+                    centers[center.CenterID].Staff.Add(staffMember);
                 } else {
-                    center.Staff.Add(staff);
+                    center.Staff.Add(staffMember);
                     centers.Add(center.CenterID, center);
                 }
                 return center;
