@@ -150,26 +150,26 @@
                 <input asp-for="Center.Region" class="form-control" />
                 <span asp-validation-for="Center.Region" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="DegreeAbrv" class="control-label"></label>
-                <input asp-for="DegreeAbrv" class="form-control" />
-                <span asp-validation-for="DegreeAbrv" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Education[0].DegreeAbrv" class="control-label"></label>
+                <input asp-for="Education[0].DegreeAbrv" class="form-control" />
+                <span asp-validation-for="Education[0].DegreeAbrv" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DegreeLevel" class="control-label"></label>
-                <input asp-for="DegreeLevel" class="form-control" />
-                <span asp-validation-for="DegreeLevel" class="text-danger"></span>
+                <label asp-for="Education[0].DegreeLevel" class="control-label"></label>
+                <input asp-for="Education[0].DegreeLevel" class="form-control" />
+                <span asp-validation-for="Education[0].DegreeLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DegreeType" class="control-label"></label>
-                <input asp-for="DegreeType" class="form-control" />
-                <span asp-validation-for="DegreeType" class="text-danger"></span>
+                <label asp-for="Education[0].DegreeType" class="control-label"></label>
+                <input asp-for="Education[0].DegreeType" class="form-control" />
+                <span asp-validation-for="Education[0].DegreeType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DegreeDetail" class="control-label"></label>
-                <input asp-for="DegreeDetail" class="form-control" />
-                <span asp-validation-for="DegreeDetail" class="text-danger"></span>
-            </div>*@
+                <label asp-for="Education[0].DegreeDetail" class="control-label"></label>
+                <input asp-for="Education[0].DegreeDetail" class="form-control" />
+                <span asp-validation-for="Education[0].DegreeDetail" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

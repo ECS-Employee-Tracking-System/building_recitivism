@@ -33,29 +33,22 @@ namespace SeniorProjectECS.Controllers
             //return View(StaffMember.GetStaffMember(id));
         }//end View Details
 
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         // POST: StaffMember/Create
-        /*[HttpPost]
-        public ActionResult Create(StaffMember smodel)
+        [HttpPost]
+        public ActionResult Create(StaffMember model)
         {
-            try
+            if(model != null)
             {
-                if (ModelState.IsValid)
-                {
-                    var handle = new StaffHandlerDapper();
-                    if (handle.AddStaffMember(smodel))
-                    {
-                        ViewBag.Message = "Staff Member Details Added Successfully";
-                        ModelState.Clear();
-                    }
-                }
-                return View();
+                var handle = new StaffHandlerDapper();
+                handle.AddModel(model);
             }
-            catch
-            {
-                return View();
-            }
-        }*/
+            return View();
+        }
     }
 
 

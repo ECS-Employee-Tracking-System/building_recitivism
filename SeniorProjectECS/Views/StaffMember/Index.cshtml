@@ -2,17 +2,13 @@
 @using SeniorProjectECS.Library;
 
 <style type='text/css'>
-
-
-
-
-   #page-wrap {
+    #page-wrap {
         width: 600px;
         margin: 15px auto;
         position: relative;
     }
 
-   #main {
+    #main {
         width: 390px;
         float: left;
     }
@@ -24,9 +20,7 @@
         top: 90px;
         margin: 0 0 0 110px;
     }
-    
-    
-    
+
     .my-legend .legend-title {
         text-align: left;
         margin-bottom: 5px;
@@ -70,13 +64,14 @@
         color: #777;
     }
 </style>
+@Html.ActionLink("Add New User", "Create", "StaffMember")
 <div class="container">
     <div class="row">
         <div class="col">
-            
+
         </div>
         <div class="col">
-            
+
         </div>
     </div>
 </div>
@@ -85,7 +80,6 @@
     <div class="col-12 col-md-8"></div>
     <div class="col-6 col-md-4">.</div>
 </div>
-
 
 <div class="col-2 col-md-2">
     <div class='my-legend'>
@@ -100,23 +94,19 @@
         <div class='legend-source'><a href="StaffMember">Back to Top</a></div>
     </div>
 </div>
-
-
-   
-
-    <div class="col-12 col-md-10">
-        <table class="table table-hover">
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Position</th>
-                <th>Date of Hire</th>
-                <th>Center</th>
-                <th>CDA Type</th>
-                <th>CDA Expiration</th>
-            </tr>
-            @foreach (var staff in Model)
+<div class="col-12 col-md-10">
+    <table class="table table-hover">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Position</th>
+            <th>Date of Hire</th>
+            <th>Center</th>
+            <th>CDA Type</th>
+            <th>CDA Expiration</th>
+        </tr>
+        @foreach (var staff in Model)
             {
                 // check if member is about to expire
                 String rowFormat;
@@ -148,8 +138,8 @@
                     <td>@staff.CDAType</td>
                     <td>@staff.CDAExpiration?.ToShortDateString()</td>
                 </tr>
-            }
-        </table>
-    </div>
+        }
+    </table>
+</div>
 
 

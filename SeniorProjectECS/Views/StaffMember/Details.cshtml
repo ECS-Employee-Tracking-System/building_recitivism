@@ -7,8 +7,9 @@
         <tr>
             <th>Education Detail</th>
         </tr>
-        @foreach(var edu in Model.Education)
+        @foreach (var edu in Model.Education)
         {
+            <tr><td>@edu?.DegreeType</td></tr>
             <tr><td>@edu?.DegreeDetail</td></tr>
         }
     </table>
