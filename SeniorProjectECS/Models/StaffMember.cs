@@ -47,6 +47,8 @@ namespace SeniorProjectECS.Models
         public Center Center { get; set; }
         public List<Education> Education { get; set; }
 
+        public bool IsInactive { get; set; }
+
         public StaffMember()
         {
             Education = new List<Education>();
