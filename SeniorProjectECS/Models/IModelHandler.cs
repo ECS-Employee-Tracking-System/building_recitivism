@@ -9,5 +9,6 @@ namespace SeniorProjectECS.Models
     {
         T GetModel(int id);
         IEnumerable<T> GetModels();
+        void AddModel(T Model);
     }
 }

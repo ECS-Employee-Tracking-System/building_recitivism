@@ -33,5 +33,10 @@ namespace SeniorProjectECS.Models
         {
             throw new NotImplementedException();
         }
+
+        public void AddModel(Center Model)
+        {
+
+        }
     }
 }
