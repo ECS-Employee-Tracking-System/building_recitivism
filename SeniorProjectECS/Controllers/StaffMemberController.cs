@@ -30,7 +30,6 @@ namespace SeniorProjectECS.Controllers
             {
                 return View();
             }
-            //return View(StaffMember.GetStaffMember(id));
         }//end View Details
 
         public IActionResult Create()
@@ -46,6 +45,32 @@ namespace SeniorProjectECS.Controllers
             {
                 var handle = new StaffHandlerDapper();
                 handle.AddModel(model);
+            }
+            return View();
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id != null)
+            {
+                var handle = new StaffHandlerDapper();
+                var result = handle.GetModel(id.GetValueOrDefault());
+                return View(result);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        // POST: StaffMember/Create
+        [HttpPost]
+        public ActionResult Edit(StaffMember model)
+        {
+            if (model != null)
+            {
+                var handle = new StaffHandlerDapper();
+                handle.UpdateModel(model);
             }
             return View();
         }

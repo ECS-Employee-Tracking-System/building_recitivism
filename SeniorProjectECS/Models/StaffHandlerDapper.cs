@@ -139,5 +139,76 @@ namespace SeniorProjectECS.Models
                 }//end using transaction
             }//end using connection
         }//end AddModel()
+
+        public void UpdateModel(StaffMember Model)
+        {
+            //Extract just the staff member information
+            var staffParams = new
+            {
+                StaffMemberID = Model.StaffMemberID,
+                FirstName = Model.FirstName,
+                LastName = Model.LastName,
+                Email = Model.Email,
+                DateOfHire = Model.DateOfHire,
+                Position = Model.Position,
+                DirectorCredentials = Model.DirectorCredentials,
+                DCExpiration = Model.DCExpiration,
+                CDAInProgress = Model.CDAInProgress,
+                CDAType = Model.CDAType,
+                CDAExpiration = Model.CDAExpiration,
+                CDARenewalProcess = Model.CDARenewalProcess,
+                Comments = Model.Comments,
+                Goal = Model.Goal,
+                MidYear = Model.MidYear,
+                EndYear = Model.EndYear,
+                GoalMet = Model.GoalMet,
+                TAndAApp = Model.TAndAApp,
+                AppApp = Model.AppApp,
+                ClassCompleted = Model.ClassCompleted,
+                ClassPaid = Model.ClassPaid,
+                RequiredHours = Model.RequiredHours,
+                HoursEarned = Model.HoursEarned,
+                Notes = Model.Notes,
+                TermDate = Model.TermDate
+            };
+
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Open();
+                using (var transaction = con.BeginTransaction())
+                {
+                    con.Query<int>("UpdateStaffMember", staffParams, transaction: transaction, commandType: CommandType.StoredProcedure);
+
+                    //Extract the center information
+                    var centerParams = new
+                    {
+                        StaffMemberID = Model.StaffMemberID,
+                        CenterName = Model.Center.Name,
+                        CenterCounty = Model.Center.County,
+                        CenterRegion = Model.Center.Region
+                    };
+
+                    con.Execute("AddNewCenter", centerParams, transaction: transaction, commandType: CommandType.StoredProcedure);
+
+                    //Extract the eduction information and execute for each one
+
+                    //foreach (Education edu in Model.Education)
+                    //{
+                    //    var educationParams = new
+                    //    {
+                    //        StaffMemberID = Model.StaffMemberID,
+                    //        DegreeAbrv = edu.DegreeAbrv,
+                    //        DegreeLevel = edu.DegreeLevel,
+                    //        DegreeType = edu.DegreeType,
+                    //        DegreeDetail = edu.DegreeDetail
+                    //    };
+
+                    //    con.Execute("AddNewEducation", educationParams, transaction: transaction, commandType: CommandType.StoredProcedure);
+                    //}//end foreach education
+                    transaction.Commit();
+                }//end using transaction
+            }//end using connection
+
+        }
     }//end StaffHandlerDapper
 }//end namespace
