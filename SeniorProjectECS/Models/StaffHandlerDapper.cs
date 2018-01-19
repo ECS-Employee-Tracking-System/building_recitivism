@@ -169,7 +169,8 @@ namespace SeniorProjectECS.Models
                 RequiredHours = Model.RequiredHours,
                 HoursEarned = Model.HoursEarned,
                 Notes = Model.Notes,
-                TermDate = Model.TermDate
+                TermDate = Model.TermDate,
+                IsInactive = Model.IsInactive
             };
 
             using (var con = DBHandler.GetSqlConnection())

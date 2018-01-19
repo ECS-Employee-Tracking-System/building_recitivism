@@ -46,7 +46,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.AddModel(model);
             }
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int? id)
@@ -72,7 +72,15 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.UpdateModel(model);
             }
-            return View();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Inactive()
+        {
+            var handler = new StaffHandlerDapper();
+            var results = handler.GetModels();
+
+            return View(results);
         }
     }
 

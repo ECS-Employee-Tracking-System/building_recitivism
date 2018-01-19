@@ -1,0 +1,56 @@
+﻿@model IEnumerable<StaffMember>
+@using SeniorProjectECS.Library;
+
+<div class="col-12 col-md-10">
+    <table class="table table-hover">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Position</th>
+            <th>Date of Hire</th>
+            <th>Center</th>
+            <th>CDA Type</th>
+            <th>CDA Expiration</th>
+            <th></th>
+        </tr>
+        @foreach (var staff in Model)
+        {
+            // Filter inactive staff members
+            if (staff.IsInactive)
+            {
+                // check if member is about to expire
+                String rowFormat;
+                if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
+                {
+                    rowFormat = "danger";
+                }
+                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    rowFormat = "warning";
+                }
+                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    rowFormat = "info";
+                }
+                else
+                {
+                    rowFormat = "";
+                }//end expiration check
+
+                <tr class="@rowFormat">
+                <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                <td>@staff.LastName</td>
+                <td>@staff.Email</td>
+                <td>@staff.Position</td>
+                <td>@staff.DateOfHire.Value.ToShortDateString()</td>
+                <td>@staff.Center.Name</td>
+
+                <td>@staff.CDAType</td>
+                <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
