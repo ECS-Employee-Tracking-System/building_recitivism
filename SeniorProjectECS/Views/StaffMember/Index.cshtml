@@ -105,6 +105,7 @@
             <th>Center</th>
             <th>CDA Type</th>
             <th>CDA Expiration</th>
+            <th></th>
         </tr>
         @foreach (var staff in Model)
             {
@@ -137,6 +138,7 @@
 
                     <td>@staff.CDAType</td>
                     <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
                 </tr>
         }
     </table>

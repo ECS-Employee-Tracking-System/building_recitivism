@@ -38,5 +38,10 @@ namespace SeniorProjectECS.Models
         {
 
         }
+
+        public void UpdateModel(Center Model)
+        {
+
+        }
     }
 }
