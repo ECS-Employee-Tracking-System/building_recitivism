@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProjectECS.Models
 {
@@ -23,6 +24,7 @@ namespace SeniorProjectECS.Models
         public String Email { get; set; }
 
         [DisplayName("Date of Hire")]
+        [DataType(DataType.Date)]
         public DateTime? DateOfHire { get; set; }
         public String Position { get; set; }
 
@@ -30,6 +32,7 @@ namespace SeniorProjectECS.Models
         public Boolean DirectorCredentials { get; set; }
 
         [DisplayName("Director Credentials Expiration")]
+        [DataType(DataType.Date)]
         public DateTime? DCExpiration { get; set; }
 
         [DisplayName("Is CDA In Progress")]
@@ -39,6 +42,7 @@ namespace SeniorProjectECS.Models
         public String CDAType { get; set; }
 
         [DisplayName("CDA Expiration")]
+        [DataType(DataType.Date)]
         public DateTime? CDAExpiration { get; set; }
 
         [DisplayName("CDA Renewal Process")]
