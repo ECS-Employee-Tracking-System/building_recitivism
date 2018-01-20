@@ -1,5 +1,18 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
-
+<script>
+    //checks if staff member owes money to ECS before they are disabled
+    function validateUpdate()
+    {
+        var isInactive = document.getElementById('IsInactive');
+        var classPaid = document.getElementById('ClassPaid');
+        var firstName = document.getElementById('FirstName').value;
+        var lastName = document.getElementById('LastName').value;
+        if (isInactive.checked && classPaid.checked)
+        {
+            alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
+        }//end if
+    }//end validateUpdate function
+</script>
 <h4>StaffMember</h4>
 <hr />
 <div class="row">
@@ -175,12 +188,14 @@
                 <span asp-validation-for="Education[0].DegreeDetail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IsInactive" class="control-label"></label>
-                <input asp-for="IsInactive" class="form-control" />
-                <span asp-validation-for="IsInactive" class="text-danger"></span>
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsInactive" /> @Html.DisplayNameFor(model => model.IsInactive)
+                    </label>
+                </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
