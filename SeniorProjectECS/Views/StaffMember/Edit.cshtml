@@ -1,4 +1,5 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
+
 <script>
     //checks if staff member owes money to ECS before they are disabled
     function validateUpdate()
@@ -32,9 +33,7 @@
 
     function addEducationFields()
     {
-        document.getElementById('newEducation').innerHTML = (`
-            
-        `);
+        //document.getElementById('newEducation').innerHTML += 
     }
 </script>
 <h1>StaffMember</h1>
@@ -192,30 +191,9 @@
             {
                 <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(@edu.EducationID)">Remove</button></div>
             }
-            <div class="form-group" id="newEducation" hidden>
-                <h3>New Education</h3>
-                @*<div class="form-group">
-                    <label asp-for="Education." class="control-label"></label>
-                    <input asp-for="Education.Add" class="form-control" />
-                    <span asp-validation-for="Education.Add" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Education.Add" class="control-label"></label>
-                    <input asp-for="Education.Add" class="form-control" />
-                    <span asp-validation-for="Education.Add" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Education.Add" class="control-label"></label>
-                    <input asp-for="Education.Add" class="form-control" />
-                    <span asp-validation-for="Education.Add" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Education.Add" class="control-label"></label>
-                    <input asp-for="Education.Add" class="form-control" />
-                    <span asp-validation-for="Education.Add" class="text-danger"></span>
-                </div>*@
-            </div>
-            <button type="button" class="btn btn-default" onclick="addEducationFields()">Add new education</button>
+
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
+            
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -228,6 +206,44 @@
                 <button type="button" class="btn btn-danger" onclick="validateDelete()">Delete</button>
             </div>
         </form>
+
+        <div id="addNewEducation" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form asp-action="AddEducation">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addNewEducationTitle">Add new education</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
+                            <div class="form-group">
+                                <label class="control-label">Degree Abbreviation ex. AA</label>
+                                <input class="form-control" type="text" name="DegreeAbbreviation" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Degree Level ex. Masters</label>
+                                <input class="form-control" type="text" name="DegreeLevel" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Degree Type ex. Education</label>
+                                <input class="form-control" type="text" name="DegreeType" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Degree Detail ex. Early Childhood</label>
+                                <input class="form-control" type="text" name="DegreeDetail" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
