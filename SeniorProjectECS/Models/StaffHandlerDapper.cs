@@ -88,7 +88,7 @@ namespace SeniorProjectECS.Models
                     
                     foreach (Education edu in model.Education)
                     {
-                        AddEducationToModel(model, edu, con, transaction);
+                        AddEducationToModel(model.StaffMemberID, edu, con, transaction);
                     }//end foreach education
 
                     transaction.Commit();
@@ -149,13 +149,13 @@ namespace SeniorProjectECS.Models
         /// <param name="edu"></param>
         /// <param name="con"></param>
         /// <param name="transaction"></param>
-        public void AddEducationToModel(StaffMember model, Education edu, SqlConnection con = null, SqlTransaction transaction = null)
+        public void AddEducationToModel(int staffMemberID, Education edu, SqlConnection con = null, SqlTransaction transaction = null)
         {
             if (con == null)
             {
                 con = DBHandler.GetSqlConnection();
             }
-            con.Execute("AddNewEducation", BuildEducationParams(model, edu), transaction: transaction, commandType: CommandType.StoredProcedure);
+            con.Execute("AddNewEducation", BuildEducationParams(staffMemberID, edu), transaction: transaction, commandType: CommandType.StoredProcedure);
         }
 
         private object BuildStaffMemberParams(StaffMember model)
@@ -202,11 +202,11 @@ namespace SeniorProjectECS.Models
             };
         }
 
-        private object BuildEducationParams(StaffMember model, Education edu)
+        private object BuildEducationParams(int staffMemberID, Education edu)
         {
             return new
             {
-                StaffMemberID = model.StaffMemberID,
+                StaffMemberID = staffMemberID,
                 DegreeAbrv = edu.DegreeAbrv,
                 DegreeLevel = edu.DegreeLevel,
                 DegreeType = edu.DegreeType,

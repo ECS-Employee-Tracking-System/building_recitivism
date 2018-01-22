@@ -34,6 +34,8 @@ namespace SeniorProjectECS.Controllers
 
         public IActionResult Create()
         {
+            var handle = new StaffHandlerDapper();
+            var result = handle.GetModel(1);
             return View();
         }
 
@@ -72,7 +74,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.UpdateModel(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", new { id = model.StaffMemberID });
         }
 
         public IActionResult Inactive()
@@ -103,6 +105,30 @@ namespace SeniorProjectECS.Controllers
                     EducationID = educationID.GetValueOrDefault() }, 
                     commandType: System.Data.CommandType.StoredProcedure
                     );
+            }
+            return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
+        }
+
+        public IActionResult AddEducation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddEducation(int? staffMemberID, string degreeAbbreviation, string degreeLevel, string degreeType, string degreeDetail)
+        {
+            if(staffMemberID != null)
+            {
+                Education edu = new Education
+                {
+                    DegreeAbrv = degreeAbbreviation,
+                    DegreeDetail = degreeDetail,
+                    DegreeLevel = degreeLevel,
+                    DegreeType = degreeType
+                };
+
+                var handle = new StaffHandlerDapper();
+                handle.AddEducationToModel(staffMemberID.GetValueOrDefault(), edu);
             }
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
