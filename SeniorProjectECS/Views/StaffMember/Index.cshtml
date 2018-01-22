@@ -147,6 +147,7 @@
             }
         }
     </table>
+    <div>@Html.ActionLink("Previous", "Index", new { page = ViewBag.PageNumber - 1 }) | @Html.ActionLink("Next", "Index", new { page = ViewBag.PageNumber + 1 })</div>
 </div>
 
 
