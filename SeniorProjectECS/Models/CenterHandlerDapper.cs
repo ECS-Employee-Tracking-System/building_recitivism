@@ -43,5 +43,10 @@ namespace SeniorProjectECS.Models
         {
 
         }
+
+        public void DeleteModel(int id)
+        {
+
+        }
     }
 }

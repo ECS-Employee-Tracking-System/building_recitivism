@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SeniorProjectECS.Library;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace SeniorProjectECS.Models
 {
@@ -22,14 +23,17 @@ namespace SeniorProjectECS.Models
                 var staffMembers = new Dictionary<int, StaffMember>();
                 con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMember", (staff, center, edu) =>
                 {
-                    if (staffMembers.ContainsKey(staff.StaffMemberID))
+                    if (edu != null && staffMembers.ContainsKey(staff.StaffMemberID))
                     {
                         staffMembers[staff.StaffMemberID].Education.Add(edu);
                     }
                     else
                     {
                         staff.Center = center;
-                        staff.Education.Add(edu);
+                        if (edu != null)
+                        {
+                            staff.Education.Add(edu);
+                        }
                         staffMembers.Add(staff.StaffMemberID, staff);
                     }
                     return staff;
@@ -69,147 +73,145 @@ namespace SeniorProjectECS.Models
         /// <summary>
         /// Add a new staff member to the database
         /// </summary>
-        /// <param name="Model">The data to passed in to the database</param>
+        /// <param name="model">The data to passed in to the database</param>
         /// <returns>true if the transaction succeeds otherwise false</returns>
-        public void AddModel(StaffMember Model)
+        public void AddModel(StaffMember model)
         {
-            //Extract just the staff member information
-            var staffParams = new
-            {
-                FirstName = Model.FirstName,
-                LastName = Model.LastName,
-                Email = Model.Email,
-                DateOfHire = Model.DateOfHire,
-                Position = Model.Position,
-                DirectorCredentials = Model.DirectorCredentials,
-                DCExpiration = Model.DCExpiration,
-                CDAInProgress = Model.CDAInProgress,
-                CDAType = Model.CDAType,
-                CDAExpiration = Model.CDAExpiration,
-                CDARenewalProcess = Model.CDARenewalProcess,
-                Comments = Model.Comments,
-                Goal = Model.Goal,
-                MidYear = Model.MidYear,
-                EndYear = Model.EndYear,
-                GoalMet = Model.GoalMet,
-                TAndAApp = Model.TAndAApp,
-                AppApp = Model.AppApp,
-                ClassCompleted = Model.ClassCompleted,
-                ClassPaid = Model.ClassPaid,
-                RequiredHours = Model.RequiredHours,
-                HoursEarned = Model.HoursEarned,
-                Notes = Model.Notes,
-                TermDate = Model.TermDate
-            };
-
             using (var con = DBHandler.GetSqlConnection())
             {
                 con.Open();
                 using (var transaction = con.BeginTransaction())
                 {
-                    int id = con.Query<int>("AddNewStaffMember", staffParams, transaction: transaction, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    model.StaffMemberID = con.Query<int>("AddNewStaffMember", BuildStaffMemberParams(model), transaction: transaction, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-                    //Extract the center information
-                    var centerParams = new
+                    AddCenterToModel(model, con, transaction);
+                    
+                    foreach (Education edu in model.Education)
                     {
-                        StaffMemberID = id,
-                        CenterName = Model.Center.Name,
-                        CenterCounty = Model.Center.County,
-                        CenterRegion = Model.Center.Region
-                    };
-
-                    con.Execute("AddNewCenter", centerParams, transaction: transaction, commandType: CommandType.StoredProcedure);
-
-                    //Extract the eduction information and execute for each one
-
-                    foreach(Education edu in Model.Education)
-                    {
-                        var educationParams = new
-                        {
-                            StaffMemberID = id,
-                            DegreeAbrv = edu.DegreeAbrv,
-                            DegreeLevel = edu.DegreeLevel,
-                            DegreeType = edu.DegreeType,
-                            DegreeDetail = edu.DegreeDetail
-                        };
-
-                        con.Execute("AddNewEducation", educationParams, transaction: transaction, commandType: CommandType.StoredProcedure);
+                        AddEducationToModel(model, edu, con, transaction);
                     }//end foreach education
+
                     transaction.Commit();
                 }//end using transaction
             }//end using connection
         }//end AddModel()
 
-        public void UpdateModel(StaffMember Model)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        public void UpdateModel(StaffMember model)
         {
-            //Extract just the staff member information
-            var staffParams = new
-            {
-                StaffMemberID = Model.StaffMemberID,
-                FirstName = Model.FirstName,
-                LastName = Model.LastName,
-                Email = Model.Email,
-                DateOfHire = Model.DateOfHire,
-                Position = Model.Position,
-                DirectorCredentials = Model.DirectorCredentials,
-                DCExpiration = Model.DCExpiration,
-                CDAInProgress = Model.CDAInProgress,
-                CDAType = Model.CDAType,
-                CDAExpiration = Model.CDAExpiration,
-                CDARenewalProcess = Model.CDARenewalProcess,
-                Comments = Model.Comments,
-                Goal = Model.Goal,
-                MidYear = Model.MidYear,
-                EndYear = Model.EndYear,
-                GoalMet = Model.GoalMet,
-                TAndAApp = Model.TAndAApp,
-                AppApp = Model.AppApp,
-                ClassCompleted = Model.ClassCompleted,
-                ClassPaid = Model.ClassPaid,
-                RequiredHours = Model.RequiredHours,
-                HoursEarned = Model.HoursEarned,
-                Notes = Model.Notes,
-                TermDate = Model.TermDate,
-                IsInactive = Model.IsInactive
-            };
-
             using (var con = DBHandler.GetSqlConnection())
             {
                 con.Open();
                 using (var transaction = con.BeginTransaction())
                 {
-                    con.Query<int>("UpdateStaffMember", staffParams, transaction: transaction, commandType: CommandType.StoredProcedure);
+                    con.Query<int>("UpdateStaffMember", BuildStaffMemberParams(model), transaction: transaction, commandType: CommandType.StoredProcedure);
 
-                    //Extract the center information
-                    var centerParams = new
-                    {
-                        StaffMemberID = Model.StaffMemberID,
-                        CenterName = Model.Center.Name,
-                        CenterCounty = Model.Center.County,
-                        CenterRegion = Model.Center.Region
-                    };
+                    con.Execute("AddNewCenter", BuildCenterParams(model), transaction: transaction, commandType: CommandType.StoredProcedure);
 
-                    con.Execute("AddNewCenter", centerParams, transaction: transaction, commandType: CommandType.StoredProcedure);
-
-                    //Extract the eduction information and execute for each one
-
-                    //foreach (Education edu in Model.Education)
-                    //{
-                    //    var educationParams = new
-                    //    {
-                    //        StaffMemberID = Model.StaffMemberID,
-                    //        DegreeAbrv = edu.DegreeAbrv,
-                    //        DegreeLevel = edu.DegreeLevel,
-                    //        DegreeType = edu.DegreeType,
-                    //        DegreeDetail = edu.DegreeDetail
-                    //    };
-
-                    //    con.Execute("AddNewEducation", educationParams, transaction: transaction, commandType: CommandType.StoredProcedure);
-                    //}//end foreach education
                     transaction.Commit();
                 }//end using transaction
             }//end using connection
+        }//end updateModel()
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteModel(int id)
+        {
+            var con = DBHandler.GetSqlConnection();
+            con.Execute("deleteStaffMember", new { StaffMemberID = id }, commandType: CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="con"></param>
+        /// <param name="transaction"></param>
+        public void AddCenterToModel(StaffMember model, SqlConnection con = null, SqlTransaction transaction = null)
+        {
+            if (con == null)
+            {
+                con = DBHandler.GetSqlConnection();
+            }
+
+            con.Execute("AddNewCenter", BuildCenterParams(model), transaction: transaction, commandType: CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="edu"></param>
+        /// <param name="con"></param>
+        /// <param name="transaction"></param>
+        public void AddEducationToModel(StaffMember model, Education edu, SqlConnection con = null, SqlTransaction transaction = null)
+        {
+            if (con == null)
+            {
+                con = DBHandler.GetSqlConnection();
+            }
+            con.Execute("AddNewEducation", BuildEducationParams(model, edu), transaction: transaction, commandType: CommandType.StoredProcedure);
+        }
+
+        private object BuildStaffMemberParams(StaffMember model)
+        {
+            return new
+            {
+                StaffMemberID = model.StaffMemberID,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                DateOfHire = model.DateOfHire,
+                Position = model.Position,
+                DirectorCredentials = model.DirectorCredentials,
+                DCExpiration = model.DCExpiration,
+                CDAInProgress = model.CDAInProgress,
+                CDAType = model.CDAType,
+                CDAExpiration = model.CDAExpiration,
+                CDARenewalProcess = model.CDARenewalProcess,
+                Comments = model.Comments,
+                Goal = model.Goal,
+                MidYear = model.MidYear,
+                EndYear = model.EndYear,
+                GoalMet = model.GoalMet,
+                TAndAApp = model.TAndAApp,
+                AppApp = model.AppApp,
+                ClassCompleted = model.ClassCompleted,
+                ClassPaid = model.ClassPaid,
+                RequiredHours = model.RequiredHours,
+                HoursEarned = model.HoursEarned,
+                Notes = model.Notes,
+                TermDate = model.TermDate,
+                IsInactive = model.IsInactive
+            };
+        }
+
+        private object BuildCenterParams(StaffMember model)
+        {
+            return new
+            {
+                StaffMemberID = model.StaffMemberID,
+                CenterName = model.Center.Name,
+                CenterCounty = model.Center.County,
+                CenterRegion = model.Center.Region
+            };
+        }
+
+        private object BuildEducationParams(StaffMember model, Education edu)
+        {
+            return new
+            {
+                StaffMemberID = model.StaffMemberID,
+                DegreeAbrv = edu.DegreeAbrv,
+                DegreeLevel = edu.DegreeLevel,
+                DegreeType = edu.DegreeType,
+                DegreeDetail = edu.DegreeDetail
+            };
         }
     }//end StaffHandlerDapper
 }//end namespace

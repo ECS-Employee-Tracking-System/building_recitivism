@@ -11,5 +11,6 @@ namespace SeniorProjectECS.Models
         IEnumerable<T> GetModels();
         void AddModel(T Model);
         void UpdateModel(T Model);
+        void DeleteModel(int id);
     }
 }

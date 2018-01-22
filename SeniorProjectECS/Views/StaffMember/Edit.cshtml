@@ -12,19 +12,40 @@
             alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
         }//end if
     }//end validateUpdate function
+
+    function validateDelete()
+    {
+        var isInactive = document.getElementById('IsInactive');
+        if (!isInactive.checked) {
+            alert("Staff member is not deactivated! Please deactivate and try again.");
+        } else {
+            if (confirm("This action cannot be undone, continue?")) {
+                window.location.href = '@Url.Action("Delete", "StaffMember", new { id = Model.StaffMemberID })';
+            }
+        }//end if/else
+    }//end validateDelete
+
+    function removeEducation(id)
+    {
+        window.location.href = '@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })&EducationID=' + id;
+    }
+
+    function addEducationFields()
+    {
+        document.getElementById('newEducation').innerHTML = (`
+            
+        `);
+    }
 </script>
-<h4>StaffMember</h4>
+<h1>StaffMember</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StaffMemberID" class="form-control" />
             <div class="form-group">
-                <label asp-for="StaffMemberID" class="control-label"></label>
-                <input asp-for="StaffMemberID" class="form-control" />
-                <span asp-validation-for="StaffMemberID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                <h3>Basic Information</h3>
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -167,26 +188,34 @@
                 <input asp-for="Center.Region" class="form-control" />
                 <span asp-validation-for="Center.Region" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Education[0].DegreeAbrv" class="control-label"></label>
-                <input asp-for="Education[0].DegreeAbrv" class="form-control" />
-                <span asp-validation-for="Education[0].DegreeAbrv" class="text-danger"></span>
+            @foreach (var edu in Model.Education)
+            {
+                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(@edu.EducationID)">Remove</button></div>
+            }
+            <div class="form-group" id="newEducation" hidden>
+                <h3>New Education</h3>
+                @*<div class="form-group">
+                    <label asp-for="Education." class="control-label"></label>
+                    <input asp-for="Education.Add" class="form-control" />
+                    <span asp-validation-for="Education.Add" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Education.Add" class="control-label"></label>
+                    <input asp-for="Education.Add" class="form-control" />
+                    <span asp-validation-for="Education.Add" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Education.Add" class="control-label"></label>
+                    <input asp-for="Education.Add" class="form-control" />
+                    <span asp-validation-for="Education.Add" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Education.Add" class="control-label"></label>
+                    <input asp-for="Education.Add" class="form-control" />
+                    <span asp-validation-for="Education.Add" class="text-danger"></span>
+                </div>*@
             </div>
-            <div class="form-group">
-                <label asp-for="Education[0].DegreeLevel" class="control-label"></label>
-                <input asp-for="Education[0].DegreeLevel" class="form-control" />
-                <span asp-validation-for="Education[0].DegreeLevel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Education[0].DegreeType" class="control-label"></label>
-                <input asp-for="Education[0].DegreeType" class="form-control" />
-                <span asp-validation-for="Education[0].DegreeType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Education[0].DegreeDetail" class="control-label"></label>
-                <input asp-for="Education[0].DegreeDetail" class="form-control" />
-                <span asp-validation-for="Education[0].DegreeDetail" class="text-danger"></span>
-            </div>
+            <button type="button" class="btn btn-default" onclick="addEducationFields()">Add new education</button>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -196,6 +225,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default" />
+                <button type="button" class="btn btn-danger" onclick="validateDelete()">Delete</button>
             </div>
         </form>
     </div>
