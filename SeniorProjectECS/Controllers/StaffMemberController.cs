@@ -82,6 +82,30 @@ namespace SeniorProjectECS.Controllers
 
             return View(results);
         }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id != null)
+            {
+                var handle = new StaffHandlerDapper();
+                handle.DeleteModel(id.GetValueOrDefault());
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult RemoveEducation(int? educationID, int? staffMemberID)
+        {
+            if(educationID != null && staffMemberID != null)
+            {
+                var con = DBHandler.GetSqlConnection();
+                con.Execute("RemoveStaffEducation", 
+                    new { StaffMemberID = staffMemberID.GetValueOrDefault(),
+                    EducationID = educationID.GetValueOrDefault() }, 
+                    commandType: System.Data.CommandType.StoredProcedure
+                    );
+            }
+            return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
+        }
     }
 
 
