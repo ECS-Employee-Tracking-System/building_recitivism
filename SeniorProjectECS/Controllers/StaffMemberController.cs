@@ -6,17 +6,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PagedList;
 
 namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        public IActionResult Index()
+        private int PageSize = 10;
+        private int PageNumber;
+
+        public IActionResult Index(int? page)
         {
+            PageNumber = (page ?? 1);
+            if(PageNumber <= 0) { PageNumber = 1; }
+            ViewBag.PageNumber = PageNumber;
+
             var handler = new StaffHandlerDapper();
             var results = handler.GetModels();
 
-            return View(results);
+            return View(results.ToList().ToPagedList(PageNumber, PageSize));
         }//end View Index
 
         public IActionResult Details(int? id)
