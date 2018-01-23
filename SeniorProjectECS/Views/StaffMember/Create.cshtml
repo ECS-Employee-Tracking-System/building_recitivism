@@ -106,28 +106,37 @@
                         </label>
                     </div>
                 </div>
+            </div>
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#TA">Tuition Assistance </button>
+            <div id="TA" class="collapse">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="TAndAApp" /> @Html.DisplayNameFor(model => model.TAndAApp)
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TAndAApp" class="control-label"></label>
-                    <input asp-for="TAndAApp" class="form-control" />
-                    <span asp-validation-for="TAndAApp" class="text-danger"></span>
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="AppApp" /> @Html.DisplayNameFor(model => model.AppApp)
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AppApp" class="control-label"></label>
-                    <input asp-for="AppApp" class="form-control" />
-                    <span asp-validation-for="AppApp" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ClassCompleted" class="control-label"></label>
-                    <input asp-for="ClassCompleted" class="form-control" />
-                    <span asp-validation-for="ClassCompleted" class="text-danger"></span>
-                </div>
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ClassCompleted" /> @Html.DisplayNameFor(model => model.ClassCompleted)
+                        </label>
+                    </div>
+                </div> 
                 <div class="form-group">
                     <div class="checkbox">
                         <label>
                             <input asp-for="ClassPaid" /> @Html.DisplayNameFor(model => model.ClassPaid)
                         </label>
                     </div>
+                </div>
                 </div>
                 <div class="form-group">
                     <label asp-for="RequiredHours" class="control-label"></label>

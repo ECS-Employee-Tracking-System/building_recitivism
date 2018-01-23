@@ -55,11 +55,13 @@ namespace SeniorProjectECS.Models
         public Boolean GoalMet { get; set; }
 
         [DisplayName("Tuition Assistance Application")]
-        public String TAndAApp { get; set; }
+        public Boolean TAndAApp { get; set; }
 
         [DisplayName("Application Aproved")]
-        public String AppApp { get; set; }
-        public String ClassCompleted { get; set; }
+        public Boolean AppApp { get; set; }
+
+        [DisplayName("Class Completed")]
+        public Boolean ClassCompleted { get; set; }
 
         [DisplayName("Owes Money for Classes")]
         public Boolean ClassPaid { get; set; }
