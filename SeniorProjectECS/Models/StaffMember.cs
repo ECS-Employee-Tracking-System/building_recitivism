@@ -49,12 +49,15 @@ namespace SeniorProjectECS.Models
         public String CDARenewalProcess { get; set; }
 
         public String Comments { get; set; }
-        public String Goal { get; set; }
-        public String MidYear { get; set; }
-        public String EndYear { get; set; }
+        public Boolean Goal { get; set; }
+        public Boolean MidYear { get; set; }
+        public Boolean EndYear { get; set; }
         public Boolean GoalMet { get; set; }
 
+        [DisplayName("Tuition Assistance Application")]
         public String TAndAApp { get; set; }
+
+        [DisplayName("Application Aproved")]
         public String AppApp { get; set; }
         public String ClassCompleted { get; set; }
 
