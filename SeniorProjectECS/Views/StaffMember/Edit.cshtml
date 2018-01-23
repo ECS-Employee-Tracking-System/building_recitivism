@@ -109,11 +109,7 @@
                     <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Comments" class="control-label"></label>
-                <input asp-for="Comments" class="form-control" />
-                <span asp-validation-for="Comments" class="text-danger"></span>
-            </div>
+
             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#Goals">Goals</button>
             <div id="Goals" class="collapse">
                 <div class="form-group">
@@ -175,6 +171,11 @@
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label asp-for="TermDate" class="control-label"></label>
+                    <input asp-for="TermDate" class="form-control" />
+                    <span asp-validation-for="TermDate" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="RequiredHours" class="control-label"></label>
@@ -192,9 +193,9 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TermDate" class="control-label"></label>
-                <input asp-for="TermDate" class="form-control" />
-                <span asp-validation-for="TermDate" class="text-danger"></span>
+                <label asp-for="Comments" class="control-label"></label>
+                <input asp-for="Comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Center.Name" class="control-label"></label>

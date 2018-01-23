@@ -75,7 +75,8 @@ namespace SeniorProjectECS.Models
         public String Notes{ get; set; }
 
         [DisplayName("Term Date")]
-        public String TermDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? TermDate { get; set; }
 
         public Center Center { get; set; }
         public List<Education> Education { get; set; }
