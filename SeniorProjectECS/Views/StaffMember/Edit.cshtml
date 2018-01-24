@@ -306,20 +306,21 @@ $.ajax({
                                         <div class="modal-body">
                                             <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
                                             <div class="form-group">
+                                          
                                                 <label class="control-label">Degree Abbreviation ex. AA</label>
-                                                <select class="form-control"  type="text" id="degreeSelect" name="DegreeAbbreviation"></select>
+                                                <input class="form-control" type=text list=degreeSelect name="DegreeAbbreviation"><datalist  id=degreeSelect name="DegreeAbbreviation"></datalist>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Degree Level ex. Masters</label>
-                                                <select class="form-control" type="text" id="degreeLevel" name="DegreeLevel"></select>
+                                                <input class="form-control" type=text list=degreeLevel name="DegreeLevel"><datalist id=degreeLevel name="DegreeLevel"></datalist>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Degree Type ex. Education</label>
-                                                <select class="form-control" type="text" id="degreeType" name="DegreeType"></select>
+                                                <input class="form-control" type=text list=degreeType name="DegreeType"><datalist id=degreeType name="DegreeType"></datalist>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Degree Detail ex. Early Childhood</label>
-                                                <select class="form-control" type="text" id="degreeDetail" name="DegreeDetail"></select>
+                                                <input class="form-control" type=text list=degreeDetail name="DegreeDetail"><datalist id=degreeDetail name="DegreeDetail"></datalist>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

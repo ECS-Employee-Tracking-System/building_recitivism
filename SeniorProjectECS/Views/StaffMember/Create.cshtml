@@ -1,20 +1,69 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
    
 <script>
- @*//gets DegreeAbrrev list from dtabase and puts in a select list
-    $.ajax({
-        dataType: "json",
-        url: '@Url.Action("GetDegreeAbrvList", "StaffMember")',
-        data: 'degreeAbrvlist',
-        success: function (data) {
+//gets DegreeAbrrev list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeAbrvList", "StaffMember")',
+    data: 'degreeAbrvlist',
+    success: function (data) {
         console.log(data);
         $.each(data, function (index, v) {
-        $.each(v, function (index, value) {
-        console.log(index, value);
-        $('<option>').val(value).text(value).appendTo("#degreeSelect");
-            })})
-            },
-            });*@
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeSelect");
+            })
+        })
+    },
+});
+
+//gets Degreelevel list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeLevelList", "StaffMember")',
+    data: 'degreeLevellist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeLevel");
+            })
+        })
+    },
+ });
+
+//gets DegreeType list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeTypeList", "StaffMember")',
+    data: 'degreeTypelist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeType");
+            })
+        })
+    },
+ });
+
+//gets DegreeDetail list from dtabase and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeDetailList", "StaffMember")',
+    data: 'degreeDetaillist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeDetail");
+            })
+        })
+    },
+});
 </script>
             <h1>StaffMember</h1>
             <hr />
@@ -192,22 +241,22 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="Education[0].DegreeAbrv" class="control-label"></label>
-                            <input asp-for="Education[0].DegreeAbrv" class="form-control"/>
+                            <input class="form-control" type=text list=degreeSelect name="Education[0].DegreeAbrv"><datalist id=degreeSelect name="Education[0].DegreeAbrv"></datalist>
                             <span asp-validation-for="Education[0].DegreeAbrv" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Education[0].DegreeLevel" class="control-label"></label>
-                            <input asp-for="Education[0].DegreeLevel" class="form-control" />
+                            <input class="form-control" type=text list=degreeLevel name="Education[0].DegreeLevel"><datalist id=degreeLevel name="Education[0].DegreeLevel"></datalist>
                             <span asp-validation-for="Education[0].DegreeLevel" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Education[0].DegreeType" class="control-label"></label>
-                            <input asp-for="Education[0].DegreeType" class="form-control" />
+                            <input class="form-control" type=text list=degreeType name="Education[0].DegreeType"><datalist id=degreeType name="Education[0].DegreeType"></datalist>
                             <span asp-validation-for="Education[0].DegreeType" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Education[0].DegreeDetail" class="control-label"></label>
-                            <input asp-for="Education[0].DegreeDetail" class="form-control" />
+                            <<input class="form-control" type=text list=degreeDetail name="Education[0].DegreeDetail"><datalist id=degreeDetail name="Education[0].DegreeDetail"></datalist>
                             <span asp-validation-for="Education[0].DegreeDetail" class="text-danger"></span>
                         </div>
                         <div class="form-group">
