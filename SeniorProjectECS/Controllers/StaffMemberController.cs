@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PagedList;
+using Newtonsoft.Json;
+
 
 namespace SeniorProjectECS.Controllers
 {
@@ -140,6 +142,16 @@ namespace SeniorProjectECS.Controllers
             }
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
+
+        //returns json to ajax call a list of all available degree abreviations
+        [HttpGet]
+        public JsonResult GetDegreeAbrvList()
+        {
+            var con = DBHandler.GetSqlConnection();
+            String sql = @"SELECT DegreeAbrv FROM Education";
+            var degreeAbrvlist = con.Query(sql);
+            return Json(degreeAbrvlist);
+        }//end GetDegreeAbrvList
     }
 
 
