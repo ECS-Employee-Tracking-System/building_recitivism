@@ -23,6 +23,8 @@ namespace SeniorProjectECS.Models
         [DisplayName("Last Name")]
         [Required]
         public String LastName { get; set; }
+
+        [EmailAddress]
         public String Email { get; set; }
 
         [DisplayName("Date of Hire")]

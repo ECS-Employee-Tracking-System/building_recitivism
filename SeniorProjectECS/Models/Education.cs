@@ -10,16 +10,16 @@ namespace SeniorProjectECS.Models
     {
         public int EducationID { get; set; }
 
-        [DisplayName("Degree Abbreviation ex. AA")]
+        [DisplayName("Degree Abbreviation")]
         public String DegreeAbrv { get; set; } // MS
 
-        [DisplayName("Degree Level ex. Masters")]
+        [DisplayName("Degree Level")]
         public String DegreeLevel { get; set; } // Masters
 
-        [DisplayName("Degree Type ex. Education")]
+        [DisplayName("Degree Type")]
         public String DegreeType { get; set; } // Computing
          
-        [DisplayName("Degree Detail ex. Early Childhood")]
+        [DisplayName("Degree Detail")]
         public String DegreeDetail { get; set; } // Master of Sciences in Computer Science
     }
 }
