@@ -17,14 +17,17 @@ namespace SeniorProjectECS.Models
         public int StaffMemberID { get; set; }
 
         [DisplayName("First Name")]
+        [Required]
         public String FirstName { get; set; }
 
         [DisplayName("Last Name")]
+        [Required]
         public String LastName { get; set; }
         public String Email { get; set; }
 
         [DisplayName("Date of Hire")]
         [DataType(DataType.Date)]
+        [Required]
         public DateTime? DateOfHire { get; set; }
         public String Position { get; set; }
 
