@@ -94,7 +94,16 @@ $.ajax({
             })
         })
     },
-});
+    });
+
+    //Pust NA in CDA blocks if person doesnot require CDA
+    function naCDA()
+    { 
+        document.getElementById('CDAInProgress').checked = false;
+        document.getElementById('CDAType').value = 'NA';
+        document.getElementById('CDARenewalProcess').value = 'NA';
+        document.getElementById('CDAExpiration').value = "";
+    }//end naCD function
 </script>
             <h1>StaffMember</h1>
             <hr />
@@ -104,17 +113,17 @@ $.ajax({
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="FirstName" class="control-label"></label>
-                            <input asp-for="FirstName" class="form-control" />
+                            <input asp-for="FirstName" placeholder="First Name" class="form-control" />
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LastName" class="control-label"></label>
-                            <input asp-for="LastName" class="form-control" />
+                            <input asp-for="LastName" placeholder="Last Name" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Email" class="control-label"></label>
-                            <input asp-for="Email" class="form-control" />
+                            <input asp-for="Email" placeholder="user@ecs4kids.org"class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -142,7 +151,7 @@ $.ajax({
                                 <span asp-validation-for="DCExpiration" class="text-danger"></span>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><br>
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><button type="button" class="btn btn-default alert-danger" onclick="naCDA()">NA CDA Info</button><br>
                         <div id="CDA" class="collapse">
                             <div class="form-group">
                                 <div class="checkbox">
@@ -153,7 +162,7 @@ $.ajax({
                             </div>
                             <div class="form-group">
                                 <label asp-for="CDAType" class="control-label"></label>
-                                <input asp-for="CDAType" class="form-control" />
+                                <input asp-for="CDAType" placeholder="CDA Type" class="form-control" />
                                 <span asp-validation-for="CDAType" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -163,7 +172,7 @@ $.ajax({
                             </div>
                             <div class="form-group">
                                 <label asp-for="CDARenewalProcess" class="control-label"></label>
-                                <input asp-for="CDARenewalProcess" class="form-control" />
+                                <input asp-for="CDARenewalProcess" placeholder="CDA Renewal Process" class="form-control" />
                                 <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
                             </div>
                         </div>
@@ -237,37 +246,37 @@ $.ajax({
                         </div>
                         <div class="form-group">
                             <label asp-for="RequiredHours" class="control-label"></label>
-                            <input asp-for="RequiredHours" class="form-control" />
+                            <input asp-for="RequiredHours" placeholder="0-40" class="form-control" />
                             <span asp-validation-for="RequiredHours" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="HoursEarned" class="control-label"></label>
-                            <input asp-for="HoursEarned" class="form-control" />
+                            <input asp-for="HoursEarned" placeholder="0-40" class="form-control" />
                             <span asp-validation-for="HoursEarned" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Notes" class="control-label"></label>
-                            <input asp-for="Notes" class="form-control" />
+                            <input asp-for="Notes" placeholder="Notes" class="form-control" />
                             <span asp-validation-for="Notes" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Comments" class="control-label"></label>
-                            <input asp-for="Comments" class="form-control" />
+                            <input asp-for="Comments" placeholder="Comments" class="form-control" />
                             <span asp-validation-for="Comments" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Center.Name" class="control-label"></label>
-                            <input class="form-control" type=text list=CenterName name="Center.Name"><datalist id=CenterName name="Center.Name"></datalist>
+                            <input class="form-control" type=text list=CenterName name="Center.Name" placeholder="Orange Park"><datalist id=CenterName name="Center.Name"></datalist>
                             <span asp-validation-for="Center.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Center.County" class="control-label"></label>
-                            <input asp-for="Center.County" class="form-control" />
+                            <input asp-for="Center.County" placeholder="Clay" class="form-control" />
                             <span asp-validation-for="Center.County" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Center.Region" class="control-label"></label>
-                            <input asp-for="Center.Region" class="form-control" />
+                            <input asp-for="Center.Region" placeholder="1A" class="form-control" />
                             <span asp-validation-for="Center.Region" class="text-danger"></span>
                         </div>
                         <div class="form-group">
