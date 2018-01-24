@@ -72,9 +72,11 @@ namespace SeniorProjectECS.Models
         public Boolean ClassPaid { get; set; }
 
         [DisplayName("Required Hours")]
+        [Range(0, 40)]
         public int RequiredHours { get; set; }
 
         [DisplayName("Hours Earned")]
+        [Range(0, 40)]
         public int HoursEarned { get; set; }
 
         public String Notes{ get; set; }

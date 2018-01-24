@@ -1,117 +1,143 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
 <script>
-//gets DegreeAbrrev list from database and puts in a select list
-$.ajax({
+    //gets DegreeAbrrev list from database and puts in a select list
+    $.ajax({
     dataType: "json",
     url: '@Url.Action("GetDegreeAbrvList", "StaffMember")',
     data: 'degreeAbrvlist',
-    success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
+    success: function (data)
+    {
+        //console.log(data);
+        $.each(data, function (index, v)
+        {
+            $.each(v, function (index, value)
+            {
+                //console.log(index, value);
                 $('<option>').val(value).text(value).appendTo("#degreeSelect");
-            })
-        })
-    },
-});
-
-//gets Degreelevel list from database and puts in a select list
-$.ajax({
-    dataType: "json",
-    url: '@Url.Action("GetDegreeLevelList", "StaffMember")',
-    data: 'degreeLevellist',
-    success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
-                $('<option>').val(value).text(value).appendTo("#degreeLevel");
-            })
-        })
-    },
- });
-
-//gets DegreeType list from database and puts in a select list
-$.ajax({
-    dataType: "json",
-    url: '@Url.Action("GetDegreeTypeList", "StaffMember")',
-    data: 'degreeTypelist',
-    success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
-                $('<option>').val(value).text(value).appendTo("#degreeType");
             })
         })
     },
     });
 
-//gets position list from database and puts in a select list
-$.ajax({
+    //gets Degreelevel list from database and puts in a select list
+    $.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeLevelList", "StaffMember")',
+    data: 'degreeLevellist',
+    success: function (data)
+    {
+        //console.log(data);
+        $.each(data, function (index, v)
+        {
+            $.each(v, function (index, value)
+            {
+                //console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeLevel");
+            })
+        })
+    },
+    });
+
+    //gets DegreeType list from database and puts in a select list
+    $.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeTypeList", "StaffMember")',
+    data: 'degreeTypelist',
+    success: function (data)
+    {
+        //console.log(data);
+        $.each(data, function (index, v)
+        {
+            $.each(v, function (index, value)
+            {
+                //console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeType");
+            })
+        })
+        },
+    });
+
+    //gets position list from database and puts in a select list
+    $.ajax({
     dataType: "json",
     url: '@Url.Action("GetCenterList", "StaffMember")',
     data: 'position',
-    success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
-                $('<option>').val(value).text(value).appendTo("#position");
+    success: function (data)
+    {
+        //console.log(data);
+        $.each(data, function (index, v)
+        {
+            $.each(v, function (index, value)
+            {
+                //console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#Position");
+                })
             })
-        })
-    },
-});
+        },
+    });
 
-//gets DegreeDetail list from dtabase and puts in a select list
-$.ajax({
+    //gets DegreeDetail list from dtabase and puts in a select list
+    $.ajax({
     dataType: "json",
     url: '@Url.Action("GetDegreeDetailList", "StaffMember")',
     data: 'degreeDetaillist',
-    success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
-                $('<option>').val(value).text(value).appendTo("#degreeDetail");
-            })
-        })
-    },
-});
- function validateUpdate()
- {
-    var isInactive = document.getElementById('IsInactive');
-    var classPaid = document.getElementById('ClassPaid');
-    var firstName = document.getElementById('FirstName').value;
-    var lastName = document.getElementById('LastName').value;
-    if (isInactive.checked && classPaid.checked)
+    success: function (data)
     {
-        alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
-    }//end if
- }//end validateUpdate function
+        //console.log(data);
+        $.each(data, function (index, v)
+        {
+            $.each(v, function (index, value)
+            {
+                //console.log(index, value);
+               $('<option>').val(value).text(value).appendTo("#degreeDetail");
+            })
+            })
+        },
+    });
+    function validateUpdate()
+    {
+        var isInactive = document.getElementById('IsInactive');
+        var classPaid = document.getElementById('ClassPaid');
+        var firstName = document.getElementById('FirstName').value;
+        var lastName = document.getElementById('LastName').value;
+        if (isInactive.checked && classPaid.checked)
+        {
+            alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
+        }//end if
+    }//end validateUpdate function
 
     function validateDelete()
     {
         var isInactive = document.getElementById('IsInactive');
         if (!isInactive.checked) {
             alert("Staff member is not deactivated! Please deactivate and try again.");
-        } else {
-            if (confirm("This action cannot be undone, continue?")) {
+        } else
+        {
+            if (confirm("This action cannot be undone, continue?"))
+            {
                 window.location.href = '@Url.Action("Delete", "StaffMember", new { id = Model.StaffMemberID })';
-                }
-                }//end if/else
-                }//end validateDelete
+             }
+        }//end if/else
+    }//end validateDelete
 
-                function removeEducation(id)
-                {
-                window.location.href = '@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })&EducationID=' + id;
-                }
+   function removeEducation(id)
+   {
+    window.location.href = '@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })&EducationID=' + id;
+   }
 
-                function addEducationFields()
-                {
-                //document.getElementById('newEducation').innerHTML +=
-                }
+    function addEducationFields()
+    {
+        //document.getElementById('newEducation').innerHTML +=
+    }
+
+    //Pust NA in CDA blocks if person doesnot require CDA
+    function naCDA()
+    {
+        document.getElementById('CDAInProgress').checked = false;
+        document.getElementById('CDAType').value = 'NA';
+        document.getElementById('CDARenewalProcess').value = 'NA';
+        document.getElementById('CDAExpiration').value = "";
+    }//end naCD function
 </script>
                 <h1>StaffMember</h1>
                 <hr />
@@ -123,27 +149,27 @@ $.ajax({
                             <div class="form-group">
                                 <h3>Basic Information</h3>
                                 <label asp-for="FirstName" class="control-label"></label>
-                                <input asp-for="FirstName" class="form-control" />
+                                <input asp-for="FirstName" placeholder="First Name" class="form-control" />
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="LastName" class="control-label"></label>
-                                <input asp-for="LastName" class="form-control" />
+                                <input asp-for="LastName" placeholder="Last Name" class="form-control" />
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Email" class="control-label"></label>
-                                <input asp-for="Email" class="form-control" />
+                                <input asp-for="Email" placeholder="user@ecs4kids.org" class="form-control" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="DateOfHire" class="control-label"></label>
-                                <input asp-for="DateOfHire" class="form-control" />
+                                <input asp-for="DateOfHire" placeholder="Date Hired" class="form-control" />
                                 <span asp-validation-for="DateOfHire" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Position" class="control-label"></label>
-                                <input class="form-control" type=text list=position name="Position" placeholder="Lead Teacher"><datalist id=position name="Position"></datalist>
+                                <input class="form-control" type=text list=Position name="Position" placeholder="Lead Teacher"><datalist id=Position name="Position"></datalist>
                                 <span asp-validation-for="Position" class="text-danger"></span>
                             </div>
                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#DirCred">Director Credentials</button><br />
@@ -161,7 +187,7 @@ $.ajax({
                                     <span asp-validation-for="DCExpiration" class="text-danger"></span>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><br />
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><button type="button" class="btn btn-default alert-danger" onclick="naCDA()">NA CDA Info</button><br />
                             <div id="CDA" class="collapse">
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -172,7 +198,7 @@ $.ajax({
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="CDAType" class="control-label"></label>
-                                    <input asp-for="CDAType" class="form-control" />
+                                    <input asp-for="CDAType" placeholder="CDA Type" class="form-control" />
                                     <span asp-validation-for="CDAType" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
@@ -182,7 +208,7 @@ $.ajax({
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="CDARenewalProcess" class="control-label"></label>
-                                    <input asp-for="CDARenewalProcess" class="form-control" />
+                                    <input asp-for="CDARenewalProcess" placeholder="CDA Renewal Process" class="form-control" />
                                     <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
                                 </div>
                             </div>
@@ -256,37 +282,37 @@ $.ajax({
                             </div>
                             <div class="form-group">
                                 <label asp-for="RequiredHours" class="control-label"></label>
-                                <input asp-for="RequiredHours" class="form-control" />
+                                <input asp-for="RequiredHours" placeholder="0-40" class="form-control" />
                                 <span asp-validation-for="RequiredHours" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="HoursEarned" class="control-label"></label>
-                                <input asp-for="HoursEarned" class="form-control" />
+                                <input asp-for="HoursEarned" placeholder="0-40" class="form-control" />
                                 <span asp-validation-for="HoursEarned" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Notes" class="control-label"></label>
-                                <input asp-for="Notes" class="form-control" />
+                                <input asp-for="Notes" placeholder="Notes"class="form-control" />
                                 <span asp-validation-for="Notes" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Comments" class="control-label"></label>
-                                <input asp-for="Comments" class="form-control" />
+                                <input asp-for="Comments" placeholder="Comments" class="form-control" />
                                 <span asp-validation-for="Comments" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Center.Name" class="control-label"></label>
-                                <input asp-for="Center.Name" class="form-control" />
+                                <input asp-for="Center.Name" placeholder="Orange Park"class="form-control" />
                                 <span asp-validation-for="Center.Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Center.County" class="control-label"></label>
-                                <input asp-for="Center.County" class="form-control" />
+                                <input asp-for="Center.County" placeholder="Clay" class="form-control" />
                                 <span asp-validation-for="Center.County" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Center.Region" class="control-label"></label>
-                                <input asp-for="Center.Region" class="form-control" />
+                                <input asp-for="Center.Region" placeholder="1A" class="form-control" />
                                 <span asp-validation-for="Center.Region" class="text-danger"></span>
                             </div>
                             @foreach (var edu in Model.Education)
