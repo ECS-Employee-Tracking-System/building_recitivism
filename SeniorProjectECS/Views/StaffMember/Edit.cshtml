@@ -1,32 +1,79 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
-
 <script>
-    //gets DegreeAbrrev list from dtabase and puts in a select list
-    $.ajax({
-        dataType: "json",
-        url: '@Url.Action("GetDegreeAbrvList", "StaffMember")',
-        data: 'degreeAbrvlist',
-        success: function (data) {
-            console.log(data);
-            $.each(data, function (index, v) {
-                $.each(v, function (index, value) {
-                    console.log(index, value);
-                    $('<option>').val(value).text(value).appendTo("#degreeSelect");
-                })})
-        },
-    });
+//gets DegreeAbrrev list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeAbrvList", "StaffMember")',
+    data: 'degreeAbrvlist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeSelect");
+            })
+        })
+    },
+});
 
-    function validateUpdate()
+//gets Degreelevel list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeLevelList", "StaffMember")',
+    data: 'degreeLevellist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeLevel");
+            })
+        })
+    },
+ });
+
+//gets DegreeType list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeTypeList", "StaffMember")',
+    data: 'degreeTypelist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeType");
+            })
+        })
+    },
+ });
+
+//gets DegreeDetail list from dtabase and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '@Url.Action("GetDegreeDetailList", "StaffMember")',
+    data: 'degreeDetaillist',
+    success: function (data) {
+        console.log(data);
+        $.each(data, function (index, v) {
+            $.each(v, function (index, value) {
+                console.log(index, value);
+                $('<option>').val(value).text(value).appendTo("#degreeDetail");
+            })
+        })
+    },
+});
+ function validateUpdate()
+ {
+    var isInactive = document.getElementById('IsInactive');
+    var classPaid = document.getElementById('ClassPaid');
+    var firstName = document.getElementById('FirstName').value;
+    var lastName = document.getElementById('LastName').value;
+    if (isInactive.checked && classPaid.checked)
     {
-        var isInactive = document.getElementById('IsInactive');
-        var classPaid = document.getElementById('ClassPaid');
-        var firstName = document.getElementById('FirstName').value;
-        var lastName = document.getElementById('LastName').value;
-        if (isInactive.checked && classPaid.checked)
-        {
-            alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
-        }//end if
-    }//end validateUpdate function
+        alert("Contact HR, " + firstName + " " + lastName + " Owes class funding");
+    }//end if
+ }//end validateUpdate function
 
     function validateDelete()
     {
@@ -36,263 +83,259 @@
         } else {
             if (confirm("This action cannot be undone, continue?")) {
                 window.location.href = '@Url.Action("Delete", "StaffMember", new { id = Model.StaffMemberID })';
-            }
-        }//end if/else
-    }//end validateDelete
+                }
+                }//end if/else
+                }//end validateDelete
 
-    function removeEducation(id)
-    {
-        window.location.href = '@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })&EducationID=' + id;
-    }
-
-    function addEducationFields()
-    {
-        //document.getElementById('newEducation').innerHTML +=
-    }
-</script>
-<h1>StaffMember</h1>
-<hr />
-    <select id="degreeSelect" style="width:200px">
-        <option>Select Degree</option>
-    </select>
-
-    <div class="row">
-        <div class="col-md-4, col-lg-12">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="StaffMemberID" class="form-control" />
-                <div class="form-group">
-                    <h3>Basic Information</h3>
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DateOfHire" class="control-label"></label>
-                    <input asp-for="DateOfHire" class="form-control" />
-                    <span asp-validation-for="DateOfHire" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Position" class="control-label"></label>
-                    <input asp-for="Position" class="form-control" />
-                    <span asp-validation-for="Position" class="text-danger"></span>
-                </div>
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#DirCred">Director Credentials</button><br />
-                <div id="DirCred" class="collapse">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="DirectorCredentials" /> @Html.DisplayNameFor(model => model.DirectorCredentials)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="DCExpiration" class="control-label"></label>
-                        <input asp-for="DCExpiration" class="form-control" />
-                        <span asp-validation-for="DCExpiration" class="text-danger"></span>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><br />
-                <div id="CDA" class="collapse">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CDAType" class="control-label"></label>
-                        <input asp-for="CDAType" class="form-control" />
-                        <span asp-validation-for="CDAType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CDAExpiration" class="control-label"></label>
-                        <input asp-for="CDAExpiration" class="form-control" />
-                        <span asp-validation-for="CDAExpiration" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CDARenewalProcess" class="control-label"></label>
-                        <input asp-for="CDARenewalProcess" class="form-control" />
-                        <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#Goals">Goals</button><br />
-                <div id="Goals" class="collapse">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="Goal" /> @Html.DisplayNameFor(model => model.Goal)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="MidYear" /> @Html.DisplayNameFor(model => model.MidYear)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="EndYear" /> @Html.DisplayNameFor(model => model.EndYear)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="GoalMet" /> @Html.DisplayNameFor(model => model.GoalMet)
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#TA">Tuition Assistance </button><br />
-                <div id="TA" class="collapse">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="TAndAApp" /> @Html.DisplayNameFor(model => model.TAndAApp)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="AppApp" /> @Html.DisplayNameFor(model => model.AppApp)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="ClassCompleted" /> @Html.DisplayNameFor(model => model.ClassCompleted)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input asp-for="ClassPaid" /> @Html.DisplayNameFor(model => model.ClassPaid)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="TermDate" class="control-label"></label>
-                        <input asp-for="TermDate" class="form-control" />
-                        <span asp-validation-for="TermDate" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RequiredHours" class="control-label"></label>
-                    <input asp-for="RequiredHours" class="form-control" />
-                    <span asp-validation-for="RequiredHours" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HoursEarned" class="control-label"></label>
-                    <input asp-for="HoursEarned" class="form-control" />
-                    <span asp-validation-for="HoursEarned" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Notes" class="control-label"></label>
-                    <input asp-for="Notes" class="form-control" />
-                    <span asp-validation-for="Notes" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Comments" class="control-label"></label>
-                    <input asp-for="Comments" class="form-control" />
-                    <span asp-validation-for="Comments" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Center.Name" class="control-label"></label>
-                    <input asp-for="Center.Name" class="form-control" />
-                    <span asp-validation-for="Center.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Center.County" class="control-label"></label>
-                    <input asp-for="Center.County" class="form-control" />
-                    <span asp-validation-for="Center.County" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Center.Region" class="control-label"></label>
-                    <input asp-for="Center.Region" class="form-control" />
-                    <span asp-validation-for="Center.Region" class="text-danger"></span>
-                </div>
-                @foreach (var edu in Model.Education)
+                function removeEducation(id)
                 {
-                    <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(@edu.EducationID)">Remove</button></div>
+                window.location.href = '@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })&EducationID=' + id;
                 }
 
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
-
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="IsInactive" /> @Html.DisplayNameFor(model => model.IsInactive)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default" />
-                    <button type="button" class="btn btn-danger" onclick="validateDelete()">Delete</button>
-                </div>
-            </form>
-
-            <div id="addNewEducation" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <form asp-action="AddEducation">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addNewEducationTitle">Add new education</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                function addEducationFields()
+                {
+                //document.getElementById('newEducation').innerHTML +=
+                }
+</script>
+                <h1>StaffMember</h1>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4, col-lg-12">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="StaffMemberID" class="form-control" />
+                            <div class="form-group">
+                                <h3>Basic Information</h3>
+                                <label asp-for="FirstName" class="control-label"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
-                            <div class="modal-body">
-                                <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfHire" class="control-label"></label>
+                                <input asp-for="DateOfHire" class="form-control" />
+                                <span asp-validation-for="DateOfHire" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Position" class="control-label"></label>
+                                <input asp-for="Position" class="form-control" />
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                            </div>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#DirCred">Director Credentials</button><br />
+                            <div id="DirCred" class="collapse">
                                 <div class="form-group">
-                                    <label class="control-label">Degree Abbreviation ex. AA</label>
-                                    <input class="form-control" type="text" name="DegreeAbbreviation" />
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="DirectorCredentials" /> @Html.DisplayNameFor(model => model.DirectorCredentials)
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Degree Level ex. Masters</label>
-                                    <input class="form-control" type="text" name="DegreeLevel" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Degree Type ex. Education</label>
-                                    <input class="form-control" type="text" name="DegreeType" />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Degree Detail ex. Early Childhood</label>
-                                    <input class="form-control" type="text" name="DegreeDetail" />
+                                    <label asp-for="DCExpiration" class="control-label"></label>
+                                    <input asp-for="DCExpiration" class="form-control" />
+                                    <span asp-validation-for="DCExpiration" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <input type="submit" value="Add" class="btn btn-primary" />
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><br />
+                            <div id="CDA" class="collapse">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CDAType" class="control-label"></label>
+                                    <input asp-for="CDAType" class="form-control" />
+                                    <span asp-validation-for="CDAType" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CDAExpiration" class="control-label"></label>
+                                    <input asp-for="CDAExpiration" class="form-control" />
+                                    <span asp-validation-for="CDAExpiration" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CDARenewalProcess" class="control-label"></label>
+                                    <input asp-for="CDARenewalProcess" class="form-control" />
+                                    <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#Goals">Goals</button><br />
+                            <div id="Goals" class="collapse">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="Goal" /> @Html.DisplayNameFor(model => model.Goal)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="MidYear" /> @Html.DisplayNameFor(model => model.MidYear)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="EndYear" /> @Html.DisplayNameFor(model => model.EndYear)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="GoalMet" /> @Html.DisplayNameFor(model => model.GoalMet)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#TA">Tuition Assistance </button><br />
+                            <div id="TA" class="collapse">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="TAndAApp" /> @Html.DisplayNameFor(model => model.TAndAApp)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="AppApp" /> @Html.DisplayNameFor(model => model.AppApp)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="ClassCompleted" /> @Html.DisplayNameFor(model => model.ClassCompleted)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input asp-for="ClassPaid" /> @Html.DisplayNameFor(model => model.ClassPaid)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TermDate" class="control-label"></label>
+                                    <input asp-for="TermDate" class="form-control" />
+                                    <span asp-validation-for="TermDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RequiredHours" class="control-label"></label>
+                                <input asp-for="RequiredHours" class="form-control" />
+                                <span asp-validation-for="RequiredHours" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="HoursEarned" class="control-label"></label>
+                                <input asp-for="HoursEarned" class="form-control" />
+                                <span asp-validation-for="HoursEarned" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Notes" class="control-label"></label>
+                                <input asp-for="Notes" class="form-control" />
+                                <span asp-validation-for="Notes" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Comments" class="control-label"></label>
+                                <input asp-for="Comments" class="form-control" />
+                                <span asp-validation-for="Comments" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Center.Name" class="control-label"></label>
+                                <input asp-for="Center.Name" class="form-control" />
+                                <span asp-validation-for="Center.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Center.County" class="control-label"></label>
+                                <input asp-for="Center.County" class="form-control" />
+                                <span asp-validation-for="Center.County" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Center.Region" class="control-label"></label>
+                                <input asp-for="Center.Region" class="form-control" />
+                                <span asp-validation-for="Center.Region" class="text-danger"></span>
+                            </div>
+                            @foreach (var edu in Model.Education)
+                            {
+                                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(@edu.EducationID)">Remove</button></div>
+                            }
+
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input asp-for="IsInactive" /> @Html.DisplayNameFor(model => model.IsInactive)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default" />
+                                <button type="button" class="btn btn-danger" onclick="validateDelete()">Delete</button>
                             </div>
                         </form>
+
+                        <div id="addNewEducation" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <form asp-action="AddEducation">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addNewEducationTitle">Add new education</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
+                                            <div class="form-group">
+                                                <label class="control-label">Degree Abbreviation ex. AA</label>
+                                                <select class="form-control"  type="text" id="degreeSelect" name="DegreeAbbreviation"></select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Degree Level ex. Masters</label>
+                                                <select class="form-control" type="text" id="degreeLevel" name="DegreeLevel"></select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Degree Type ex. Education</label>
+                                                <select class="form-control" type="text" id="degreeType" name="DegreeType"></select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Degree Detail ex. Early Childhood</label>
+                                                <select class="form-control" type="text" id="degreeDetail" name="DegreeDetail"></select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Add" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+                @section Scripts {
+                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                }
