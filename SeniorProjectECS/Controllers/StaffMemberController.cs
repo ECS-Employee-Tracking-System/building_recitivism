@@ -185,21 +185,22 @@ namespace SeniorProjectECS.Controllers
 
         //returns json to ajax call a list of all available positions
         [HttpGet]
-        public JsonResult GetPositionList()
-        {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT name FROM Center";
-            var positions = con.Query(sql);
-            return Json(positions);
-        }//end GetPositionList
-        //returns json to ajax call a list of all available centers
-        [HttpGet]
         public JsonResult GetCenterList()
         {
             var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT Position FROM StaffMember";
+            String sql = @"SELECT name FROM Center";
             var centers = con.Query(sql);
             return Json(centers);
+        }//end GetCenterList
+
+        //returns json to ajax call a list of all available centers
+        [HttpGet]
+        public JsonResult GetPositionList()
+        {
+            var con = DBHandler.GetSqlConnection();
+            String sql = @"SELECT DISTINCT Position FROM StaffMember";
+            var positions= con.Query(sql);
+            return Json(positions);
         }//end GetCenterList
     }
 
