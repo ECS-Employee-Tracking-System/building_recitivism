@@ -119,18 +119,19 @@ $.ajax({
     },
 });
 
-//gets Center list from database and puts in a select list (only in create function for right now)
+
+//gets Centers list from database and puts in a select list (only in create function for right now)
 $.ajax({
     dataType: "json",
     url: '/staffMember/GetCenterList',
     data: 'centers',
     success: function (data) {
-        console.log(data);
-        $.each(data, function (index, v) {
-            $.each(v, function (index, value) {
-                console.log(index, value);
-                $('<option>').val(value).text(value).appendTo("#CenterName");
-            })
+        //console.log(data);
+        $.each(data, function (index, value) {
+            //console.log(value.name);
+            $('<option>').val(value.name).text(value.name).appendTo("#CenterName");
+            $('<option>').val(value.county).text(value.county).appendTo("#CenterCounty");
+            $('<option>').val(value.region).text(value.region).appendTo("#CenterRegion");
         })
     },
 });

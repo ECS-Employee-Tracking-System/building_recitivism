@@ -165,12 +165,12 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="Center.County" class="control-label"></label>
-                            <input asp-for="Center.County" placeholder="Clay" class="form-control" />
+                            <input class="form-control" type=text list=CenterCounty name="Center.County" placeholder="Clay"><datalist id=CenterCounty name="Center.County"></datalist>
                             <span asp-validation-for="Center.County" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Center.Region" class="control-label"></label>
-                            <input asp-for="Center.Region" placeholder="1A" class="form-control" />
+                            <input class="form-control" type=text list=CenterRegion name="Center.Region" placeholder="1A"><datalist id=CenterRegion name="Center.Region"></datalist>
                             <span asp-validation-for="Center.Region" class="text-danger"></span>
                         </div>
                         <div class="form-group">
