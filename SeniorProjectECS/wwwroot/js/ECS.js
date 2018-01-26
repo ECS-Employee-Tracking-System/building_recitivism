@@ -1,4 +1,4 @@
-//checks if member owes money for tuition assistance before deleteing and then warns user to take external action
+﻿//checks if member owes money for tuition assistance before deleteing and then warns user to take external action
 function validateUpdate() {
     var isInactive = document.getElementById('IsInactive');
     var classPaid = document.getElementById('ClassPaid');
