@@ -183,24 +183,25 @@ namespace SeniorProjectECS.Controllers
             return Json(degreeDetaillist);
         }//end GetDegreeDetailList
 
-        //returns json to ajax call a list of all available positions
-        [HttpGet]
-        public JsonResult GetCenterList()
-        {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT name FROM Center";
-            var centers = con.Query(sql);
-            return Json(centers);
-        }//end GetCenterList
-
         //returns json to ajax call a list of all available centers
         [HttpGet]
         public JsonResult GetPositionList()
         {
             var con = DBHandler.GetSqlConnection();
             String sql = @"SELECT DISTINCT Position FROM StaffMember";
-            var positions= con.Query(sql);
+            var positions = con.Query(sql);
             return Json(positions);
+        }//end GetCenterList
+
+
+        //returns json to ajax call a list of all available positions
+        [HttpGet]
+        public JsonResult GetCenterList()
+        {
+            var con = DBHandler.GetSqlConnection();
+            String sql = @"SELECT  DISTINCT * FROM Center";
+            var centers = con.Query<Center>(sql);
+            return Json(centers);
         }//end GetCenterList
     }
 
