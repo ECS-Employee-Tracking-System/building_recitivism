@@ -34,7 +34,9 @@
                 <input class="form-control" type=text list=Position name="Position" placeholder="Lead Teacher"><datalist id=Position name="Position"></datalist>
                 <span asp-validation-for="Position" class="text-danger"></span>
             </div>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#DirCred">Director Credentials</button><br />
+            <span data-toggle="collapse" data-target="#DirCred">
+                <input type="checkbox" data-toggle="toggle" data-on='Hide Director Credentials' data-width="300" data-off='Show Director Credentials' data-target="#CDA"><br><br />
+            </span>
             <div id="DirCred" class="collapse">
                 <div class="form-group">
                     <div class="checkbox">
@@ -49,7 +51,10 @@
                     <span asp-validation-for="DCExpiration" class="text-danger"></span>
                 </div>
             </div>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#CDA">CDA</button><button type="button" class="btn btn-default btn-danger" onclick="naCDA()">NA CDA Info</button><br>
+            <span data-toggle="collapse" data-target="#CDA">
+                <input type="checkbox" data-toggle="toggle" data-on="Hide CDA" data-width="300" data-off="Show CDA" data-target="#CDA"><br><br />
+            </span>
+            <button type="button" class="btn btn-default btn-danger" onclick="naCDA()">NA CDA Info</button><br /><br />
             <div id="CDA" class="collapse">
                 <div class="form-group">
                     <div class="checkbox">
@@ -74,8 +79,9 @@
                     <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
                 </div>
             </div>
-
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#Goals">Goals</button><br>
+            <span data-toggle="collapse" data-target="#Goals">
+                <input type="checkbox" data-toggle="toggle" data-on="Hide Goals" data-width="300" data-off="Show Goals" data-target="#Goals"><br><br />
+            </span>
             <div id="Goals" class="collapse">
                 <div class="form-group">
                     <div class="checkbox">
@@ -106,7 +112,9 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#TA">Tuition Assistance </button><br>
+            <span data-toggle="collapse" data-target="#TA">
+                <input type="checkbox" data-toggle="toggle" data-on="Hide Tuition Assistance" data-width="300" data-off="Show Tuition Assistance" data-target="#TA"><br><br />
+            </span>
             <div id="TA" class="collapse">
                 <div class="form-group">
                     <div class="checkbox">
