@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SeniorProjectECS.Models;
+using BCrypt;
+using SeniorProjectECS.Library;
+using Dapper;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -26,6 +29,7 @@ namespace SeniorProjectECS.Controllers
         {
             if (Model != null)
             {
+                Model.PasswordHash = BCrypt.Net.BCrypt.HashPassword(Model.PasswordHash);
                 var handle = new UserHandlerDapper();
                 handle.AddModel(Model);
             }
@@ -62,6 +66,22 @@ namespace SeniorProjectECS.Controllers
             {
                 var handle = new UserHandlerDapper();
                 handle.DeleteModel(id.GetValueOrDefault());
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(int? id, String PasswordHash)
+        {
+            if (id != null)
+            {
+                using (var con = DBHandler.GetSqlConnection())
+                {
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(PasswordHash);
+                    String sql = "UPDATE ECSUser SET PasswordHash=@Password WHERE UserID=@id";
+                    con.Query(sql, new { id = id.GetValueOrDefault(), Password = PasswordHash });
+                }
             }
 
             return RedirectToAction("Index");
