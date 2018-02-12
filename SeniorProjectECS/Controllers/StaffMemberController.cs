@@ -71,7 +71,7 @@ namespace SeniorProjectECS.Controllers
             }
             else
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
 

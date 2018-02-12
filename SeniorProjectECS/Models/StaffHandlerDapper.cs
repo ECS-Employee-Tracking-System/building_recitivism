@@ -66,7 +66,7 @@ namespace SeniorProjectECS.Models
                     }
                     return staff;
                 }, splitOn: "CenterID,EducationID", commandType: CommandType.StoredProcedure);
-                return staffMembers.Values.ToList();
+                return staffMembers.Values;
             }//end using
         }//end GetModels
 
