@@ -26,7 +26,14 @@ namespace SeniorProjectECS.Models
                 return center;
             }, new { CenterID = id }, splitOn: "StaffMemberID", commandType: CommandType.StoredProcedure);
 
-            return centers.Values.First();
+            if (centers.Count == 0)
+            {
+                String sql = "SELECT * FROM Center WHERE CenterID = @id";
+                var simpleCenter = con.Query<Center>(sql, new { id = id });
+                return simpleCenter.FirstOrDefault();
+            } else {
+                return centers.Values.First(); ;
+            }
         }
 
         public IEnumerable<Center> GetModels()
