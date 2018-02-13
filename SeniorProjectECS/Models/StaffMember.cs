@@ -31,7 +31,8 @@ namespace SeniorProjectECS.Models
         [DataType(DataType.Date)]
         [Required]
         public DateTime? DateOfHire { get; set; }
-        public String Position { get; set; }
+
+        public List<Position> Positions { get; set; }
 
         [DisplayName("Director Credentials")]
         public Boolean DirectorCredentials { get; set; }
@@ -94,6 +95,7 @@ namespace SeniorProjectECS.Models
         public StaffMember()
         {
             Education = new List<Education>();
+            Positions = new List<Position>();
         }
     }//end class StaffMember
 }//end namespace SeniorProjecECS
