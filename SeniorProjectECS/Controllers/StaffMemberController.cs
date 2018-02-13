@@ -44,8 +44,6 @@ namespace SeniorProjectECS.Controllers
 
         public IActionResult Create()
         {
-            var handle = new StaffHandlerDapper();
-            var result = handle.GetModel(1);
             return View();
         }
 
