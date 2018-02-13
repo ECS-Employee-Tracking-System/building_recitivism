@@ -1,1 +1,0 @@
-Server=tcp:ecs2.database.windows.net;Database=ESC2;User ID=ECSAdmin@ecs2.database.windows.net;Password=Testuser1;Trusted_Connection=False;Encrypt=True
