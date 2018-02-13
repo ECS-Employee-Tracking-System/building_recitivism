@@ -20,17 +20,28 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var staffMembers = new Dictionary<int, StaffMember>();
+                var staffMember = new StaffMember();
                 con.Query<StaffMember, Position, Center, Education, StaffMember>("GetStaffMember", (staff, pos, center, edu) =>
                 {
-                    staff.Positions.Add(pos);
-                    staff.Center = center;
-                    staff.Education.Add(edu);
-                    staffMembers.Add(staff.StaffMemberID, staff);
+                    if(!staffMember.Positions.Any(p => p.PositionID == pos.PositionID))
+                    {
+                        staffMember.Positions.Add(pos);
+                    }
+
+                    if(!staffMember.Education.Any(e => e.EducationID == edu.EducationID))
+                    {
+                        staffMember.Education.Add(edu);
+                    }
+                    
+                    if(staffMember.Center == null)
+                    {
+                        staffMember.Center = center;
+                    }
+                    
                     return staff;
                 }, new { StaffMemberID = id }, splitOn: "PositionID,CenterID,EducationID", commandType: CommandType.StoredProcedure);
 
-                return staffMembers.Values.First();
+                return staffMember;
             }//en using
         }//end GetModel()
 
