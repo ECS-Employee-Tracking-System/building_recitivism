@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<StaffMember>
 @using SeniorProjectECS.Library;
 
+<!--Used to sort table with tablesorter script and css in layout -->
+ <script type="text/javascript">
+$(document).ready(function () {
+    $("#myTable").tablesorter();
+});
+</script>
+
 <style type='text/css'>
     #page-wrap {
         width: 600px;
@@ -96,18 +103,21 @@
     </div>
 </div>
 <div class="col-12 col-md-10">
-    <table class="table table-hover">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th><i class="glyphicon glyphicon-envelope"></i> Email</th>
-            <th>Position</th>
-            <th>Date of Hire</th>
-            <th>Center</th>
-            <th>CDA Type</th>
-            <th>CDA Expiration</th>
-            <th></th>
-        </tr>
+    <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th><i class="glyphicon glyphicon-envelope"></i> Email</th>
+                <th>Position</th>
+                <th>Date of Hire</th>
+                <th>Center</th>
+                <th>CDA Type</th>
+                <th>CDA Expiration</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
         @foreach (var staff in Model)
         {
             // Filter inactive staff members
@@ -115,38 +125,40 @@
             {
                 // check if member is about to expire
                 String rowFormat;
-                if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
-                {
-                    rowFormat = "danger";
-                }
-                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
-                {
-                    rowFormat = "warning";
-                }
-                else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
-                {
-                    rowFormat = "info";
-                }
-                else
-                {
-                    rowFormat = "";
-                }//end expiration check
-
-                <tr class="@rowFormat">
-                    <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
-                    <td>@staff.LastName</td>
-                    <td>@staff.Email</td>
-                    <td>@staff.Position</td>
-                    <td>@staff.DateOfHire.Value.ToShortDateString()</td>
-                    <td>@staff.Center.Name</td>
-
-                    <td>@staff.CDAType</td>
-                    <td>@staff.CDAExpiration?.ToShortDateString()</td>
-                    <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
-                </tr>
+            if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
+            {
+                rowFormat = "danger";
             }
-        }
-    </table>
+            else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+            {
+                rowFormat = "warning";
+            }
+            else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+            {
+                rowFormat = "info";
+            }
+            else
+            {
+                rowFormat = "";
+            }//end expiration check
+
+            <tr class="@rowFormat">
+                <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                <td>@staff.LastName</td>
+                <td>@staff.Email</td>
+                <td>@staff.Position</td>
+                <td>@staff.DateOfHire.Value.ToShortDateString()</td>
+                <td>@staff.Center.Name</td>
+
+                <td>@staff.CDAType</td>
+                <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
+            </tr>
+
+            }
+         }
+        </tbody>
+        </table>
     <div>@Html.ActionLink("Previous", "Index", new { page = ViewBag.PageNumber - 1 }) | @Html.ActionLink("Next", "Index", new { page = ViewBag.PageNumber + 1 })</div>
 </div>
 
