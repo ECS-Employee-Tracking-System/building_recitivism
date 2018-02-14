@@ -1,17 +1,27 @@
 ﻿@model IEnumerable<Center>
+<!--Used to sort table with tablesorter script and css in layout -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTable").tablesorter({ sortList: [[0, 0], [1, 0]] });
+    });
+</script>
 
-<table class="table table-hover">
-    <tr>
-        <th>Name</th>
-        <th>County</th>
-        <th>Region</th>
-    </tr>
-@foreach(var center in Model)
-{
-    <tr>
-        <td>@Html.ActionLink(center.Name, "Details", new { id = center.CenterID })</td>
-        <td>@center.County</td>
-        <td>@center.Region</td>
-    </tr>
-}
+<table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>County</th>
+            <th>Region</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var center in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(center.Name, "Details", new { id = center.CenterID })</td>
+                <td>@center.County</td>
+                <td>@center.Region</td>
+            </tr>
+        }
+    </tbody>
 </table>
