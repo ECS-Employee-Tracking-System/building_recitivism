@@ -19,7 +19,7 @@ namespace SeniorProjectECS.Controllers
                 and datediff(""dd"",CONVERT(date, getdate()),""CDAExpiration"") <=@NumberOfDays";
 
             
-            var cdaexpiration = con.Query<CDACompliance>(sql ,new{ NumberOfDays = NumberOfDays});
+            var cdaexpiration = con.Query<StaffMember>(sql ,new{ NumberOfDays = NumberOfDays});
             return View(cdaexpiration);
         }//end View Index
 
