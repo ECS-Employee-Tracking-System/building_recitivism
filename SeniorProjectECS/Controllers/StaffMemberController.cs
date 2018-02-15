@@ -14,7 +14,7 @@ namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        private int PageSize = 10;
+        private int PageSize = 20;
         private int PageNumber;
 
         public IActionResult Index(int? page)

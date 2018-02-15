@@ -71,8 +71,7 @@ $(document).ready(function () {
         color: #777;
     }
 </style>
-@Html.ActionLink("Add New User", "Create", "StaffMember")<br />
-@Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -102,8 +101,13 @@ $(document).ready(function () {
         <div class='legend-source'><a href="StaffMember">Back to Top</a></div>
     </div>
 </div>
-<div class="col-12 col-md-10">
-    <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
+<div class="col-12 col-md-10 container jumbotron jumbotron-fluid">
+
+        <!--Session login here ex "Welcome sessionName" -->
+    <!--Change Admin to be either admin or view only user based on who is logged in-->
+        <h2>Admin Staff Management Panel</h2>
+        
+    <table class="col-12 col-md-10 col-sm-1 table table-hover table-bordered table-condensed tablesorter" id="myTable">
         <thead>
             <tr>
                 <th>First Name</th>
@@ -159,7 +163,10 @@ $(document).ready(function () {
          }
         </tbody>
         </table>
-    <div>@Html.ActionLink("Previous", "Index", new { page = ViewBag.PageNumber - 1 }) | @Html.ActionLink("Next", "Index", new { page = ViewBag.PageNumber + 1 })</div>
+    <div>@Html.ActionLink("Previous", "Index", new { page = ViewBag.PageNumber - 1 }) | @Html.ActionLink("Next", "Index", new { page = ViewBag.PageNumber + 1 })</div><br />
+    <div class="container">
+            <a class="btn btn-primary btn-default"@Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default"@Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a> 
+    </div>
 </div>
 
 
