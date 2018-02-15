@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CDACompliance>
+﻿@model IEnumerable<StaffMember>
 
     <!--Used to sort table with tablesorter script and css in layout -->
     <script type="text/javascript">
@@ -34,7 +34,7 @@
             <td><a asp-controller="StaffMember" asp-action="Details" asp-route-id="@cdaexpiration.StaffMemberID">@cdaexpiration.FirstName</a></td>
             <td>@cdaexpiration.LastName</td>
             <td>@cdaexpiration.Email</td>
-            <td>@cdaexpiration.CDAExpiration</td>
+            <td>@cdaexpiration.CDAExpiration?.ToShortDateString()</td>
         </tr>
          }
         </tbody>
