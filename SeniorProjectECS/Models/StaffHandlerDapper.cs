@@ -53,20 +53,30 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var staffMembers = new Dictionary<int, StaffMember>();
+                var staffMembers = new List<StaffMember>();
                 con.Query<StaffMember, Position, Center, Education, StaffMember>("GetStaffMember", (staff, pos, center, edu) =>
                 {
-                    //Fix this code!!!!
-                    staff.Positions.Add(pos);
-                    staff.Center = center;
-                    staff.Education.Add(edu);
-                    if (staffMembers.ContainsKey(staff.StaffMemberID))
+                    int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
+                    if (foundStaff == -1)
                     {
-                        staffMembers.Add(staff.StaffMemberID, staff);
+                        staff.Positions.Add(pos);
+                        staff.Center = center;
+                        staff.Education.Add(edu);
+                        staffMembers.Add(staff);
+                    } else {
+                        if(!staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
+                        {
+                            staffMembers[foundStaff].Positions.Add(pos);
+                        }
+
+                        if(!staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
+                        {
+                            staffMembers[foundStaff].Education.Add(edu);
+                        }
                     }
                     return staff;
                 }, splitOn: "PositionID,CenterID,EducationID", commandType: CommandType.StoredProcedure);
-                return staffMembers.Values;
+                return staffMembers;
             }//end using
         }//end GetModels
 
