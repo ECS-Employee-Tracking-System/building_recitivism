@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SeniorProjectECS.Controllers
 {
-    public class CDAComplianceController : Controller
+    public class ReportsController : Controller
     {
-        public IActionResult Index(int NumberOfDays = 90)
+        public IActionResult CDACompliance(int NumberOfDays = 90)
         {
             var con = DBHandler.GetSqlConnection();
             String sql = @"SELECT StaffMemberID, FirstName, LastName, Email, CDAExpiration FROM StaffMember 
