@@ -59,17 +59,17 @@ namespace SeniorProjectECS.Models
                     int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
                     if (foundStaff == -1)
                     {
-                        staff.Positions.Add(pos);
-                        staff.Center = center;
-                        staff.Education.Add(edu);
+                        if (pos != null) { staff.Positions.Add(pos); }
+                        if (center != null) { staff.Center = center; }
+                        if (edu != null) { staff.Education.Add(edu); }
                         staffMembers.Add(staff);
                     } else {
-                        if(!staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
+                        if(pos != null && !staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
                         {
                             staffMembers[foundStaff].Positions.Add(pos);
                         }
 
-                        if(!staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
+                        if(edu != null && !staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
                         {
                             staffMembers[foundStaff].Education.Add(edu);
                         }
