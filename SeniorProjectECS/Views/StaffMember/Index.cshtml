@@ -146,7 +146,7 @@ $(document).ready(function () {
                 rowFormat = "";
             }//end expiration check
 
-            <tr class="@rowFormat">
+            <tr>
                 <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
                 <td>@staff.LastName</td>
                 <td>@staff.Email</td>
@@ -155,7 +155,7 @@ $(document).ready(function () {
                 <td>@staff.Center.Name</td>
 
                 <td>@staff.CDAType</td>
-                <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                <td  class="@rowFormat">@staff.CDAExpiration?.ToShortDateString()</td>
                 <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
             </tr>
 
