@@ -186,7 +186,7 @@ namespace SeniorProjectECS.Controllers
         public JsonResult GetPositionList()
         {
             var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT Position FROM StaffMember";
+            String sql = @"SELECT DISTINCT PositionTitle FROM Position";
             var positions = con.Query(sql);
             return Json(positions);
         }//end GetCenterList
@@ -197,7 +197,7 @@ namespace SeniorProjectECS.Controllers
         public JsonResult GetCenterList()
         {
             var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT  DISTINCT * FROM Center";
+            String sql = @"SELECT DISTINCT * FROM Center";
             var centers = con.Query<Center>(sql);
             return Json(centers);
         }//end GetCenterList
