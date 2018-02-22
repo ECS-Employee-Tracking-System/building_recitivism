@@ -1,20 +1,31 @@
 ﻿@model Center
 
-<h1>@Model.Name</h1>
-<h4>@Model.County</h4>
-<h4>@Model.Region</h4>
-<hr />
-<table class="table table-hover">
-    <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-@foreach(var staff in Model.Staff)
-{
-    <tr>
-        <td>@Html.ActionLink(staff.FirstName,"Details", "StaffMember", new { id=staff.StaffMemberID })</td>
-        <td>@staff.LastName</td>
-    </tr>
+    <!--Used to sort table with tablesorter script and css in layout -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+        });
+    </script>
 
-}
-</table>
+    <h1>@Model.Name</h1>
+    <h4>@Model.County</h4>
+    <h4>@Model.Region</h4>
+    <hr />
+    <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var staff in Model.Staff)
+        {
+        <tr>
+            <td>@Html.ActionLink(staff.FirstName, "Details", "StaffMember", new { id = staff.StaffMemberID })</td>
+            <td>@staff.LastName</td>
+        </tr>
+         }
+        </tbody>
+    </table>
+    

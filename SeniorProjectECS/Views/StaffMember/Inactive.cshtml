@@ -1,37 +1,49 @@
 ﻿@model IEnumerable<StaffMember>
 @using SeniorProjectECS.Library;
 
-<div class="col-12 col-md-10">
-    <table class="table table-hover">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Position</th>
-            <th>Date of Hire</th>
-            <th>Center</th>
-            <th>CDA Type</th>
-            <th>CDA Expiration</th>
-            <th></th>
-        </tr>
-        @foreach (var staff in Model)
-        {
-            // Filter inactive staff members
-            if (staff.IsInactive)
-            {
-                <tr >
-                <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
-                <td>@staff.LastName</td>
-                <td>@staff.Email</td>
-                <td>@foreach(Position pos in staff.Positions) { @pos.PositionTitle; }</td>
-                <td>@staff.DateOfHire.Value.ToShortDateString()</td>
-                <td>@staff.Center.Name</td>
-
-                <td>@staff.CDAType</td>
-                <td>@staff.CDAExpiration?.ToShortDateString()</td>
-                <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
+<!--Used to sort table with tablesorter script and css in layout -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+    });
+</script>
+<div class="container">
+    <div class="col-12 col-md-10">
+        <table class="col-12 col-md-10 col-sm-1 table table-hover table-bordered table-condensed tablesorter" id="myTable">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Position</th>
+                    <th>Date of Hire</th>
+                    <th>Center</th>
+                    <th>CDA Type</th>
+                    <th>CDA Expiration</th>
+                    <th></th>
                 </tr>
-            }
-        }
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var staff in Model)
+                {
+                    // Filter inactive staff members
+                    if (staff.IsInactive)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                            <td>@staff.LastName</td>
+                            <td>@staff.Email</td>
+                            <td>@foreach (Position pos in staff.Positions) { @pos.PositionTitle; }</td>
+                            <td>@staff.DateOfHire.Value.ToShortDateString()</td>
+                            <td>@staff.Center.Name</td>
+
+                            <td>@staff.CDAType</td>
+                            <td>@staff.CDAExpiration?.ToShortDateString()</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

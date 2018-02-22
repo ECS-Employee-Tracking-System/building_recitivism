@@ -1,58 +1,59 @@
 ﻿@model IEnumerable<SeniorProjectECS.Models.User>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AccessLevel)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PasswordHash)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.UserID })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!--Used to sort table with tablesorter script and css in layout -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myTable").tablesorter({ sortList: [[4, 0], [0, 0]] });
+        });
+    </script>
+    <div class="container">
+        <table class="col-12 col-md-10 col-sm-1 table table-hover table-bordered table-condensed tablesorter" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccessLevel)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccessLevel)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "User")</a>
+    </div>

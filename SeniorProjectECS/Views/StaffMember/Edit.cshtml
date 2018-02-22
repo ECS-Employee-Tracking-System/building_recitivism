@@ -197,6 +197,7 @@
                 <input class="form-control" value="@Model.Center.Region" type=text list=CenterRegion name="Center.Region" placeholder="1A"><datalist id=CenterRegion name="Center.Region"></datalist>
                 <span asp-validation-for="Center.Region" class="text-danger"></span>
             </div>
+            @{int i = 0;}
             @foreach (var edu in Model.Education)
             {
                 <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
@@ -210,7 +211,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default" />
+                <input type="submit" onclick="validateUpdate()" value="Save" class="btn btn-default btn-primary" />
                 <button type="button" class="btn btn-danger" onclick="validateDelete(url='@Url.Action("Delete", "StaffMember", new { id = Model.StaffMemberID })')">Delete</button>
             </div>
         </form>
