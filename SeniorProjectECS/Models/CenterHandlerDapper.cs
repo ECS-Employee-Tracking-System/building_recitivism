@@ -14,8 +14,12 @@ namespace SeniorProjectECS.Models
         {
             var con = DBHandler.GetSqlConnection();
             var centers = new Dictionary<int, Center>();
-            con.Query<Center, StaffMember, Center>("GetCenter", (center, staffMember) =>
+            con.Query<Center, StaffMember, Position, Center>("GetCenter", (center, staffMember, position) =>
             {
+                if(position != null)
+                {
+                    staffMember.Positions.Add(position);
+                }
                 if(centers.ContainsKey(center.CenterID))
                 {
                     centers[center.CenterID].Staff.Add(staffMember);
@@ -24,7 +28,7 @@ namespace SeniorProjectECS.Models
                     centers.Add(center.CenterID, center);
                 }
                 return center;
-            }, new { CenterID = id }, splitOn: "StaffMemberID", commandType: CommandType.StoredProcedure);
+            }, new { CenterID = id }, splitOn: "StaffMemberID,PositionID", commandType: CommandType.StoredProcedure);
 
             if (centers.Count == 0)
             {
