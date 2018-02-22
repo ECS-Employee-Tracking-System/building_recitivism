@@ -20,7 +20,7 @@ namespace SeniorProjectECS.Controllers
         public IActionResult Index(int? page)
         {
             PageNumber = (page ?? 1);
-            if(PageNumber <= 0) { PageNumber = 1; }
+            if (PageNumber <= 0) { PageNumber = 1; }
             ViewBag.PageNumber = PageNumber;
 
             var handler = new StaffHandlerDapper();
@@ -30,8 +30,8 @@ namespace SeniorProjectECS.Controllers
         }//end View Index
 
         public IActionResult Details(int? id)
-        {     
-            if(id != null)
+        {
+            if (id != null)
             {
                 var handle = new StaffHandlerDapper();
                 var result = handle.GetModel(id.GetValueOrDefault());
@@ -51,7 +51,7 @@ namespace SeniorProjectECS.Controllers
         [HttpPost]
         public ActionResult Create(StaffMember model)
         {
-            if(model != null)
+            if (model != null)
             {
                 var handle = new StaffHandlerDapper();
                 handle.AddModel(model);
@@ -105,14 +105,43 @@ namespace SeniorProjectECS.Controllers
 
         public IActionResult RemoveEducation(int? educationID, int? staffMemberID)
         {
-            if(educationID != null && staffMemberID != null)
+            if (educationID != null && staffMemberID != null)
             {
                 var con = DBHandler.GetSqlConnection();
-                con.Execute("RemoveStaffEducation", 
+                con.Execute("RemoveStaffEducation",
                     new { StaffMemberID = staffMemberID.GetValueOrDefault(),
-                    EducationID = educationID.GetValueOrDefault() }, 
+                        EducationID = educationID.GetValueOrDefault() },
                     commandType: System.Data.CommandType.StoredProcedure
                     );
+            }
+            return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
+        }
+
+        public IActionResult RemovePosition(int? staffMemberID, int? positionID)
+        {
+            if (staffMemberID != null && positionID != null)
+            {
+                using (var con = DBHandler.GetSqlConnection())
+                {
+                    con.Execute("RemovePosition",
+                        new { StaffMemberID = staffMemberID.GetValueOrDefault(),
+                            PositionID = positionID.GetValueOrDefault() },
+                        commandType: System.Data.CommandType.StoredProcedure
+                        );
+                }
+            }
+            return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
+        }
+
+        [HttpPost]
+        public IActionResult AddPosition(int? staffMemberID, String positionTitle)
+        {
+            if(staffMemberID != null)
+            {
+                using (var con = DBHandler.GetSqlConnection())
+                {
+                    con.Execute("AddNewPosition", new { StaffMemberID = staffMemberID, PositionTitle = positionTitle }, commandType: System.Data.CommandType.StoredProcedure);
+                }
             }
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }

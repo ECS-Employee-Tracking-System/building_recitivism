@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Positions[0].PositionTitle" class="control-label"></label>
-                <input class="form-control" type=text list=Position name="Positions[0].Title" placeholder="Lead Teacher"><datalist id=Position name="Position"></datalist>
+                <input asp-for="Positions[0].PositionTitle" class="form-control" list=Position placeholder="Lead Teacher"><datalist id=Position name="Positions[0].PositionTitle"></datalist>
                 <span asp-validation-for="Positions[0].PositionTitle" class="text-danger"></span>
             </div>
             <span data-toggle="collapse" data-target="#DirCred">

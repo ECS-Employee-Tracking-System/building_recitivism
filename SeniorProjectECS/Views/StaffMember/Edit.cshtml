@@ -33,14 +33,18 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Positions</label>
-                @for (int i = 0; i < Model.Positions.Count; i++)
+                @foreach (Position pos in Model.Positions)
                 {
-                <div class="form-group">
-                    <span style="float: left;padding-right: 15px;"><input asp-for="@Model.Positions[i].PositionTitle" class="form-control" readonly="readonly" type=text value="@Model.Positions[i].PositionTitle" name="Position"></span>
-                    <input type="button" value="Delete" class="btn btn-danger" onclick="deletePosition()">
-                </div>
+                    <div class="form-group">
+                        @pos.PositionTitle
+                        <button type="button" class="btn btn-danger" onclick="removePosition(url='@Url.Action("RemovePosition", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@pos.PositionID)">Remove</button>
+                    </div>
                 }
-                <input type="button" value="Add New Position" class="btn btn-default" onclick="addNewPosition()">
+                @if(Model.Positions.Count == 0)
+                {
+                    <br />
+                }
+                <input type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewPosition" value="Add New Position"/>
             </div>
             <span data-toggle="collapse" data-target="#DirCred">
                 <input type="checkbox" data-toggle="toggle" data-on='Hide Director Credentials' data-width="300" data-off='Show Director Credentials' data-target="#CDA"><br><br />
@@ -194,12 +198,10 @@
                 <span asp-validation-for="Center.Region" class="text-danger"></span>
             </div>
             @foreach (var edu in Model.Education)
-    {
-        <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
-}
-
+            {
+                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
+            }
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
-
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -213,6 +215,35 @@
             </div>
         </form>
 
+        <!-- Begin Add new position modal -->
+        <div id="addNewPosition" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form asp-action="AddPosition">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addNewPositionTitle">Add new position</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
+                            <div class="form-group">
+                                <label class="control-label">Position Title</label>
+                                <input class="form-control" type=text name="PositionTitle" placeholder="Lead Teacher" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End Add new position modal -->
+
+        <!-- Begin Add new education modal -->
         <div id="addNewEducation" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -251,6 +282,8 @@
                 </div>
             </div>
         </div>
+        <!-- End add new education modal -->
+
     </div>
 </div>
 

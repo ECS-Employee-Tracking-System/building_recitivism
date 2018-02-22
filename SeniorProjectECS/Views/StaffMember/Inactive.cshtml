@@ -23,7 +23,7 @@
                 <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
                 <td>@staff.LastName</td>
                 <td>@staff.Email</td>
-                <td>@staff.Position</td>
+                <td>@foreach(Position pos in staff.Positions) { @pos.PositionTitle; }</td>
                 <td>@staff.DateOfHire.Value.ToShortDateString()</td>
                 <td>@staff.Center.Name</td>
 
