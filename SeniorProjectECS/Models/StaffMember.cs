@@ -11,6 +11,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProjectECS.Models
 {
+    public struct CertCompletion
+    {
+        public Certification Cert { get; set; }
+        public DateTime DateCompleted { get; set; }
+    }
+
     public class StaffMember
     {
         // basic information
@@ -31,8 +37,6 @@ namespace SeniorProjectECS.Models
         [DataType(DataType.Date)]
         [Required]
         public DateTime? DateOfHire { get; set; }
-
-        public List<Position> Positions { get; set; }
 
         [DisplayName("Director Credentials")]
         public Boolean DirectorCredentials { get; set; }
@@ -86,16 +90,19 @@ namespace SeniorProjectECS.Models
         [DataType(DataType.Date)]
         public DateTime? TermDate { get; set; }
 
-        public Center Center { get; set; }
-        public List<Education> Education { get; set; }
-
         [DisplayName("Deactivate Staff Member")]
         public bool IsInactive { get; set; }
+
+        public Center Center { get; set; }
+        public List<Education> Education { get; set; }
+        public List<Position> Positions { get; set; }
+        public List<CertCompletion> CompletedCerts { get; set; }
 
         public StaffMember()
         {
             Education = new List<Education>();
             Positions = new List<Position>();
+            CompletedCerts = new List<CertCompletion>();
         }
     }//end class StaffMember
 }//end namespace SeniorProjecECS
