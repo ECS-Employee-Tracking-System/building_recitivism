@@ -15,12 +15,6 @@
     </table>
     <hr />
     <dl class="dl-horizontal">
-        <dt  type="hidden>
-            @Html.DisplayNameFor(model => model.StaffMemberID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StaffMemberID)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -46,11 +40,12 @@
             @Html.DisplayFor(model => model.DateOfHire)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Position)
+            @Html.DisplayNameFor(model => model.Positions[0].PositionTitle)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
+        @foreach (Position pos in Model.Positions)
+        {
+            <dd>@Html.DisplayFor(model => pos.PositionTitle)</dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.DirectorCredentials)
         </dt>

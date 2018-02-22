@@ -2,10 +2,10 @@
 @using SeniorProjectECS.Library;
 
 <!--Used to sort table with tablesorter script and css in layout -->
- <script type="text/javascript">
-$(document).ready(function () {
-    $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
-});
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+    });
 </script>
 
 <style type='text/css'>
@@ -103,10 +103,10 @@ $(document).ready(function () {
 </div>
 <div class="col-12 col-md-10 container jumbotron jumbotron-fluid">
 
-        <!--Session login here ex "Welcome sessionName" -->
+    <!--Session login here ex "Welcome sessionName" -->
     <!--Change Admin to be either admin or view only user based on who is logged in-->
-        <h2>Admin Staff Management Panel</h2>
-        
+    <h2>Admin Staff Management Panel</h2>
+
     <table class="col-12 col-md-10 col-sm-1 table table-hover table-bordered table-condensed tablesorter" id="myTable">
         <thead>
             <tr>
@@ -122,52 +122,56 @@ $(document).ready(function () {
             </tr>
         </thead>
         <tbody>
-        @foreach (var staff in Model)
-        {
-            // Filter inactive staff members
-            if (!staff.IsInactive)
+            @foreach (var staff in Model)
             {
-                // check if member is about to expire
-                String rowFormat;
-            if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
-            {
-                rowFormat = "danger";
-            }
-            else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
-            {
-                rowFormat = "warning";
-            }
-            else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
-            {
-                rowFormat = "info";
-            }
-            else
-            {
-                rowFormat = "";
-            }//end expiration check
+                // Filter inactive staff members
+                if (!staff.IsInactive)
+                {
+                    // check if member is about to expire
+                    String rowFormat;
 
-            <tr>
-                <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
-                <td>@staff.LastName</td>
-                <td>@staff.Email</td>
-                <td>@staff.Position</td>
-                <td>@staff.DateOfHire.Value.ToShortDateString()</td>
-                <td>@staff.Center.Name</td>
+                    if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
+                    {
+                        rowFormat = "danger";
+                    }
+                    else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+                    {
+                        rowFormat = "warning";
+                    }
+                    else if (staff.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+                    {
+                        rowFormat = "info";
+                    }
+                    else
+                    {
+                        rowFormat = "";
+                    }//end expiration check
 
-                <td>@staff.CDAType</td>
-                <td  class="@rowFormat">@staff.CDAExpiration?.ToShortDateString()</td>
-                <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
-            </tr>
+                    <tr>
+                        <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                        <td>@staff.LastName</td>
+                        <td>@staff.Email</td>
+                        <td>
+                            @foreach (Position pos in staff.Positions)
+                    {
+                                @pos.PositionTitle
+                            }
+                        </td>
+                        <td>@staff.DateOfHire.Value.ToShortDateString()</td>
+                        <td>@staff.Center.Name</td>
 
+                        <td>@staff.CDAType</td>
+                        <td class="@rowFormat">@staff.CDAExpiration?.ToShortDateString()</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
+                    </tr>
+
+                }
             }
-         }
         </tbody>
-        </table>
+    </table>
     <div>@Html.ActionLink("Previous", "Index", new { page = ViewBag.PageNumber - 1 }) | @Html.ActionLink("Next", "Index", new { page = ViewBag.PageNumber + 1 })</div><br />
     <div class="container">
-            <a class="btn btn-primary btn-default"@Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default"@Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
-             <a class="btn btn-primary btn-default"@Html.ActionLink("Manage User Accounts", "Index", "User")</a>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a>
     </div>
 </div>
-
-

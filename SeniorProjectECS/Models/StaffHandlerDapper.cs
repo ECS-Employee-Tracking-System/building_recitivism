@@ -20,26 +20,29 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var staffMembers = new Dictionary<int, StaffMember>();
-                con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMember", (staff, center, edu) =>
+                StaffMember staffMember = null;
+                con.Query<StaffMember, Position, Center, Education, StaffMember>("GetStaffMember", (staff, pos, center, edu) =>
                 {
-                    if (edu != null && staffMembers.ContainsKey(staff.StaffMemberID))
+                    if(staffMember == null)
                     {
-                        staffMembers[staff.StaffMemberID].Education.Add(edu);
+                        staffMember = staff;
                     }
-                    else
-                    {
-                        staff.Center = center;
-                        if (edu != null)
-                        {
-                            staff.Education.Add(edu);
-                        }
-                        staffMembers.Add(staff.StaffMemberID, staff);
-                    }
-                    return staff;
-                }, new { StaffMemberID = id }, splitOn: "CenterID,EducationID", commandType: CommandType.StoredProcedure);
 
-                return staffMembers.Values.First();
+                    if(pos != null && !staffMember.Positions.Any(p => p.PositionID == pos.PositionID))
+                    {
+                        staffMember.Positions.Add(pos);
+                    }
+
+                    if(edu != null && !staffMember.Education.Any(e => e.EducationID == edu.EducationID))
+                    {
+                        staffMember.Education.Add(edu);
+                    }
+                    staffMember.Center = center;
+
+                    return staff;
+                }, new { StaffMemberID = id }, splitOn: "PositionID,CenterID,EducationID", commandType: CommandType.StoredProcedure);
+
+                return staffMember;
             }//en using
         }//end GetModel()
 
@@ -51,22 +54,30 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var staffMembers = new Dictionary<int, StaffMember>();
-                con.Query<StaffMember, Center, Education, StaffMember>("GetStaffMember", (staff, center, edu) =>
+                var staffMembers = new List<StaffMember>();
+                con.Query<StaffMember, Position, Center, Education, StaffMember>("GetStaffMember", (staff, pos, center, edu) =>
                 {
-                    if (staffMembers.ContainsKey(staff.StaffMemberID))
+                    int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
+                    if (foundStaff == -1)
                     {
-                        staffMembers[staff.StaffMemberID].Education.Add(edu);
-                    }
-                    else
-                    {
-                        staff.Center = center;
-                        staff.Education.Add(edu);
-                        staffMembers.Add(staff.StaffMemberID, staff);
+                        if (pos != null) { staff.Positions.Add(pos); }
+                        if (center != null) { staff.Center = center; }
+                        if (edu != null) { staff.Education.Add(edu); }
+                        staffMembers.Add(staff);
+                    } else {
+                        if(pos != null && !staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
+                        {
+                            staffMembers[foundStaff].Positions.Add(pos);
+                        }
+
+                        if(edu != null && !staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
+                        {
+                            staffMembers[foundStaff].Education.Add(edu);
+                        }
                     }
                     return staff;
-                }, splitOn: "CenterID,EducationID", commandType: CommandType.StoredProcedure);
-                return staffMembers.Values;
+                }, splitOn: "PositionID,CenterID,EducationID", commandType: CommandType.StoredProcedure);
+                return staffMembers;
             }//end using
         }//end GetModels
 
@@ -83,6 +94,11 @@ namespace SeniorProjectECS.Models
                 using (var transaction = con.BeginTransaction())
                 {
                     model.StaffMemberID = con.Query<int>("AddNewStaffMember", BuildStaffMemberParams(model), transaction: transaction, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                    foreach(Position pos in model.Positions)
+                    {
+                        AddPositionsToModel(model.StaffMemberID, pos.PositionTitle, con, transaction);
+                    }
 
                     AddCenterToModel(model, con, transaction);
                     
@@ -126,6 +142,16 @@ namespace SeniorProjectECS.Models
             con.Execute("deleteStaffMember", new { StaffMemberID = id }, commandType: CommandType.StoredProcedure);
         }
 
+        public void AddPositionsToModel(int StaffMemberID, String PositionTitle, SqlConnection con = null, SqlTransaction transaction = null)
+        {
+            if (con == null)
+            {
+                con = DBHandler.GetSqlConnection();
+            }
+
+            var output = con.Execute("AddNewPosition", new { StaffMemberID = StaffMemberID, PositionTitle = PositionTitle }, transaction: transaction, commandType: CommandType.StoredProcedure);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -143,12 +169,12 @@ namespace SeniorProjectECS.Models
         }
 
         /// <summary>
-        /// 
+        /// Add an education to the model
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="edu"></param>
-        /// <param name="con"></param>
-        /// <param name="transaction"></param>
+        /// <param name="staffMemberID">The id of the staff member to add to</param>
+        /// <param name="edu">The education object to add</param>
+        /// <param name="con">The sql connection if any</param>
+        /// <param name="transaction">The transaction if any</param>
         public void AddEducationToModel(int staffMemberID, Education edu, SqlConnection con = null, SqlTransaction transaction = null)
         {
             if (con == null)
@@ -167,7 +193,7 @@ namespace SeniorProjectECS.Models
                 LastName = model.LastName,
                 Email = model.Email,
                 DateOfHire = model.DateOfHire,
-                Position = model.Position,
+                //Position = model.Position,
                 DirectorCredentials = model.DirectorCredentials,
                 DCExpiration = model.DCExpiration,
                 CDAInProgress = model.CDAInProgress,

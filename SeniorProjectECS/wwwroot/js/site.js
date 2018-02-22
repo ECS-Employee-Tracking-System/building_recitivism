@@ -34,9 +34,9 @@ function removeEducation(url, id) {
     window.location.href = url + "&EducationID=" + id;
 }//end removeEducation function
 
-function addEducationFields() {
-    //document.getElementById('newEducation').innerHTML +=
-}//end addEducationFields
+function removePosition(url, id) {
+    window.location.href = url + "&PositionID=" + id;
+}
 
 //---------------------------------------AJAX AutoFills----------------------------------
 //gets DegreeAbrrev list from database and puts in a select list
