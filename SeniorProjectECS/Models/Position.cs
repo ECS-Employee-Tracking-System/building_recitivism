@@ -13,6 +13,13 @@ namespace SeniorProjectECS.Models
         [DisplayName("Position")]
         public String PositionTitle { get; set; }
 
+        public List<Certification> RequiredCerts { get; set; }
+
+        public Position()
+        {
+            RequiredCerts = new List<Certification>();
+        }
+
         // todo add certification list
     }
 }

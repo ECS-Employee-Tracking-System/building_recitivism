@@ -1,76 +1,15 @@
 ﻿@model IEnumerable<StaffMember>
 @using SeniorProjectECS.Library;
 
-<!--Used to sort table with tablesorter script and css in layout -->
+<!--Used to sort table with tablesorter script and ` in layout -->
 <script type="text/javascript">
     $(document).ready(function () {
         $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
     });
 </script>
 
-<style type='text/css'>
-    #page-wrap {
-        width: 600px;
-        margin: 15px auto;
-        position: relative;
-    }
+<link rel="stylesheet" href="~/css/legendstyling.css" />
 
-    #main {
-        width: 390px;
-        float: left;
-    }
-
-    #sidebar {
-        width: 190px;
-        position: fixed;
-        left: 50%;
-        top: 90px;
-        margin: 0 0 0 110px;
-    }
-
-    .my-legend .legend-title {
-        text-align: left;
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 90%;
-    }
-
-    .my-legend .legend-scale ul {
-        margin: 0;
-        margin-bottom: 5px;
-        padding: 0;
-        float: left;
-        list-style: none;
-    }
-
-        .my-legend .legend-scale ul li {
-            font-size: 80%;
-            list-style: none;
-            margin-left: 0;
-            line-height: 18px;
-            margin-bottom: 2px;
-        }
-
-    .my-legend ul.legend-labels li span {
-        display: block;
-        float: left;
-        height: 16px;
-        width: 30px;
-        margin-right: 5px;
-        margin-left: 0;
-        border: 1px solid #999;
-    }
-
-    .my-legend .legend-source {
-        font-size: 70%;
-        color: #999;
-        clear: both;
-    }
-
-    .my-legend a {
-        color: #777;
-    }
-</style>
 
 <div class="container">
     <div class="row">
