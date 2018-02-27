@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SeniorProjectECS.Models.Certification>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CertificationID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CertName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CertExpireAmount)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CertificationID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CertName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CertExpireAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.CertificationID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.CertificationID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.CertificationID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
