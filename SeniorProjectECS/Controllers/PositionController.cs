@@ -45,7 +45,9 @@ namespace SeniorProjectECS.Controllers
         // GET: Position/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var handle = new PositionHandlerDapper();
+
+            return View(handle.GetModel(id));
         }
 
         // POST: Position/Edit/5
@@ -54,15 +56,6 @@ namespace SeniorProjectECS.Controllers
         {
             var handle = new PositionHandlerDapper();
             handle.UpdateModel(model);
-
-            return RedirectToAction("Index");
-        }
-
-        // GET: Position/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var handle = new PositionHandlerDapper();
-            handle.DeleteModel(id);
 
             return RedirectToAction("Index");
         }
