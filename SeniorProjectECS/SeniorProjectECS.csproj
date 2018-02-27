@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CertificationController.cs" />
     <Compile Remove="Models\ExampleModel.cs" />
     <Compile Remove="Models\StaffDBHandler.cs" />
   </ItemGroup>
