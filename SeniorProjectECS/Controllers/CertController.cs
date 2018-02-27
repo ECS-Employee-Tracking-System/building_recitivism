@@ -70,5 +70,15 @@ namespace SeniorProjectECS.Controllers
 
             return RedirectToAction("Index");
         }
+
+        //returns json to ajax call a list of all available certifications
+        [HttpGet]
+        public JsonResult GetCertificationList()
+        {
+            var con = DBHandler.GetSqlConnection();
+            String sql = "SELECT * FROM Certification";
+            var certList = con.Query(sql);
+            return Json(certList);
+        }//end GetDegreeAbrvList
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model SeniorProjectECS.Models.Position
-
+<script src="~/js/site.js" asp-append-version="true"></script>
 <h4>Position</h4>
 <hr />
 <div class="row">
@@ -15,11 +15,50 @@
                 <span asp-validation-for="PositionTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="RequiredCerts" class="control-label"></label>
+                @foreach (Certification cert in Model.RequiredCerts)
+                {
+                    <div class="form-group">
+                        <span>@cert.CertName</span>
+                        <input type="button" class="btn btn-danger" value="Remove" onclick="removeCert(url='@Url.Action("RemoveCertification", "Position", new { CertificationID = cert.CertificationID })', @Model.PositionID)" />
+                    </div>
+                }
+                <input type="button" class="btn btn-default" value="Add New Certification" data-toggle="modal" data-target="#addNewRequiredCert" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
+
+<!-- Begin Add new required certification modal -->
+<div id="addNewRequiredCert" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="AddRequiredCert">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewRequiredCertTitle">Add new position</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="PositionID" value="@Model.PositionID" />
+                    <div class="form-group">
+                        <label class="control-label">Position Title</label>
+                        <select id="certSelect" name="CertificationID" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Add new required certification modal -->
 
 <div>
     <a asp-action="Index">Back to List</a>
