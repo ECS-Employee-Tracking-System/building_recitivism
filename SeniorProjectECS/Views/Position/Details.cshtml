@@ -16,6 +16,15 @@
         <dd>
             @Html.DisplayFor(model => model.PositionTitle)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiredCerts)
+        </dt>
+        @for (int i= 0; i < Model.RequiredCerts.Count; i++)
+        {
+            <dd>
+                @Html.DisplayFor(model => model.RequiredCerts[i].CertName)
+            </dd>
+        }
     </dl>
 </div>
 <div>

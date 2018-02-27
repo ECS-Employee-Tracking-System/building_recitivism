@@ -11,7 +11,11 @@ namespace SeniorProjectECS.Models
     {
         public void AddModel(Position Model)
         {
-            throw new NotImplementedException();
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = "INSERT INTO Position (PositionTitle) VALUES (@PosTitle)";
+                con.Execute(sql, new { PosTitle = Model.PositionTitle });
+            }
         }
 
         public void DeleteModel(int id)
@@ -23,12 +27,29 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = "SELECT * FROM Position as p" +
-                    "Left Outer Join PositionReq as pr on pr.PositionID=p.PositionID" +
-                    "Left Outer Join Certification as c on c.CertificationID=pr.CertificationID" +
-                    "WHERE PositionID=@PosID";
+                String sql = "SELECT p.PositionID, p.PositionTitle, c.CertificationID, c.CertName, c.CertExpireAmount " +
+                             "FROM Position as p " +
+                             "Left Outer Join PositionReq as pr on pr.PositionID = p.PositionID " +
+                             "Left Outer Join Certification as c on c.CertificationID = pr.CertificationID " +
+                             "WHERE p.PositionID=@PosID";
 
-                return null;
+                Position position = null;
+                con.Query<Position, Certification, Position>(sql, (pos, cert) =>
+                {
+                    if(position == null)
+                    {
+                        position = pos;
+                    }
+
+                    if(cert != null && !position.RequiredCerts.Any(c => c.CertificationID == cert.CertificationID))
+                    {
+                        position.RequiredCerts.Add(cert);
+                    }
+
+                    return pos;
+                }, new { PosID = id }, splitOn: "PositionID, CertificationID");
+
+                return position;
             }
         }
 
@@ -43,7 +64,11 @@ namespace SeniorProjectECS.Models
 
         public void UpdateModel(Position Model)
         {
-            throw new NotImplementedException();
+            using(var con = DBHandler.GetSqlConnection())
+            {
+                String sql = "UPDATE Position SET PositionTitle=@PosTitle WHERE PositionID=@PosID";
+                con.Execute(sql, new { PosTitle = Model.PositionTitle, PosID = Model.PositionID });
+            }
         }
     }
 }
