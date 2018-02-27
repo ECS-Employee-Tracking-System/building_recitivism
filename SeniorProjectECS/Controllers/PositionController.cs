@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SeniorProjectECS.Models;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -12,13 +13,17 @@ namespace SeniorProjectECS.Controllers
         // GET: Position
         public ActionResult Index()
         {
-            return View();
+            var handle = new PositionHandlerDapper();
+
+            return View(handle.GetModels());
         }
 
         // GET: Position/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var handle = new PositionHandlerDapper();
+
+            return View(handle.GetModel(id));
         }
 
         // GET: Position/Create
@@ -29,19 +34,12 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Position/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Position model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            var handle = new PositionHandlerDapper();
+            handle.AddModel(model);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Position/Edit/5
@@ -52,42 +50,21 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Position/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Position model)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var handle = new PositionHandlerDapper();
+            handle.UpdateModel(model);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Position/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
+            var handle = new PositionHandlerDapper();
+            handle.DeleteModel(id);
 
-        // POST: Position/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }
