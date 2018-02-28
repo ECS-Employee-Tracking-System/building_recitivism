@@ -14,7 +14,9 @@ namespace SeniorProjectECS.Models
     public struct CertCompletion
     {
         public Certification Cert { get; set; }
-        public DateTime DateCompleted { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? DateCompleted { get; set; }
     }
 
     public class StaffMember
