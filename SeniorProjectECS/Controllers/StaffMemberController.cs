@@ -133,6 +133,20 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
 
+        public IActionResult RemoveCertification(int? StaffMemberID, int? certificationID)
+        {
+            if(StaffMemberID != null && certificationID != null)
+            {
+                using(var con = DBHandler.GetSqlConnection())
+                {
+                    String sql = "DELETE CertCompletion WHERE StaffMemberID=@StaffID AND CertificationID=@CertID";
+                    con.Execute(sql, new { StaffID = StaffMemberID.GetValueOrDefault(), CertID = certificationID.GetValueOrDefault() });
+                }
+            }
+
+            return RedirectToAction("Edit", new { id = StaffMemberID.GetValueOrDefault() });
+        }
+
         [HttpPost]
         public IActionResult AddPosition(int? staffMemberID, String positionTitle)
         {
@@ -168,6 +182,22 @@ namespace SeniorProjectECS.Controllers
                 handle.AddEducationToModel(staffMemberID.GetValueOrDefault(), edu);
             }
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
+        }
+
+        public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime DateCompleted)
+        {
+            if(StaffMemberID != null && CertificationID != null)
+            {
+                using(var con = DBHandler.GetSqlConnection())
+                {
+                    String sql = "INSERT INTO CertCompletion (StaffMemberID, CertificationID, CertCompletionDate) VALUES (@StaffID, @CertID, @DateCompleted)";
+                    try { 
+                        con.Execute(sql, new { StaffID = StaffMemberID, CertID = CertificationID, DateCompleted = DateCompleted });
+                    } catch (System.Data.SqlClient.SqlException e) { }
+                }
+            }
+
+            return RedirectToAction("Edit", new { id = StaffMemberID.GetValueOrDefault() });
         }
 
         //returns json to ajax call a list of all available degree abreviations

@@ -34,7 +34,18 @@ function removeEducation(url, id) {
     window.location.href = url + "&EducationID=" + id;
 }//end removeEducation function
 
+//removed position from staffmember
 function removePosition(url, id) {
+    window.location.href = url + "&PositionID=" + id;
+}
+
+//remove completed certification from staffmember
+function removeCertification(url, id) {
+    window.location.href = url + "&StaffMemberID=" + id;
+}
+
+//remove certification from position
+function removeCert(url, id) {
     window.location.href = url + "&PositionID=" + id;
 }
 
@@ -135,5 +146,17 @@ $.ajax({
         })
     },
 });
+
+//gets Certifications list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '/cert/GetCertificationList',
+    data: 'certifications',
+    success: function (data) {
+        $.each(data, function (index, value) {
+            $('<option>').val(value.CertificationID).text(value.CertName).appendTo("#certSelect");
+        })
+    }
+})
 
 //------------------------------------End AJAX AutoFills----------------------------------

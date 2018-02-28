@@ -12,31 +12,37 @@ namespace SeniorProjectECS.Models
     {
         public Center GetModel(int id)
         {
-            var con = DBHandler.GetSqlConnection();
-            var centers = new Dictionary<int, Center>();
-            con.Query<Center, StaffMember, Position, Center>("GetCenter", (center, staffMember, position) =>
+            using (var con = DBHandler.GetSqlConnection())
             {
-                if(position != null)
+                var centers = new Dictionary<int, Center>();
+                con.Query<Center, StaffMember, Position, Center>("GetCenter", (center, staffMember, position) =>
                 {
-                    staffMember.Positions.Add(position);
-                }
-                if(centers.ContainsKey(center.CenterID))
-                {
-                    centers[center.CenterID].Staff.Add(staffMember);
-                } else {
-                    center.Staff.Add(staffMember);
-                    centers.Add(center.CenterID, center);
-                }
-                return center;
-            }, new { CenterID = id }, splitOn: "StaffMemberID,PositionID", commandType: CommandType.StoredProcedure);
+                    if (position != null)
+                    {
+                        staffMember.Positions.Add(position);
+                    }
+                    if (centers.ContainsKey(center.CenterID))
+                    {
+                        centers[center.CenterID].Staff.Add(staffMember);
+                    }
+                    else
+                    {
+                        center.Staff.Add(staffMember);
+                        centers.Add(center.CenterID, center);
+                    }
+                    return center;
+                }, new { CenterID = id }, splitOn: "StaffMemberID,PositionID", commandType: CommandType.StoredProcedure);
 
-            if (centers.Count == 0)
-            {
-                String sql = "SELECT * FROM Center WHERE CenterID = @id";
-                var simpleCenter = con.Query<Center>(sql, new { id = id });
-                return simpleCenter.FirstOrDefault();
-            } else {
-                return centers.Values.First(); ;
+                if (centers.Count == 0)
+                {
+                    String sql = "SELECT * FROM Center WHERE CenterID = @id";
+                    var simpleCenter = con.Query<Center>(sql, new { id = id });
+                    return simpleCenter.FirstOrDefault();
+                }
+                else
+                {
+                    return centers.Values.First(); ;
+                }
             }
         }
 

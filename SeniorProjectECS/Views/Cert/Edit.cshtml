@@ -1,0 +1,35 @@
+﻿@model SeniorProjectECS.Models.Certification
+
+<h4>Certification</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="CertificationID" class="form-control" type="hidden"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="CertName" class="control-label"></label>
+                <input asp-for="CertName" class="form-control" />
+                <span asp-validation-for="CertName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CertExpireAmount" class="control-label"></label>
+                <input asp-for="CertExpireAmount" class="form-control" />
+                <span asp-validation-for="CertExpireAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
