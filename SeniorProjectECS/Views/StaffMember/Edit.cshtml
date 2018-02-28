@@ -183,6 +183,29 @@
                 <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CompletedCerts" class="control-label"></label>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Completion Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int j=0; j<Model.CompletedCerts.Count; j++)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.CompletedCerts[j].Cert.CertName)</td>
+                                <td>@Html.DisplayFor(model => model.CompletedCerts[j].DateCompleted)</td>
+                                <td><input type="button" class="btn btn-danger" value="Remove" onclick="removeCertification(url='@Url.Action("RemoveCertification", "StaffMember", new { CertificationID = Model.CompletedCerts[j].Cert.CertificationID })', @Model.StaffMemberID)" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="button" class="btn btn-default" value="Add Completed Certification" data-toggle="modal" data-target="#addNewCompletedCert" />
+            </div>
+            <div class="form-group">
                 <label asp-for="Center.Name" class="control-label"></label>
                 <input class="form-control" value="@Model.Center.Name" type=text list=CenterName name="Center.Name" placeholder="Orange Park"><datalist id=CenterName name="Center.Name"></datalist>
                 <span asp-validation-for="Center.Name" class="text-danger"></span>
@@ -287,6 +310,38 @@
             </div>
         </div>
         <!-- End add new education modal -->
+
+        <!-- Begin Add new required certification modal -->
+        <div id="addNewCompletedCert" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form asp-action="AddCompletedCert">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addNewCompletedCertTitle">Add new position</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
+                            <div class="form-group">
+                                <label class="control-label">Certification</label>
+                                <select id="certSelect" name="CertificationID" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Date Completed</label>
+                                <input type="date" id="DateCompleted" name="DateCompleted" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End Add new required certification modal -->
 
     </div>
 </div>

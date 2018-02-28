@@ -39,7 +39,12 @@ function removePosition(url, id) {
     window.location.href = url + "&PositionID=" + id;
 }
 
-//removed certification from position
+//remove completed certification from staffmember
+function removeCertification(url, id) {
+    window.location.href = url + "&StaffMemberID=" + id;
+}
+
+//remove certification from position
 function removeCert(url, id) {
     window.location.href = url + "&PositionID=" + id;
 }
