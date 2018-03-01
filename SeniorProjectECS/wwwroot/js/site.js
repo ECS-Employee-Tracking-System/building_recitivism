@@ -120,10 +120,10 @@ $.ajax({
     url: '/staffMember/GetPositionList',
     data: 'position',
     success: function (data) {
-        //console.log(data);
+        console.log(data);
         $.each(data, function (index, v) {
             $.each(v, function (index, value) {
-                //console.log(index, value);
+                console.log(index, value);
                 $('<option>').val(value).text(value).appendTo("#Position");
             })
         })
@@ -137,9 +137,9 @@ $.ajax({
     url: '/staffMember/GetCenterList',
     data: 'centers',
     success: function (data) {
-        //console.log(data);
+        console.log(data);
         $.each(data, function (index, value) {
-            //console.log(value.name);
+            console.log(value.name);
             $('<option>').val(value.name).text(value.name).appendTo("#CenterName");
             $('<option>').val(value.county).text(value.county).appendTo("#CenterCounty");
             $('<option>').val(value.region).text(value.region).appendTo("#CenterRegion");

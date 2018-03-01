@@ -204,7 +204,6 @@ namespace SeniorProjectECS.Models
                 LastName = model.LastName,
                 Email = model.Email,
                 DateOfHire = model.DateOfHire,
-                //Position = model.Position,
                 DirectorCredentials = model.DirectorCredentials,
                 DCExpiration = model.DCExpiration,
                 CDAInProgress = model.CDAInProgress,
