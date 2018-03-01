@@ -55,6 +55,7 @@ namespace SeniorProjectECS.Controllers
                         if(BCrypt.Net.BCrypt.Verify(LoginAttempt.PasswordHash, data.First().PasswordHash))
                         {
                             HttpContext.Session.SetInt32("AccessLevel", data.First().AccessLevel);
+                            return RedirectToAction("Index", "StaffMember");
                         }
                     }
 

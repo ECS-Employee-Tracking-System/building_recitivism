@@ -24,7 +24,7 @@ namespace SeniorProjectECS
         {
             services.AddMvc(options =>
             {
-                options.Filters.Add(new AuthValidateFilter());
+                //options.Filters.Add(new AuthValidateFilter());
             });
 
             // Adds a default in-memory implementation of IDistributedCache

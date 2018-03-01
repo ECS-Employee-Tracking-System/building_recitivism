@@ -204,50 +204,60 @@ namespace SeniorProjectECS.Controllers
         [HttpGet]
         public JsonResult GetDegreeAbrvList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT DegreeAbrv FROM Education";
-            var degreeAbrvlist = con.Query(sql);
-            return Json(degreeAbrvlist);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT DegreeAbrv FROM Education";
+                var degreeAbrvlist = con.Query(sql);
+                return Json(degreeAbrvlist);
+            }
         }//end GetDegreeAbrvList
 
         //returns json to ajax call a list of all available degree level
         [HttpGet]
         public JsonResult GetDegreeLevelList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT DegreeLevel FROM Education";
-            var degreeLevellist = con.Query(sql);
-            return Json(degreeLevellist);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT DegreeLevel FROM Education";
+                var degreeLevellist = con.Query(sql);
+                return Json(degreeLevellist);
+            }
         }//end GetDegreeLevelList
 
         //returns json to ajax call a list of all available degree type
         [HttpGet]
         public JsonResult GetDegreeTypeList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT DegreeType FROM Education";
-            var degreeTypelist = con.Query(sql);
-            return Json(degreeTypelist);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT DegreeType FROM Education";
+                var degreeTypelist = con.Query(sql);
+                return Json(degreeTypelist);
+            }
         }//end GetDegreetypeList
 
         //returns json to ajax call a list of all available degree detail
         [HttpGet]
         public JsonResult GetDegreeDetailList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT DegreeDetail FROM Education";
-            var degreeDetaillist = con.Query(sql);
-            return Json(degreeDetaillist);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT DegreeDetail FROM Education";
+                var degreeDetaillist = con.Query(sql);
+                return Json(degreeDetaillist);
+            }
         }//end GetDegreeDetailList
 
         //returns json to ajax call a list of all available centers
         [HttpGet]
         public JsonResult GetPositionList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT PositionTitle FROM Position";
-            var positions = con.Query(sql);
-            return Json(positions);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT PositionTitle FROM Position";
+                var positions = con.Query(sql);
+                return Json(positions);
+            }
         }//end GetCenterList
 
 
@@ -255,10 +265,12 @@ namespace SeniorProjectECS.Controllers
         [HttpGet]
         public JsonResult GetCenterList()
         {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT DISTINCT * FROM Center";
-            var centers = con.Query<Center>(sql);
-            return Json(centers);
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"SELECT DISTINCT * FROM Center";
+                var centers = con.Query<Center>(sql);
+                return Json(centers);
+            }
         }//end GetCenterList
     }
 
