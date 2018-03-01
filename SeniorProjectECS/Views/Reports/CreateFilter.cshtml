@@ -11,7 +11,14 @@
                 <div id="FirstNameList">
                     <input asp-for="FirstName[0]" class="form-control" />
                 </div>
-                <button type="button" class="btn btn-default" onclick="addFirstNameField()">Add Another</button>
+                <button type="button" class="btn btn-default" onclick="addTextField('FirstName')">Add Another</button>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <div id="PositionList">
+                    <select id="Position_0_" name="Position[0]" class="form-control"></select>
+                </div>
+                <button type="button" class="btn btn-default" onclick="addSelectField('Position')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfHire" class="control-label"></label>

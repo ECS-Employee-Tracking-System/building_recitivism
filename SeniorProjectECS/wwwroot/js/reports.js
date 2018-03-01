@@ -1,13 +1,24 @@
-﻿function addFirstNameField() {
-    var numInputs = $('#FirstNameList').children().length;
+﻿function addTextField(fieldName) {
+    var numInputs = $('#' + fieldName + 'List').children().length;
     $('<input>').attr({
         class: 'form-control',
         type: 'text',
-        id: 'FirstName_' + numInputs + '_',
-        name: 'FirstName[' + numInputs + ']'
-    }).appendTo('#FirstNameList');
+        id: fieldName + '_' + numInputs + '_',
+        name: fieldName + '[' + numInputs + ']'
+    }).appendTo('#' + fieldName + 'List');
 }
 
+function addSelectField(fieldName) {
+    var numInputs = $('#' + fieldName + 'List').children().length;
+    $('<select>').attr({
+        class: 'form-control',
+        id: fieldName + '_' + numInputs + '_',
+        name: fieldName + '[' + numInputs + ']'
+    }).appendTo('#' + fieldName + 'List');
+
+    var $options = $('#' + fieldName + '_0_ > option').clone();
+    $('#' + fieldName + '_' + numInputs + '_').append($options);
+}
 
 
 //gets filter list from database and puts in a select list
@@ -68,25 +79,26 @@ $.ajax({
         degreeDetails = [...new Set(degreeDetails)];
 
         $.each(centerNames, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerNames");
+            $('<option>').val(value).text(value).appendTo("#centerNames_0_");
         })
         $.each(centerCounties, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerCounties");
+            $('<option>').val(value).text(value).appendTo("#centerCounties_0_");
         })
         $.each(centerRegions, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerRegions");
+            $('<option>').val(value).text(value).appendTo("#centerRegions_0_");
         })
         $.each(positions, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#positions");
+            console.log(value);
+            $('<option>').val(value).text(value).appendTo("#Position_0_");
         })
         $.each(degreeLevels, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeLevels");
+            $('<option>').val(value).text(value).appendTo("#degreeLevels_0_");
         })
         $.each(degreeTypes, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeTypes");
+            $('<option>').val(value).text(value).appendTo("#degreeTypes_0_");
         })
         $.each(degreeDetails, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeDetails");
+            $('<option>').val(value).text(value).appendTo("#degreeDetails_0_");
         })
     }
 })
