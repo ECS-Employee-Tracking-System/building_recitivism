@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<StaffMember>
 
-    <!--Used to sort table with tablesorter script and css in layout -->
+<div class="row">
+    <img src="~/images/ecslogo.png" class="img-responsive" align="left"  style="width: 165px; height: 55px"/>
+    </div>
+    
+<!--Used to sort table with tablesorter script and css in layout -->
     <script type="text/javascript">
         $(document).ready(function () {
             $("#myTable").tablesorter();
         });
     </script>
-
-
+<div class="table"> 
+    
     <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="30">30 Days or Less</a>
     <br />
 
@@ -15,7 +19,7 @@
     <br />
     <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="90">90 Days or Less</a>
     <br />
-
+    </div>
 
 
     <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
@@ -28,14 +32,14 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var cdaexpiration in Model)
-        {
-        <tr>
-            <td><a asp-controller="StaffMember" asp-action="Details" asp-route-id="@cdaexpiration.StaffMemberID">@cdaexpiration.FirstName</a></td>
-            <td>@cdaexpiration.LastName</td>
-            <td>@cdaexpiration.Email</td>
-            <td>@cdaexpiration.CDAExpiration?.ToShortDateString()</td>
-        </tr>
-         }
+            @foreach (var cdaexpiration in Model)
+            {
+                <tr>
+                    <td><a asp-controller="StaffMember" asp-action="Details" asp-route-id="@cdaexpiration.StaffMemberID">@cdaexpiration.FirstName</a></td>
+                    <td>@cdaexpiration.LastName</td>
+                    <td>@cdaexpiration.Email</td>
+                    <td>@cdaexpiration.CDAExpiration?.ToShortDateString()</td>
+                </tr>
+            }
         </tbody>
     </table>
