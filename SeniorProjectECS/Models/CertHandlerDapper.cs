@@ -22,7 +22,10 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = "DELETE FROM Certification WHERE CertificationID=@CertID";
+                var sql = @"
+                    DELETE FROM CertCompletion WHERE CertificationID=@CertID
+                    DELETE FROM PositionReq WHERE CertificationID=@CertID
+                    DELETE FROM Certification WHERE CertificationID=@CertID";
                 con.Execute(sql, new { CertID = id });
             }
         }
