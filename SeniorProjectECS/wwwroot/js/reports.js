@@ -79,26 +79,32 @@ $.ajax({
         degreeDetails = [...new Set(degreeDetails)];
 
         $.each(centerNames, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerNames_0_");
+            $('<option>').val('').text('').appendTo("#CenterName_0_");
+            $('<option>').val(value).text(value).appendTo("#CenterName_0_");
         })
         $.each(centerCounties, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerCounties_0_");
+            $('<option>').val('').text('').appendTo("#CenterCounty_0_");
+            $('<option>').val(value).text(value).appendTo("#CenterCounty_0_");
         })
         $.each(centerRegions, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#centerRegions_0_");
+            $('<option>').val('').text('').appendTo("#CenterRegion_0_");
+            $('<option>').val(value).text(value).appendTo("#CenterRegion_0_");
         })
         $.each(positions, function (index, value) {
-            console.log(value);
+            $('<option>').val('').text('').appendTo("#Position_0_");
             $('<option>').val(value).text(value).appendTo("#Position_0_");
         })
         $.each(degreeLevels, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeLevels_0_");
+            $('<option>').val('').text('').appendTo("#EducationLevel_0_");
+            $('<option>').val(value).text(value).appendTo("#EducationLevel_0_");
         })
         $.each(degreeTypes, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeTypes_0_");
+            $('<option>').val('').text('').appendTo("#EducationType_0_");
+            $('<option>').val(value).text(value).appendTo("#EducationType_0_");
         })
         $.each(degreeDetails, function (index, value) {
-            $('<option>').val(value).text(value).appendTo("#degreeDetails_0_");
+            $('<option>').val('').text('').appendTo("#EducationDetail_0_");
+            $('<option>').val(value).text(value).appendTo("#EducationDetail_0_");
         })
     }
 })
