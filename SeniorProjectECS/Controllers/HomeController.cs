@@ -55,6 +55,19 @@ namespace SeniorProjectECS.Controllers
                         if(BCrypt.Net.BCrypt.Verify(LoginAttempt.PasswordHash, data.First().PasswordHash))
                         {
                             HttpContext.Session.SetInt32("AccessLevel", data.First().AccessLevel);
+                            HttpContext.Session.SetString("LogUserName", data.First().FirstName);
+                            if (HttpContext.Session.GetInt32("AccessLevel") == 0)
+                            {
+                                HttpContext.Session.SetString("AccessRole", "Seed");
+                            }
+                            if (HttpContext.Session.GetInt32("AccessLevel") == 1)
+                            {
+                                HttpContext.Session.SetString("AccessRole", "Admin");
+                            }
+                            if (HttpContext.Session.GetInt32("AccessLevel") == 2)
+                            {
+                                HttpContext.Session.SetString("AccessRole", "View Only User");
+                            }
                             return RedirectToAction("Index", "StaffMember");
                         }
                     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PagedList;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 
 namespace SeniorProjectECS.Controllers
@@ -25,7 +26,8 @@ namespace SeniorProjectECS.Controllers
 
             var handler = new StaffHandlerDapper();
             var results = handler.GetModels();
-
+            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
+            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             return View(results.ToList().ToPagedList(PageNumber, PageSize));
         }//end View Index
 
