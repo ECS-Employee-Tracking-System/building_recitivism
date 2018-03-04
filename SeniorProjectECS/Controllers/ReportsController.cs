@@ -37,7 +37,7 @@ namespace SeniorProjectECS.Controllers
                 returnModel.Filter = Model;
             }
 
-            return RedirectToAction("Details", returnModel);
+            return View("Details", returnModel);
         }
 
         public ActionResult Details(StaffFilterViewModel model)
