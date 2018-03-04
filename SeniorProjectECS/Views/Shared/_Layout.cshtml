@@ -49,30 +49,37 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SeniorProjectECS</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Dashboard</a><br />
-                            <a class="dropdown-item" asp-area="" asp-controller="Center" asp-action="Index">Centers</a><br />
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">View Only User</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Staff</a><br />
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="CDACompliance">CDA Compliance</a><br />
-                        </div>
-                    </li>
+            <div class=" navbar-collapse collapse">
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Dashboard</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="Center" asp-action="Index">Centers</a><br />
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">View Only User</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Staff</a><br />
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="CDACompliance">CDA Compliance</a><br />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar navbar-right">
+                    <ul>
+                        <li> <input type="button" class="glyphicon-log-in" value="Log Out" onclick="location.href='@Url.Action("Logout", "Home")'" /></li>
+                    </ul>
+                </div>
             </div>
-           <div><input type="button" class="btn btn-primary" value="Log Out" onclick="location.href='@Url.Action("Logout", "Home")'" /></div>
         </div>
     </nav>
     <div class="container body-content">
