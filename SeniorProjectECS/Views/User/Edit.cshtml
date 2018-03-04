@@ -54,21 +54,34 @@
                             <input type="hidden" name="id" value="@Model.UserID" />
                             <div class="form-group">
                                 <label class="control-label">New Password</label>
-                                <input id="PasswordHash" class="form-control" type=text name="PasswordHash">
+                                <input id="PasswordHash" class="form-control" type="password" name="PasswordHash">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Retype New Password</label>
-                                <input id="PasswordHashRetype" class="form-control" type=text name="PasswordHashRetype">
+                                <input id="PasswordHashRetype" class="form-control" type="password" name="PasswordHashRetype">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <script>
                                 function validatePassword() {
+
+                                    var password = document.getElementById("PasswordHash").value;
+                                    var confirmPassword = document.getElementById("PasswordHashRetype").value;
+                                    if (password != confirmPassword) {
+                                        alert("Passwords do not match.");
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                            </script>
+                            <script>
+                                function CancelPassword() {
                                     return false;
-                                } </script>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onsubmit="return validatePassword()">Close</button>
-                            
-                            <input type="submit" value="Submit" class="btn btn-primary" />
+                                }
+                            </script>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onsubmit="return CancelPassword()">Close</button>
+
+                            <input type="submit" value="Submit" class="btn btn-primary" onclick="return validatePassword()" />
                         </div>
                     </form>
                 </div>
