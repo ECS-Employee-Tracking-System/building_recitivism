@@ -21,6 +21,7 @@ namespace SeniorProjectECS.Library
                 var isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true)
                     .Any(a => a.GetType().Equals(typeof(DefaultAction)));
 
+                // If we are a default action don't redirect
                 if(isDefined)
                 {
                     return;
