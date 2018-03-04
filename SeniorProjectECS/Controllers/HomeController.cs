@@ -78,5 +78,11 @@ namespace SeniorProjectECS.Controllers
 
             return RedirectToAction("Index");
         }
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
     }
+
 }
