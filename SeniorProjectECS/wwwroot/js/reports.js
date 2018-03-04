@@ -78,32 +78,39 @@ $.ajax({
         degreeTypes = [...new Set(degreeTypes)];
         degreeDetails = [...new Set(degreeDetails)];
 
+        $('<option>').val('').text('').appendTo("#CenterName_0_");
         $.each(centerNames, function (index, value) {
-            $('<option>').val('').text('').appendTo("#CenterName_0_");
             $('<option>').val(value).text(value).appendTo("#CenterName_0_");
         })
-        $.each(centerCounties, function (index, value) {
-            $('<option>').val('').text('').appendTo("#CenterCounty_0_");
+
+        $('<option>').val('').text('').appendTo("#CenterCounty_0_");
+        $.each(centerCounties, function (index, value)  {
             $('<option>').val(value).text(value).appendTo("#CenterCounty_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#CenterRegion_0_");
         $.each(centerRegions, function (index, value) {
-            $('<option>').val('').text('').appendTo("#CenterRegion_0_");
+            
             $('<option>').val(value).text(value).appendTo("#CenterRegion_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#Position_0_");
         $.each(positions, function (index, value) {
-            $('<option>').val('').text('').appendTo("#Position_0_");
             $('<option>').val(value).text(value).appendTo("#Position_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#EducationLevel_0_");
         $.each(degreeLevels, function (index, value) {
-            $('<option>').val('').text('').appendTo("#EducationLevel_0_");
             $('<option>').val(value).text(value).appendTo("#EducationLevel_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#EducationType_0_");
         $.each(degreeTypes, function (index, value) {
-            $('<option>').val('').text('').appendTo("#EducationType_0_");
             $('<option>').val(value).text(value).appendTo("#EducationType_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#EducationDetail_0_");
         $.each(degreeDetails, function (index, value) {
-            $('<option>').val('').text('').appendTo("#EducationDetail_0_");
             $('<option>').val(value).text(value).appendTo("#EducationDetail_0_");
         })
     }
