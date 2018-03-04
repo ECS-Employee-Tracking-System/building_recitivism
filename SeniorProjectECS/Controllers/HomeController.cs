@@ -50,7 +50,7 @@ namespace SeniorProjectECS.Controllers
                     String sql = "SELECT * FROM ECSUser WHERE Email=@AttemptEmail";
                     var data = con.Query<User>(sql, new { AttemptEmail = LoginAttempt.Email });
 
-                    if(data.Count() > 0)
+                    if((data.Count() > 0 ) && ((LoginAttempt.PasswordHash) != null))
                     {
                         if(BCrypt.Net.BCrypt.Verify(LoginAttempt.PasswordHash, data.First().PasswordHash))
                         {

@@ -74,7 +74,7 @@ namespace SeniorProjectECS.Controllers
         [HttpPost]
         public IActionResult ChangePassword(int? id, String PasswordHash)
         {
-            if (id != null)
+            if (id != null && PasswordHash != null)
             {
                 using (var con = DBHandler.GetSqlConnection())
                 {
