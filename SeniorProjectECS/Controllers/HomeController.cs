@@ -16,6 +16,7 @@ namespace SeniorProjectECS.Controllers
         [DefaultAction]
         public IActionResult Index()
         {
+            ViewBag.loginStatus = HttpContext.Session.GetString("LoginStatus");
             return View();
         }
 
@@ -56,6 +57,7 @@ namespace SeniorProjectECS.Controllers
                         {
                             HttpContext.Session.SetInt32("AccessLevel", data.First().AccessLevel);
                             HttpContext.Session.SetString("LogUserName", data.First().FirstName);
+
                             if (HttpContext.Session.GetInt32("AccessLevel") == 0)
                             {
                                 HttpContext.Session.SetString("AccessRole", "Seed");
@@ -68,14 +70,16 @@ namespace SeniorProjectECS.Controllers
                             {
                                 HttpContext.Session.SetString("AccessRole", "View Only User");
                             }
+                            var user = HttpContext.Session.GetString("LogUserName");
+                            HttpContext.Session.SetString("LoginStatus", user + " is Logged in");
                             return RedirectToAction("Index", "StaffMember");
                         }
                     }
-
+                    HttpContext.Session.SetString("LoginStatus", "Login Failed, Please Try Again");
                     return RedirectToAction("Index");
                 }
             }
-
+            HttpContext.Session.SetString("LoginStatus", "Login Failed, Please Try Again");
             return RedirectToAction("Index");
         }
         public IActionResult LogOut()
