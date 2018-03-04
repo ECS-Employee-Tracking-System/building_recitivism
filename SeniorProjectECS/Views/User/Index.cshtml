@@ -44,9 +44,22 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.LastName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AccessLevel)
-                    </td>
+                    @if (item.AccessLevel == 0)
+                    {
+                        <td>Seed</td>
+                    } else if (item.AccessLevel == 1) 
+                    {
+                        <td>Admin</td>
+                    }
+                    else if (item.AccessLevel == 2)
+                    {
+                        <td>View Only</td >
+                    }
+                    else
+                    {
+
+                        <td>Unknown</td>
+                    }
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
