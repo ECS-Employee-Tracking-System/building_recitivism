@@ -92,7 +92,7 @@ namespace SeniorProjectECS.Controllers
         {
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
-                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive,p.PositionID,p.PositionTitle, c.CenterID,c.Name,c.County,c.Region, e.EducationID,e.DegreeAbrv, " + 
+                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID,c.Name,c.County,c.Region, e.EducationID,e.DegreeAbrv, " + 
                          "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount " +
                          "FROM StaffMember as sm " +
                          "left Outer JOIN StaffPosition as sp on sp.StaffMemberID=sm.StaffMemberID " +
