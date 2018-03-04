@@ -1,41 +1,45 @@
 ﻿@model IEnumerable<StaffMember>
 
-    <!--Used to sort table with tablesorter script and css in layout -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#myTable").tablesorter();
-        });
-    </script>
+<div class="row">
+    <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
+</div>
+
+<!--Used to sort table with tablesorter script and css in layout -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myTable").tablesorter();
+    });
+</script>
+<br />
+
+<table style="border:ridge; padding:10px">
+    <tr> <td><a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="30">30 Days or Less</a></td> </tr>
+    
+    <tr> <td> <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="60">60 Days or Less</a> </td> </tr>
+    
+    <tr> <td><a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="90">90 Days or Less</a> </td> </tr>
+
+</table>
 
 
-    <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="30">30 Days or Less</a>
-    <br />
-
-    <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="60">60 Days or Less</a>
-    <br />
-    <a asp-controller="Reports" asp-action="CDACompliance" asp-route-NumberOfDays="90">90 Days or Less</a>
-    <br />
-
-
-
-    <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
-        <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Email</th>
-                <th>Date of Expiration</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var cdaexpiration in Model)
-        {
+<table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
+    <thead>
         <tr>
-            <td><a asp-controller="StaffMember" asp-action="Details" asp-route-id="@cdaexpiration.StaffMemberID">@cdaexpiration.FirstName</a></td>
-            <td>@cdaexpiration.LastName</td>
-            <td>@cdaexpiration.Email</td>
-            <td>@cdaexpiration.CDAExpiration?.ToShortDateString()</td>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Date of Expiration</th>
         </tr>
-         }
-        </tbody>
-    </table>
+    </thead>
+    <tbody>
+        @foreach (var cdaexpiration in Model)
+            {
+            <tr>
+                <td><a asp-controller="StaffMember" asp-action="Details" asp-route-id="@cdaexpiration.StaffMemberID">@cdaexpiration.FirstName</a></td>
+                <td>@cdaexpiration.LastName</td>
+                <td>@cdaexpiration.Email</td>
+                <td>@cdaexpiration.CDAExpiration?.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
