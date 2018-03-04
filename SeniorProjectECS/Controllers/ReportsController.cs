@@ -40,6 +40,11 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Details", returnModel);
         }
 
+        public ActionResult Details(StaffFilterViewModel model)
+        {
+            return View();
+        }
+
         private object BuildParamsFromFilter(Filter model)
         {
             dynamic parameters = new ExpandoObject();

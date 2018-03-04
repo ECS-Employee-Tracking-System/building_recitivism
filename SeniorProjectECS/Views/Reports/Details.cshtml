@@ -1,0 +1,173 @@
+﻿@model StaffFilterViewModel
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].StaffMemberID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].DateOfHire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].DirectorCredentials)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].DCExpiration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].CDAInProgress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].CDAType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].CDAExpiration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].CDARenewalProcess)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Goal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].MidYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].EndYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].GoalMet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].TAndAApp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].AppApp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].ClassCompleted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].ClassPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].RequiredHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].HoursEarned)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Notes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].TermDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].IsInactive)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.StaffMembers) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffMemberID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfHire)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DirectorCredentials)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DCExpiration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CDAInProgress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CDAType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CDAExpiration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CDARenewalProcess)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Goal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MidYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoalMet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TAndAApp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppApp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassCompleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiredHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursEarned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsInactive)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
