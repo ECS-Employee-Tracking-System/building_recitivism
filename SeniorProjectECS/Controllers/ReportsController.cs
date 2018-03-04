@@ -42,7 +42,7 @@ namespace SeniorProjectECS.Controllers
 
         public ActionResult Details(StaffFilterViewModel model)
         {
-            return View();
+            return View(model);
         }
 
         private object BuildParamsFromFilter(Filter model)
