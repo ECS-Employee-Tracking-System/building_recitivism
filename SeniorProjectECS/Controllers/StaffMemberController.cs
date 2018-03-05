@@ -26,7 +26,8 @@ namespace SeniorProjectECS.Controllers
 
             var handler = new StaffHandlerDapper();
             var results = handler.GetModels();
-            TempData["SomeProperty"] = HttpContext.Session.GetInt32("AccessLevel");
+            DateTime nDaysAgo = DateTime.Today.AddMonths(12);
+            TempData["SomeProperty"] = nDaysAgo;
             ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
             ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             return View(results.ToList().ToPagedList(PageNumber, PageSize));

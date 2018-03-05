@@ -162,6 +162,14 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        public JsonResult GetFilterLists()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var dataList = con.Query("GetFilterLists", commandType: CommandType.StoredProcedure);
+                return Json(dataList);
+            }
+        }
         public JsonResult GetFilterList()
         {
             using(var con = DBHandler.GetSqlConnection())
