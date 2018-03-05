@@ -112,12 +112,14 @@ namespace SeniorProjectECS.Models
                     }
 
                     AddCenterToModel(model, con, transaction);
-                    
-                    foreach (Education edu in model.Education)
-                    {
-                        AddEducationToModel(model.StaffMemberID, edu, con, transaction);
-                    }//end foreach education
 
+                    if (model.Education[0].DegreeLevel != null)
+                    {
+                        foreach (Education edu in model.Education)
+                        {
+                            AddEducationToModel(model.StaffMemberID, edu, con, transaction);
+                        }//end foreach education
+                    }
                     transaction.Commit();
                 }//end using transaction
             }//end using connection
