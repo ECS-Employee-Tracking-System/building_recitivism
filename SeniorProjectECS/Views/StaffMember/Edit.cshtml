@@ -44,7 +44,7 @@
                 {
                     <br />
                 }
-                <input type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewPosition" value="Add New Position"/>
+                <input type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#addNewPosition" value="Add New Position"/>
             </div>
             <span data-toggle="collapse" data-target="#DirCred">
                 <input type="checkbox" data-toggle="toggle" data-on='Hide Director Credentials' data-width="300" data-off='Show Director Credentials' data-target="#CDA"><br><br />
@@ -203,7 +203,7 @@
                         }
                     </tbody>
                 </table>
-                <input type="button" class="btn btn-default" value="Add Completed Certification" data-toggle="modal" data-target="#addNewCompletedCert" />
+                <input type="button" class="btn btn-default btn-primary" value="Add Completed Certification" data-toggle="modal" data-target="#addNewCompletedCert" />
             </div>
             <div class="form-group">
                 <label asp-for="Center.Name" class="control-label"></label>
@@ -223,9 +223,9 @@
             @{int i = 0;}
             @foreach (var edu in Model.Education)
             {
-                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
+                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default btn-danger" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
             }
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
+            <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
