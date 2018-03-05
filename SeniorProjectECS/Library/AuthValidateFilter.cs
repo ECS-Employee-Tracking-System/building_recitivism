@@ -44,6 +44,16 @@ namespace SeniorProjectECS.Library
                     }
                 }
             }
+            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
+            {
+                if (actionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(ViewOnly))))
+                {
+                    if (context.HttpContext.Session.GetInt32("AccessLevel") > 2)
+                    {
+                        context.HttpContext.Response.Redirect("/Home/Index");
+                    }
+                }
+            }
         }
     }
 }

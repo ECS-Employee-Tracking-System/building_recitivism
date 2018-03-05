@@ -113,13 +113,14 @@ namespace SeniorProjectECS.Models
 
                     AddCenterToModel(model, con, transaction);
 
+                    //checks to make sure a null entry is entered for education, asumes that every entry will have a degree level
                     if (model.Education[0].DegreeLevel != null)
                     {
                         foreach (Education edu in model.Education)
                         {
                             AddEducationToModel(model.StaffMemberID, edu, con, transaction);
                         }//end foreach education
-                    }
+                    }//end the if check for nulls
                     transaction.Commit();
                 }//end using transaction
             }//end using connection

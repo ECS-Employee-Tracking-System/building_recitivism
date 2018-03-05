@@ -17,7 +17,7 @@ namespace SeniorProjectECS.Controllers
     {
         private int PageSize = 20;
         private int PageNumber;
-
+        [ViewOnly]
         public IActionResult Index(int? page)
         {
             PageNumber = (page ?? 1);
@@ -26,6 +26,7 @@ namespace SeniorProjectECS.Controllers
 
             var handler = new StaffHandlerDapper();
             var results = handler.GetModels();
+            TempData["SomeProperty"] = HttpContext.Session.GetInt32("AccessLevel");
             ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
             ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             return View(results.ToList().ToPagedList(PageNumber, PageSize));
@@ -60,7 +61,7 @@ namespace SeniorProjectECS.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [AdminOnly]
         public IActionResult Edit(int? id)
         {
             if (id != null)
@@ -77,6 +78,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: StaffMember/Create
         [HttpPost]
+        [AdminOnly]
         public ActionResult Edit(StaffMember model)
         {
             if (model != null)
