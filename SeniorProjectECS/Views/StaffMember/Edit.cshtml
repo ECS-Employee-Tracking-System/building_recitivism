@@ -40,11 +40,11 @@
                         <button type="button" class="btn btn-danger" onclick="removePosition(url='@Url.Action("RemovePosition", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@pos.PositionID)">Remove</button>
                     </div>
                 }
-                @if(Model.Positions.Count == 0)
+                @if (Model.Positions.Count == 0)
                 {
                     <br />
                 }
-                <input type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewPosition" value="Add New Position"/>
+                <input type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewPosition" value="Add New Position" />
             </div>
             <span data-toggle="collapse" data-target="#DirCred">
                 <input type="checkbox" data-toggle="toggle" data-on='Hide Director Credentials' data-width="300" data-off='Show Director Credentials' data-target="#CDA"><br><br />
@@ -193,7 +193,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int j=0; j<Model.CompletedCerts.Count; j++)
+                        @for (int j = 0; j < Model.CompletedCerts.Count; j++)
                         {
                             <tr>
                                 <td>@Html.DisplayFor(model => model.CompletedCerts[j].Cert.CertName)</td>
@@ -223,12 +223,9 @@
             @{int i = 0;}
             @foreach (var edu in Model.Education)
             {
-            <div>@Html.HiddenFor(model => model.Education[@i].EducationID)@Html.EditorFor(model => model.Education[@i].DegreeAbrv)@Html.EditorFor(model => model.Education[@i].DegreeLevel)@Html.EditorFor(model => model.Education[@i].DegreeType)@Html.EditorFor(model => model.Education[@i].DegreeDetail) <button type="button" class="btn btn-default btn-danger" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
-                i++;
+                <div>@edu.DegreeLevel, @edu.DegreeType, @edu.DegreeDetail <button type="button" class="btn btn-default" onclick="removeEducation(url='@Url.Action("RemoveEducation", "StaffMember", new { StaffMemberID = Model.StaffMemberID })',@edu.EducationID)">Remove</button></div>
             }
-
-            <button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
-
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewEducation">Add New Education</button>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -269,7 +266,6 @@
             </div>
         </div>
         <!-- End Add new position modal -->
-
         <!-- Begin Add new education modal -->
         <div id="addNewEducation" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -310,7 +306,6 @@
             </div>
         </div>
         <!-- End add new education modal -->
-
         <!-- Begin Add new required certification modal -->
         <div id="addNewCompletedCert" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
