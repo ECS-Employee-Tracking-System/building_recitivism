@@ -169,6 +169,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StaffMemberID }) |
+    <span AdminOnly>@Html.ActionLink("Edit", "Edit", new { id = Model.StaffMemberID }) |</span>
     <a asp-action="Index">Back to List</a>
 </div>
