@@ -61,8 +61,11 @@ namespace SeniorProjectECS.Models
         public String CDARenewalProcess { get; set; }
 
         public String Comments { get; set; }
+        [DisplayName("PDP Goal Begining of Year on File")]
         public Boolean Goal { get; set; }
+        [DisplayName("PDP Mid Year Goal on File")]
         public Boolean MidYear { get; set; }
+        [DisplayName("PDP End of Year Goal on File")]
         public Boolean EndYear { get; set; }
         public Boolean GoalMet { get; set; }
 
@@ -78,12 +81,10 @@ namespace SeniorProjectECS.Models
         [DisplayName("Owes Money for Classes")]
         public Boolean ClassPaid { get; set; }
 
-        [DisplayName("Required Hours")]
-        [Range(0, 40)]
+        [DisplayName("ECS Required Training Hours")]
         public int RequiredHours { get; set; }
 
-        [DisplayName("Hours Earned")]
-        [Range(0, 40)]
+        [DisplayName("Current Year Hours Earned")]
         public int HoursEarned { get; set; }
 
         public String Notes{ get; set; }
