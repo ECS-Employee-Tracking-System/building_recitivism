@@ -1,0 +1,11 @@
+﻿
+<script>
+    $(function () {
+        $('.annualReset').click(function () {
+            return window.confirm("You are about to reset EVERYONES goals and training hours. Are you sure?");
+        });
+    });
+</script>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Edit Positions", "Index", "Position")</a>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Edit Certs", "Index", "Cert")</a>
+<a class="btn btn-primary btn-default annualReset"  @Html.ActionLink("Annual Reset", "AnnualReset", "Maintenance")</a>
