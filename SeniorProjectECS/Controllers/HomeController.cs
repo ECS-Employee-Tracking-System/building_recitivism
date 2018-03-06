@@ -61,13 +61,9 @@ namespace SeniorProjectECS.Controllers
                             if (HttpContext.Session.GetInt32("AccessLevel") == 0)
                             {
                                 HttpContext.Session.SetString("AccessRole", "Seed");
-                            }
-                            if (HttpContext.Session.GetInt32("AccessLevel") == 1)
-                            {
+                            } else if (HttpContext.Session.GetInt32("AccessLevel") == 1) {
                                 HttpContext.Session.SetString("AccessRole", "Admin");
-                            }
-                            if (HttpContext.Session.GetInt32("AccessLevel") == 2)
-                            {
+                            } else if (HttpContext.Session.GetInt32("AccessLevel") == 2) {
                                 HttpContext.Session.SetString("AccessRole", "View Only User");
                             }
                             var user = HttpContext.Session.GetString("LogUserName");
@@ -82,6 +78,7 @@ namespace SeniorProjectECS.Controllers
             HttpContext.Session.SetString("LoginStatus", "Login Failed, Please Try Again");
             return RedirectToAction("Index");
         }
+
         public IActionResult LogOut()
         {
             HttpContext.Session.Clear();

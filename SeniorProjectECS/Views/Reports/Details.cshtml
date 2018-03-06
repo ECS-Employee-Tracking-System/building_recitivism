@@ -7,7 +7,11 @@
     });
 </script>
 
-<table class="table table-bordered table-condensed tablesorter" id="myTable"">
+@Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
+<br />
+@Html.ActionLink("Save Current Filter", "SaveFilter", Model.Filter)
+
+<table class="table table-bordered table-condensed tablesorter" id="myTable">
     <thead>
         <tr>
             <th>
@@ -85,89 +89,124 @@
             <th>
                 @Html.DisplayNameFor(model => model.StaffMembers[0].IsInactive)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.StaffMembers)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StaffMemberID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfHire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DirectorCredentials)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DCExpiration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CDAInProgress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CDAType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CDAExpiration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CDARenewalProcess)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Goal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MidYear)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndYear)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GoalMet)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TAndAApp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppApp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClassCompleted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClassPaid)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequiredHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoursEarned)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TermDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsInactive)
-                </td>
-            </tr>
+        
+    @*@{int i = 0;}
+    @foreach (var item in Model.StaffMembers)
+    {
+        <tr>
+            <td>@item.StaffMemberID</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.Email</td>
+            <td>@item.DateOfHire</td>
+            <td>@item.DirectorCredentials</td>
+            <td>@item.DCExpiration</td>
+            <td>@item.CDAInProgress</td>
+            <td>@item.CDAType</td>
+            <td>@item.CDAExpiration</td>
+            <td>@item.CDARenewalProcess</td>
+            <td>@item.Comments</td>
+            <td>@item.Goal</td>
+            <td>@item.MidYear</td>
+            <td>@item.EndYear</td>
+            <td>@item.GoalMet</td>
+            <td>@item.TAndAApp</td>
+            <td>@item.AppApp</td>
+            <td>@item.ClassCompleted</td>
+            <td>@item.ClassPaid</td>
+            <td>@item.RequiredHours</td>
+            <td>@item.HoursEarned</td>
+            <td>@item.Notes</td>
+            <td>@item.TermDate</td>
+            <td>@item.IsInactive</td>
+        </tr>
+    }*@
+    @foreach (var item in Model.StaffMembers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffMemberID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfHire)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DirectorCredentials)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DCExpiration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDAInProgress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDAType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDAExpiration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDARenewalProcess)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Goal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MidYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GoalMet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TAndAApp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppApp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassCompleted)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassPaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredHours)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoursEarned)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TermDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsInactive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompletedCerts)
+                    </td>
+                </tr>
         }
+
     </tbody>
 </table>

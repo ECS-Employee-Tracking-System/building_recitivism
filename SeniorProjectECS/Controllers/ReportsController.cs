@@ -18,13 +18,35 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
+        [AdminOnly]
         public ActionResult CreateFilter()
         {
             return View();
         }
 
+        public ActionResult ApplyFilter(int? id)
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                // Get the filter
+                String sql = "SELECT * FROM Filter WHERE FilterID=@FilterID";
+                var filter = con.Query<Filter>(sql, new { FilterID = id });
+
+                // Apply the filter
+                var returnModel = new StaffFilterViewModel();
+                sql = BuildSQLFromFilter(filter.FirstOrDefault());
+                var parameters = BuildParamsFromFilter(filter.FirstOrDefault());
+                var data = con.Query<StaffMember>(sql, parameters);
+
+                returnModel.StaffMembers = data.ToList();
+                returnModel.Filter = filter.FirstOrDefault();
+
+                return View("Details", returnModel);
+            }
+        }
+
         [HttpPost]
-        public ActionResult CreateFilter(Filter Model)
+        public ActionResult ApplyFilter(Filter Model)
         {
             String sql = BuildSQLFromFilter(Model);
             var parameters = BuildParamsFromFilter(Model);
@@ -40,11 +62,17 @@ namespace SeniorProjectECS.Controllers
             return View("Details", returnModel);
         }
 
-        public ActionResult Details(StaffFilterViewModel model)
+        [AdminOnly]
+        public ActionResult EditFilter(Filter model)
         {
             return View(model);
         }
 
+        /// <summary>
+        /// Build a parameter object for use with SQL
+        /// </summary>
+        /// <param name="model">The model to build from.</param>
+        /// <returns>An object containing all needed parameters</returns>
         private object BuildParamsFromFilter(Filter model)
         {
             dynamic parameters = new ExpandoObject();
@@ -73,6 +101,13 @@ namespace SeniorProjectECS.Controllers
             return parameters;
         }
 
+        /// <summary>
+        /// Add parameters to an object from an array.
+        /// </summary>
+        /// <param name="expando">The object to add to.</param>
+        /// <param name="propertyName">The name of the parameter. ie. FirstName</param>
+        /// <param name="list">The array to build the parameters from.</param>
+        /// <returns>The complete parameter object.</returns>
         private object AddArrayToExpando(ExpandoObject expando, String propertyName, List<String> list)
         {
             var expandoDic = expando as IDictionary<String, object>;
@@ -85,14 +120,29 @@ namespace SeniorProjectECS.Controllers
             return expandoDic;
         }
 
+        /// <summary>
+        /// Add a single parameter to a parameter object.
+        /// </summary>
+        /// <param name="expando">The object to add to.</param>
+        /// <param name="propertyName">The name of the parameter. ie. FirstName</param>
+        /// <param name="item">The parameter to add.</param>
+        /// <returns>The complete parameter object.</returns>
         private object AddPropertyToExpando(ExpandoObject expando, String propertyName, object item)
         {
             var expandoDic = expando as IDictionary<String, object>;
-            expandoDic.Add(propertyName, item);
+
+            if (item != null) {
+                expandoDic.Add(propertyName, item);
+            }
 
             return expandoDic;
         }
 
+        /// <summary>
+        /// Build a SQL query based on a filter.
+        /// </summary>
+        /// <param name="model">The filter to apply.</param>
+        /// <returns>The completed SQL string.</returns>
         private string BuildSQLFromFilter(Filter model)
         {
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
@@ -113,23 +163,23 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.LastName, "LastName", "sm");
             sql = BuildSQLFromArray(sql, model.Email, "Email", "sm");
             //DateOfHire
-            if(model.Goal) { sql += " AND (sm.Goal=@Goal)"; }
-            if (model.MidYear) { sql += " AND (sm.MidYear=@MidYear)"; }
-            if (model.EndYear) { sql += " AND (sm.EndYear=@EndYear)"; }
-            if (model.GoalMet) { sql += " AND (sm.GoalMet=@GoalMet)"; }
-            if (model.TAndAApp) { sql += " AND (sm.TAndAApp=@TAndAApp)"; }
-            if (model.AppApp) { sql += " AND (sm.AppApp=@AppApp)"; }
-            if (model.ClassCompleted) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
-            if (model.ClassPaid) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
+            if(model.Goal != null) { sql += " AND (sm.Goal=@Goal)"; }
+            if (model.MidYear != null) { sql += " AND (sm.MidYear=@MidYear)"; }
+            if (model.EndYear != null) { sql += " AND (sm.EndYear=@EndYear)"; }
+            if (model.GoalMet != null) { sql += " AND (sm.GoalMet=@GoalMet)"; }
+            if (model.TAndAApp != null) { sql += " AND (sm.TAndAApp=@TAndAApp)"; }
+            if (model.AppApp != null) { sql += " AND (sm.AppApp=@AppApp)"; }
+            if (model.ClassCompleted != null) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
+            if (model.ClassPaid != null) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
             //RequiredHours
             //HoursEarned
             //TermDate
             if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
             sql = BuildSQLFromArray(sql, model.Position, "PositionTitle", "p");
-            sql = BuildSQLFromArray(sql, model.EducationLevel, "EducationLevel", "e");
-            sql = BuildSQLFromArray(sql, model.EducationType, "EducationType", "e");
-            sql = BuildSQLFromArray(sql, model.EducationDetail, "EducationDetail", "e");
+            sql = BuildSQLFromArray(sql, model.EducationLevel, "DegreeLevel", "e");
+            sql = BuildSQLFromArray(sql, model.EducationType, "DegreeType", "e");
+            sql = BuildSQLFromArray(sql, model.EducationDetail, "DegreeDetail", "e");
             sql = BuildSQLFromArray(sql, model.CenterName, "CenterName", "c");
             sql = BuildSQLFromArray(sql, model.CenterCounty, "CenterCounty", "c");
             sql = BuildSQLFromArray(sql, model.CenterRegion, "CenterRegion", "c");
@@ -139,6 +189,14 @@ namespace SeniorProjectECS.Controllers
             return sql;
         }
 
+        /// <summary>
+        /// Add WHERE clauses to a SQL string from an array.
+        /// </summary>
+        /// <param name="sql">The base SQL string. This should be a valid SQL statement with a WHERE clause at the end.</param>
+        /// <param name="list">The list of strings to add to the query.</param>
+        /// <param name="name">The base name of the column.</param>
+        /// <param name="tableName">The name of the join table.</param>
+        /// <returns></returns>
         private String BuildSQLFromArray(String sql, List<String> list, String name, String tableName)
         {
             if(list.Count > 0 && list[0] != null)
@@ -167,6 +225,15 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        public JsonResult GetFilterLists()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var dataList = con.Query("GetFilterLists", commandType: CommandType.StoredProcedure);
+                return Json(dataList);
+            }
+        }
+
         public JsonResult GetFilterList()
         {
             using(var con = DBHandler.GetSqlConnection())
@@ -175,7 +242,6 @@ namespace SeniorProjectECS.Controllers
                 return Json(filterList);
             }
         }
-
 
         public IActionResult CDACompliance(int NumberOfDays = 90)
         {

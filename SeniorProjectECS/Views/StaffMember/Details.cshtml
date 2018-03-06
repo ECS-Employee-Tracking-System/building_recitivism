@@ -82,10 +82,10 @@
         <dd>
             @Html.DisplayFor(model => model.CDARenewalProcess)
         </dd>
-        <dt>
+        <dt AdminOnly>
             @Html.DisplayNameFor(model => model.Comments)
         </dt>
-        <dd>
+        <dd AdminOnly>
             @Html.DisplayFor(model => model.Comments)
         </dd>
         <dt>
@@ -112,16 +112,16 @@
         <dd>
             @Html.DisplayFor(model => model.GoalMet)
         </dd>
-        <dt>
+        <dt AdminOnly>
             @Html.DisplayNameFor(model => model.TAndAApp)
         </dt>
-        <dd>
+        <dd AdminOnly>
             @Html.DisplayFor(model => model.TAndAApp)
         </dd>
-        <dt>
+        <dt AdminOnly>
             @Html.DisplayNameFor(model => model.AppApp)
         </dt>
-        <dd>
+        <dd AdminOnly>
             @Html.DisplayFor(model => model.AppApp)
         </dd>
         <dt>
@@ -148,10 +148,10 @@
         <dd>
             @Html.DisplayFor(model => model.HoursEarned)
         </dd>
-        <dt>
+        <dt AdminOnly>
             @Html.DisplayNameFor(model => model.Notes)
         </dt>
-        <dd>
+        <dd AdminOnly>
             @Html.DisplayFor(model => model.Notes)
         </dd>
         <dt>
@@ -161,14 +161,14 @@
             @Html.DisplayFor(model => model.TermDate)
         </dd>
         <dt>
-            Center Name
+            @Html.DisplayNameFor(model => model.Center.Name)
         </dt>
         <dd>
-           @Model.Center.Name
+           @Html.DisplayFor(model => model.Center.Name)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StaffMemberID }) |
+    <span AdminOnly>@Html.ActionLink("Edit", "Edit", new { id = Model.StaffMemberID }) |</span>
     <a asp-action="Index">Back to List</a>
 </div>

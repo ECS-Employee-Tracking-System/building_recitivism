@@ -22,7 +22,7 @@ namespace SeniorProjectECS.Library
                     .Any(a => a.GetType().Equals(typeof(DefaultAction)));
 
                 // If we are a default action don't redirect
-                if(isDefined)
+                if (isDefined)
                 {
                     return;
                 }
@@ -32,6 +32,27 @@ namespace SeniorProjectECS.Library
             if (context.HttpContext.Session.GetInt32("AccessLevel") == null)
             {
                 context.HttpContext.Response.Redirect("/Home/Index");
+            }
+
+            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptors)
+            {
+                if (actionDescriptors.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(AdminOnly))))
+                {
+                    if (context.HttpContext.Session.GetInt32("AccessLevel") > 1)
+                    {
+                        context.HttpContext.Response.Redirect("/Home/Index");
+                    }
+                }
+            }
+            if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
+            {
+                if (actionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(ViewOnly))))
+                {
+                    if (context.HttpContext.Session.GetInt32("AccessLevel") > 2)
+                    {
+                        context.HttpContext.Response.Redirect("/Home/Index");
+                    }
+                }
             }
         }
     }
