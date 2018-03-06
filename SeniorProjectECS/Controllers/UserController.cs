@@ -12,6 +12,7 @@ namespace SeniorProjectECS.Controllers
 {
     public class UserController : Controller
     {
+        [AdminOnly]
         public IActionResult Index()
         {
             var handler = new UserHandlerDapper();
@@ -19,12 +20,14 @@ namespace SeniorProjectECS.Controllers
             return View(results);
         }
 
+        [AdminOnly]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [AdminOnly]
         public IActionResult Create(User Model)
         {
             if (Model != null)
@@ -36,6 +39,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Index");
         }
 
+        [AdminOnly]
         public IActionResult Edit(int? id)
         {
             if (id != null)
@@ -49,6 +53,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         [HttpPost]
+        [AdminOnly]
         public IActionResult Edit(User Model)
         {
             if(Model != null)
@@ -60,6 +65,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Index");
         }
 
+        [AdminOnly]
         public IActionResult Delete(int? id)
         {
             if (id != null)
@@ -72,6 +78,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         [HttpPost]
+        [AdminOnly]
         public IActionResult ChangePassword(int? id, String PasswordHash)
         {
             if (id != null && PasswordHash != null)

@@ -18,6 +18,7 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
+        [AdminOnly]
         public ActionResult CreateFilter()
         {
             return View();
@@ -40,11 +41,17 @@ namespace SeniorProjectECS.Controllers
             return View("Details", returnModel);
         }
 
+        [AdminOnly]
         public ActionResult EditFilter(Filter model)
         {
             return View(model);
         }
 
+        /// <summary>
+        /// Build a parameter object for use with SQL
+        /// </summary>
+        /// <param name="model">The model to build from.</param>
+        /// <returns>An object containing all needed parameters</returns>
         private object BuildParamsFromFilter(Filter model)
         {
             dynamic parameters = new ExpandoObject();
@@ -73,6 +80,13 @@ namespace SeniorProjectECS.Controllers
             return parameters;
         }
 
+        /// <summary>
+        /// Add parameters to an object from an array.
+        /// </summary>
+        /// <param name="expando">The object to add to.</param>
+        /// <param name="propertyName">The name of the parameter. ie. FirstName</param>
+        /// <param name="list">The array to build the parameters from.</param>
+        /// <returns>The complete parameter object.</returns>
         private object AddArrayToExpando(ExpandoObject expando, String propertyName, List<String> list)
         {
             var expandoDic = expando as IDictionary<String, object>;
@@ -85,6 +99,13 @@ namespace SeniorProjectECS.Controllers
             return expandoDic;
         }
 
+        /// <summary>
+        /// Add a single parameter to a parameter object.
+        /// </summary>
+        /// <param name="expando">The object to add to.</param>
+        /// <param name="propertyName">The name of the parameter. ie. FirstName</param>
+        /// <param name="item">The parameter to add.</param>
+        /// <returns>The complete parameter object.</returns>
         private object AddPropertyToExpando(ExpandoObject expando, String propertyName, object item)
         {
             var expandoDic = expando as IDictionary<String, object>;
@@ -96,6 +117,11 @@ namespace SeniorProjectECS.Controllers
             return expandoDic;
         }
 
+        /// <summary>
+        /// Build a SQL query based on a filter.
+        /// </summary>
+        /// <param name="model">The filter to apply.</param>
+        /// <returns>The completed SQL string.</returns>
         private string BuildSQLFromFilter(Filter model)
         {
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
@@ -142,6 +168,14 @@ namespace SeniorProjectECS.Controllers
             return sql;
         }
 
+        /// <summary>
+        /// Add WHERE clauses to a SQL string from an array.
+        /// </summary>
+        /// <param name="sql">The base SQL string. This should be a valid SQL statement with a WHERE clause at the end.</param>
+        /// <param name="list">The list of strings to add to the query.</param>
+        /// <param name="name">The base name of the column.</param>
+        /// <param name="tableName">The name of the join table.</param>
+        /// <returns></returns>
         private String BuildSQLFromArray(String sql, List<String> list, String name, String tableName)
         {
             if(list.Count > 0 && list[0] != null)
@@ -178,6 +212,7 @@ namespace SeniorProjectECS.Controllers
                 return Json(dataList);
             }
         }
+
         public JsonResult GetFilterList()
         {
             using(var con = DBHandler.GetSqlConnection())
@@ -186,7 +221,6 @@ namespace SeniorProjectECS.Controllers
                 return Json(filterList);
             }
         }
-
 
         public IActionResult CDACompliance(int NumberOfDays = 90)
         {

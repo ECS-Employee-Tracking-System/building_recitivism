@@ -78,6 +78,7 @@ namespace SeniorProjectECS.Controllers
             HttpContext.Session.SetString("LoginStatus", "Login Failed, Please Try Again");
             return RedirectToAction("Index");
         }
+
         public IActionResult LogOut()
         {
             HttpContext.Session.Clear();

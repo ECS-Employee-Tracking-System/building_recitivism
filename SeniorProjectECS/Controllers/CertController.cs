@@ -29,6 +29,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         // GET: Cert/Create
+        [AdminOnly]
         public ActionResult Create()
         {
             return View();
@@ -36,6 +37,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Cert/Create
         [HttpPost]
+        [AdminOnly]
         public ActionResult Create(Certification model)
         {
             var handle = new CertHandlerDapper();
@@ -45,6 +47,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         // GET: Cert/Edit/5
+        [AdminOnly]
         public ActionResult Edit(int id)
         {
             var handle = new CertHandlerDapper();
@@ -54,6 +57,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Cert/Edit/5
         [HttpPost]
+        [AdminOnly]
         public ActionResult Edit(Certification model)
         {
             var handle = new CertHandlerDapper();
@@ -63,6 +67,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         // GET: Cert/Delete/5
+        [AdminOnly]
         public ActionResult Delete(int id)
         {
             var handle = new CertHandlerDapper();

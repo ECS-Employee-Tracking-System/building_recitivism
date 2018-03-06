@@ -11,10 +11,13 @@ namespace SeniorProjectECS.Controllers
 {
     public class MaintenanceController : Controller
     {
+        [AdminOnly]
         public IActionResult Index()
         {
             return View();
         }
+
+        [AdminOnly]
         public IActionResult AnnualReset()
         {
             using (var con = DBHandler.GetSqlConnection())

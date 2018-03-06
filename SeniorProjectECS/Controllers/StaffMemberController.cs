@@ -53,6 +53,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: StaffMember/Create
         [HttpPost]
+        [AdminOnly]
         public ActionResult Create(StaffMember model)
         {
             if (model != null)
@@ -62,6 +63,7 @@ namespace SeniorProjectECS.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [AdminOnly]
         public IActionResult Edit(int? id)
         {
@@ -98,6 +100,7 @@ namespace SeniorProjectECS.Controllers
             return View(results);
         }
 
+        [AdminOnly]
         public IActionResult Delete(int? id)
         {
             if (id != null)
@@ -108,6 +111,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Index");
         }
 
+        [AdminOnly]
         public IActionResult RemoveEducation(int? educationID, int? staffMemberID)
         {
             if (educationID != null && staffMemberID != null)
@@ -122,6 +126,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
 
+        [AdminOnly]
         public IActionResult RemovePosition(int? staffMemberID, int? positionID)
         {
             if (staffMemberID != null && positionID != null)
@@ -138,6 +143,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
 
+        [AdminOnly]
         public IActionResult RemoveCertification(int? StaffMemberID, int? certificationID)
         {
             if(StaffMemberID != null && certificationID != null)
@@ -153,6 +159,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         [HttpPost]
+        [AdminOnly]
         public IActionResult AddPosition(int? staffMemberID, String positionTitle)
         {
             if(staffMemberID != null)
@@ -165,12 +172,14 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
 
+        [AdminOnly]
         public IActionResult AddEducation()
         {
             return View();
         }
 
         [HttpPost]
+        [AdminOnly]
         public IActionResult AddEducation(int? staffMemberID, string degreeAbbreviation, string degreeLevel, string degreeType, string degreeDetail)
         {
             if(staffMemberID != null)
@@ -189,6 +198,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Edit", new { id = staffMemberID.GetValueOrDefault() });
         }
 
+        [AdminOnly]
         public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime DateCompleted)
         {
             if(StaffMemberID != null && CertificationID != null)

@@ -29,6 +29,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         // GET: Position/Create
+        [AdminOnly]
         public ActionResult Create()
         {
             return View();
@@ -36,6 +37,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Position/Create
         [HttpPost]
+        [AdminOnly]
         public ActionResult Create(Position model)
         {
             var handle = new PositionHandlerDapper();
@@ -45,6 +47,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         // GET: Position/Edit/5
+        [AdminOnly]
         public ActionResult Edit(int id)
         {
             var handle = new PositionHandlerDapper();
@@ -54,6 +57,7 @@ namespace SeniorProjectECS.Controllers
 
         // POST: Position/Edit/5
         [HttpPost]
+        [AdminOnly]
         public ActionResult Edit(Position model)
         {
             var handle = new PositionHandlerDapper();
@@ -68,6 +72,7 @@ namespace SeniorProjectECS.Controllers
         /// <param name="CertificationID">The certification to remove.</param>
         /// <param name="PositionID">The position to modify.</param>
         /// <returns></returns>
+        [AdminOnly]
         public IActionResult RemoveCertification(int? CertificationID, int? PositionID)
         {
             if(CertificationID != null && PositionID != null)
@@ -88,6 +93,7 @@ namespace SeniorProjectECS.Controllers
         /// <param name="PositionID">The ID of the position to change.</param>
         /// <param name="CertificationID">The ID of the certification to add.</param>
         /// <returns></returns>
+        [AdminOnly]
         public ActionResult AddRequiredCert(int? PositionID, int? CertificationID)
         {
             if(PositionID != null && CertificationID != null)
