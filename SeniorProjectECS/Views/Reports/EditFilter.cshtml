@@ -17,14 +17,14 @@
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <div id="LastNameList">
-                    <input asp-for="LastName" class="form-control" />
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.LastName, "LastName", "text")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addTextField('LastName')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <div id="EmailList">
-                    <input asp-for="Email" class="form-control" />
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Email, "Email", "text")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addTextField('Email')">Add Another</button>
             </div>

@@ -7,7 +7,11 @@
     });
 </script>
 
-<table class="table table-bordered table-condensed tablesorter" id="myTable"">
+@Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
+<br />
+@Html.ActionLink("Save Current Filter", "SaveFilter", Model.Filter)
+
+<table class="table table-bordered table-condensed tablesorter" id="myTable">
     <thead>
         <tr>
             <th>

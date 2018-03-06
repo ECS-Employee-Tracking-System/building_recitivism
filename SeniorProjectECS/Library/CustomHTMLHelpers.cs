@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Html;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace SeniorProjectECS.Library
         /// <typeparam name="T">The type of data that is in the array.</typeparam>
         /// <param name="array">The array to create edit boxes for.</param>
         /// <returns></returns>
-        public static String BuildEditFromArray(List<String> array, String name, String entryType)
+        public static HtmlString BuildEditFromArray(List<String> array, String name, String entryType)
         {
             String html = "";
 
@@ -29,7 +30,7 @@ namespace SeniorProjectECS.Library
                 }
             }
 
-            return html;
+            return new HtmlString(html);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace SeniorProjectECS.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateFilter(Filter Model)
+        public ActionResult ApplyFilter(Filter Model)
         {
             String sql = BuildSQLFromFilter(Model);
             var parameters = BuildParamsFromFilter(Model);
@@ -38,6 +38,11 @@ namespace SeniorProjectECS.Controllers
             }
 
             return View("Details", returnModel);
+        }
+
+        public ActionResult EditFilter(Filter model)
+        {
+            return View(model);
         }
 
         private object BuildParamsFromFilter(Filter model)
@@ -83,7 +88,10 @@ namespace SeniorProjectECS.Controllers
         private object AddPropertyToExpando(ExpandoObject expando, String propertyName, object item)
         {
             var expandoDic = expando as IDictionary<String, object>;
-            expandoDic.Add(propertyName, item);
+
+            if (item != null) {
+                expandoDic.Add(propertyName, item);
+            }
 
             return expandoDic;
         }
@@ -108,23 +116,23 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.LastName, "LastName", "sm");
             sql = BuildSQLFromArray(sql, model.Email, "Email", "sm");
             //DateOfHire
-            if(model.Goal) { sql += " AND (sm.Goal=@Goal)"; }
-            if (model.MidYear) { sql += " AND (sm.MidYear=@MidYear)"; }
-            if (model.EndYear) { sql += " AND (sm.EndYear=@EndYear)"; }
-            if (model.GoalMet) { sql += " AND (sm.GoalMet=@GoalMet)"; }
-            if (model.TAndAApp) { sql += " AND (sm.TAndAApp=@TAndAApp)"; }
-            if (model.AppApp) { sql += " AND (sm.AppApp=@AppApp)"; }
-            if (model.ClassCompleted) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
-            if (model.ClassPaid) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
+            if(model.Goal != null) { sql += " AND (sm.Goal=@Goal)"; }
+            if (model.MidYear != null) { sql += " AND (sm.MidYear=@MidYear)"; }
+            if (model.EndYear != null) { sql += " AND (sm.EndYear=@EndYear)"; }
+            if (model.GoalMet != null) { sql += " AND (sm.GoalMet=@GoalMet)"; }
+            if (model.TAndAApp != null) { sql += " AND (sm.TAndAApp=@TAndAApp)"; }
+            if (model.AppApp != null) { sql += " AND (sm.AppApp=@AppApp)"; }
+            if (model.ClassCompleted != null) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
+            if (model.ClassPaid != null) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
             //RequiredHours
             //HoursEarned
             //TermDate
             if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
             sql = BuildSQLFromArray(sql, model.Position, "PositionTitle", "p");
-            sql = BuildSQLFromArray(sql, model.EducationLevel, "EducationLevel", "e");
-            sql = BuildSQLFromArray(sql, model.EducationType, "EducationType", "e");
-            sql = BuildSQLFromArray(sql, model.EducationDetail, "EducationDetail", "e");
+            sql = BuildSQLFromArray(sql, model.EducationLevel, "DegreeLevel", "e");
+            sql = BuildSQLFromArray(sql, model.EducationType, "DegreeType", "e");
+            sql = BuildSQLFromArray(sql, model.EducationDetail, "DegreeDetail", "e");
             sql = BuildSQLFromArray(sql, model.CenterName, "CenterName", "c");
             sql = BuildSQLFromArray(sql, model.CenterCounty, "CenterCounty", "c");
             sql = BuildSQLFromArray(sql, model.CenterRegion, "CenterRegion", "c");

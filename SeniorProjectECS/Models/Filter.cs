@@ -12,18 +12,22 @@ namespace SeniorProjectECS.Models
         public List<String> FirstName { get; set; }
         public List<String> LastName { get; set; }
         public List<String> Email { get; set; }
-        public DateTime? DateOfHire { get; set; }
-        public bool Goal { get; set; }
-        public bool MidYear { get; set; }
-        public bool EndYear { get; set; }
-        public bool GoalMet { get; set; }
-        public bool TAndAApp { get; set; }
-        public bool AppApp { get; set; }
-        public bool ClassCompleted { get; set; }
-        public bool ClassPaid { get; set; }
+        public DateTime? BeginDateOfHire { get; set; }
+        public DateTime? EndDateOfHire { get; set; }
+        public bool? Goal { get; set; }
+        public bool? MidYear { get; set; }
+        public bool? EndYear { get; set; }
+        public bool? GoalMet { get; set; }
+        public bool? TAndAApp { get; set; }
+        public bool? AppApp { get; set; }
+        public bool? ClassCompleted { get; set; }
+        public bool? ClassPaid { get; set; }
         public int? RequiredHours { get; set; }
+        public int RequiredHoursType { get; set; }
         public int? HoursEarned { get; set; }
-        public DateTime? TermDate { get; set; }
+        public int HoursEarnedType { get; set; }
+        public DateTime? BeginTermDate { get; set; }
+        public DateTime? EndTermDate { get; set; }
         public bool IsInactive { get; set; }
         public List<String> CertCompleted { get; set; }
         public List<String> Position { get; set; }
