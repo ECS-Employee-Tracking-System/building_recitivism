@@ -41,7 +41,7 @@ namespace SeniorProjectECS.Controllers
                 returnModel.StaffMembers = data.ToList();
                 returnModel.Filter = filter.FirstOrDefault();
 
-                return View(returnModel);
+                return View("Details", returnModel);
             }
         }
 
