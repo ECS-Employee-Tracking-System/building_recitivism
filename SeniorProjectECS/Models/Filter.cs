@@ -12,6 +12,7 @@ namespace SeniorProjectECS.Models
         public List<String> FirstName { get; set; }
         public List<String> LastName { get; set; }
         public List<String> Email { get; set; }
+        public DateTime? DateOfHire { get; set; }
         public DateTime? BeginDateOfHire { get; set; }
         public DateTime? EndDateOfHire { get; set; }
         public bool? Goal { get; set; }
@@ -39,6 +40,7 @@ namespace SeniorProjectECS.Models
         public List<String> CenterRegion { get; set; }
         public int? TimeUntilExpire { get; set; }
         public bool ShouldCheckPositionReq { get; set; }
+        public DateTime? TermDate { get; set; }
 
         /// <summary>
         /// Constructor
