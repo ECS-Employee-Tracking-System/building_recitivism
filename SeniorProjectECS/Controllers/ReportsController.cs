@@ -254,5 +254,9 @@ namespace SeniorProjectECS.Controllers
             var cdaexpiration = con.Query<StaffMember>(sql ,new{ NumberOfDays = NumberOfDays});
             return View(cdaexpiration);
         }//end View Index
+        public IActionResult ListData()
+        {
+            return View();
+        }
     }
 }
