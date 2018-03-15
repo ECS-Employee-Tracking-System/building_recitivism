@@ -16,7 +16,7 @@
         $("#Grid").kendoGrid({
             toolbar: ["excel"],
             excel: {
-                fileName: "Demo Excel From Kendo.xlsx",
+                fileName: "EmployeeTrackingSystem.xlsx",
                 filterable: true,  //Allow Filtering
                 allPages: true
             },
@@ -28,7 +28,7 @@
                     dataType: "json", //dataType: "json","odata"
                     read: "/Reports/GetFilterLists",  //API URL
                 },
-                pageSize: 5,
+                pageSize: 15,
                 schema: {
                     model: {
                         fields: {
@@ -156,6 +156,7 @@
                     }
                 },
             },
+            searchable: true,
             scrollable: true,
             filterable: true,
             sortable: true,

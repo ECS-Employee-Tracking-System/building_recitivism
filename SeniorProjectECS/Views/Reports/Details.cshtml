@@ -1,253 +1,229 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
 
-
+<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript">
+    function exportexcel() {
+        $("#myTable").table2excel({
+            name: "Table2Excel",
+            filename: "ECSReport",
+            fileext: ".xls"
+        });
+    }
     $(document).ready(function () {
         $("#myTable").tablesorter({ sortList: [[2, 0], [1, 0]] });
     });
 </script>
-        @Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
-        <br />
-        @Html.ActionLink("Save Current Filter", "SaveFilter", Model.Filter)
+@Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
+<br />
+@Html.ActionLink("Save Current Filter", "SaveFilter", Model.Filter)
 
-        <table class="table table-bordered table-condensed tablesorter" id="myTable">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].StaffMemberID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].LastName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].DateOfHire)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].DirectorCredentials)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].DCExpiration)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].CDAInProgress)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].CDAType)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].CDAExpiration)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].CDARenewalProcess)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].Comments)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].Goal)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].MidYear)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].EndYear)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].GoalMet)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].TAndAApp)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].AppApp)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].ClassCompleted)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].ClassPaid)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].RequiredHours)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].HoursEarned)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].Notes)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].TermDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StaffMembers[0].IsInactive)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+<table class="table table-bordered table-condensed tablesorter" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].StaffMemberID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].DateOfHire)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].DirectorCredentials)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].DCExpiration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].CDAInProgress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].CDAType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].CDAExpiration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].CDARenewalProcess)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].Goal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].MidYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].EndYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].GoalMet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].TAndAApp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].AppApp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].ClassCompleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].ClassPaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].RequiredHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].HoursEarned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].TermDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StaffMembers[0].IsInactive)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.StaffMembers)
+        {
+            // Filter inactive staff members
+            if (!item.IsInactive)
+            {
+                // check if member CDA is about to expire
+                String CDAFormat;
 
-                @*@{int i = 0;}
-                    @foreach (var item in Model.StaffMembers)
-                    {
-                        <tr>
-                            <td>@item.StaffMemberID</td>
-                            <td>@item.FirstName</td>
-                            <td>@item.LastName</td>
-                            <td>@item.Email</td>
-                            <td>@item.DateOfHire</td>
-                            <td>@item.DirectorCredentials</td>
-                            <td>@item.DCExpiration</td>
-                            <td>@item.CDAInProgress</td>
-                            <td>@item.CDAType</td>
-                            <td>@item.CDAExpiration</td>
-                            <td>@item.CDARenewalProcess</td>
-                            <td>@item.Comments</td>
-                            <td>@item.Goal</td>
-                            <td>@item.MidYear</td>
-                            <td>@item.EndYear</td>
-                            <td>@item.GoalMet</td>
-                            <td>@item.TAndAApp</td>
-                            <td>@item.AppApp</td>
-                            <td>@item.ClassCompleted</td>
-                            <td>@item.ClassPaid</td>
-                            <td>@item.RequiredHours</td>
-                            <td>@item.HoursEarned</td>
-                            <td>@item.Notes</td>
-                            <td>@item.TermDate</td>
-                            <td>@item.IsInactive</td>
-                        </tr>
-                    }*@
-                @foreach (var item in Model.StaffMembers)
+                if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
                 {
-                    // Filter inactive staff members
-                    if (!item.IsInactive)
-                    {
-                        // check if member CDA is about to expire
-                        String CDAFormat;
-
-                        if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
-                        {
-                            CDAFormat = "danger";
-                        }
-                        else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
-                        {
-                            CDAFormat = "warning";
-                        }
-                        else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
-                        {
-                            CDAFormat = "info";
-                        }
-                        else
-                        {
-                            CDAFormat = "";
-                        }//end expiration check
-
-                        // check if member DC is about to expire
-                        String DCFormat;
-                        if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 30)
-                        {
-                            DCFormat = "danger";
-                        }
-                        else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 60)
-                        {
-                            DCFormat = "warning";
-                        }
-                        else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 90)
-                        {
-                            DCFormat = "info";
-                        }
-                        else
-                        {
-                            DCFormat = "";
-                        }//end expiration check
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StaffMemberID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateOfHire)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DirectorCredentials)
-                        </td>
-                        <td class="@DCFormat">
-                            @Html.DisplayFor(modelItem => item.DCExpiration)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CDAInProgress)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CDAType)
-                        </td>
-                        <td  class="@CDAFormat">
-                            @Html.DisplayFor(modelItem => item.CDAExpiration)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CDARenewalProcess)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Comments)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Goal)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MidYear)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EndYear)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GoalMet)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TAndAApp)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AppApp)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ClassCompleted)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ClassPaid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RequiredHours)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HoursEarned)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Notes)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TermDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IsInactive)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CompletedCerts)
-                        </td>
-                    </tr>
-                    }
+                    CDAFormat = "danger";
                 }
-            </tbody>
-        </table>
+                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    CDAFormat = "warning";
+                }
+                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    CDAFormat = "info";
+                }
+                else
+                {
+                    CDAFormat = "";
+                }//end expiration check
+
+                // check if member DC is about to expire
+                String DCFormat;
+                if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 30)
+                {
+                    DCFormat = "danger";
+                }
+                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    DCFormat = "warning";
+                }
+                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    DCFormat = "info";
+                }
+                else
+                {
+                    DCFormat = "";
+                }//end expiration check
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffMemberID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfHire)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DirectorCredentials)
+                    </td>
+                    <td class="@DCFormat">
+                        @Html.DisplayFor(modelItem => item.DCExpiration)
+                    </td>
+                    <td>
+                        @(item.CDAInProgress?"Yes":"No")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDAType)
+                    </td>
+                    <td class="@CDAFormat">
+                        @Html.DisplayFor(modelItem => item.CDAExpiration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDARenewalProcess)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @(item.Goal ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.MidYear ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.EndYear ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.GoalMet ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.TAndAApp ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.AppApp ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.ClassCompleted ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.ClassPaid ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredHours)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HoursEarned)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TermDate)
+                    </td>
+                    <td>
+                        @(item.IsInactive ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompletedCerts)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<button class ="btn-primary" onclick="exportexcel()">Export to Excel</button>
