@@ -1,9 +1,8 @@
-﻿
-@model IEnumerable<SeniorProjectECS.Models.Position>
+﻿@model IEnumerable<SeniorProjectECS.Models.Position>
+<div class="page-header">
+    <h2>Position List</h2>
+</div>
 
-<p>
-    <a asp-action="Create">Create New Position</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -33,3 +32,4 @@
 }
     </tbody>
 </table>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Create New Position", "Create", "Position")</a>
