@@ -32,8 +32,8 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.CertificationID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.CertificationID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CertificationID })
+                @Html.ActionLink("Details", "Details", new { id = item.CertificationID })|
+                <span class="deleteValidate"> @Html.ActionLink("Delete", "Delete", new { id = item.CertificationID })</span>
             </td>
         </tr>
 }
