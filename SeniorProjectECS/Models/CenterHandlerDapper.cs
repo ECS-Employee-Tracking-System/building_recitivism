@@ -53,7 +53,11 @@ namespace SeniorProjectECS.Models
 
         public void AddModel(Center Model)
         {
-
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = "INSERT INTO Center (Name, County, Region) VALUES (@Name, @County, @Region)";
+                con.Execute(sql, new { Name = Model.Name, County = Model.County, Region=Model.Region });
+            }
         }
 
         public void UpdateModel(Center Model)
