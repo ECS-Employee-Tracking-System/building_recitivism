@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SeniorProjectECS.Models.Position>
+<div class="page-header">
+    <h2>Delete Unused Positions</h2>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PositionID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PositionTitle)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionTitle)
+            </td>
+            <td>
+                <span class"deleteValidate"> @Html.ActionLink("Delete", "Delete", new { id = item.PositionID })</span>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

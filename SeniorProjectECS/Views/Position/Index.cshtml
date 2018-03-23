@@ -6,30 +6,32 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.PositionID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PositionTitle)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionTitle)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositionID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositionTitle)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.PositionID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.PositionID })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionTitle)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PositionID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PositionID })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <a class="btn btn-primary btn-default" @Html.ActionLink("Create New Position", "Create", "Position")</a>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Delete Unused Position", "CleanPosition", "Position")</a>
