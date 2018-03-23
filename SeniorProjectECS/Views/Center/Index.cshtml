@@ -31,5 +31,7 @@
         }
     </tbody>
 </table>
-<a class="btn btn-primary btn-default" @Html.ActionLink("Create New Center", "Create", "Center")</a>
-<a class="btn btn-primary btn-default" @Html.ActionLink("Delete Unused Center", "CleanCenters", "Center")</a>
+<div AdminOnly class="container">
+    <a class="btn btn-primary btn-default" @Html.ActionLink("Create New Center", "Create", "Center")</a>
+    <a class="btn btn-primary btn-default" @Html.ActionLink("Delete Unused Center", "CleanCenters", "Center")</a>
+</div>
