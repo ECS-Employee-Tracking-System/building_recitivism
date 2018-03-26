@@ -39,7 +39,7 @@
                                 type: "string"
                             },
                             LastName: {
-                                type: "string"                           
+                                type: "string"
                             },
                             Email: {
                                 type: "string"
@@ -104,11 +104,11 @@
                             IsInactive: {
                                 type: "boolean"
                             },
-                            PositionID: {
-                                type: "number"
-                            },
+                            Position: [{ PositionID: { type: "number" } },
+                            { PositionTitle: { type: "string" } }
+                            ],
                             PositionTitle: {
-                                type: "string"
+                                type: "string", from:"Position.PositionTitle"
                             },
                             CenterID: {
                                 type: "number"
@@ -122,21 +122,12 @@
                             Region: {
                                 type: "string"
                             },
-                            EducationID: {
-                                type: "number"
-                            },
-                            DegreeAbrv: {
-                                type: "string"
-                            },
-                            DegreeLevel: {
-                                type: "string"
-                            },
-                            DegreeType: {
-                                type: "string"
-                            },
-                            DegreeDetail: {
-                                type: "string"
-                            },
+                            Education: [{ EducationID: {type: "number"}},
+                                { DegreeAbrv: { type: "string" } },
+                                { DegreeLevel: { type: "string" } },
+                                { DegreeType: { type: "string" } },
+                                { DegreeDetail: { type: "string" } }
+                            ],
                             CertCompletionDate: {
                                 type: "date"
                             },
@@ -272,16 +263,21 @@
                 title: "IsInactive",
                 width: "80px"
             },
-            //{
-            //    field: "PositionID",
-            //    title: "PositionID",
-            //    width: "80px"
-            //},
+            {
+                field: "Position",
+                title: "Position",
+                width: "80px",        
+            },
+            {
+                field: "PositionID",
+                title: "PositionID",
+                width: "80px"
+            },
             {
                 field: "PositionTitle",
                 title: "PositionTitle",
                 width: "80px"
-            },
+            },      
             //{
             //    field: "CenterID",
             //    title: "CenterID",
@@ -300,28 +296,13 @@
                 title: "Region",
                 width: "80px"
             },
-            //{
-            //    field: "EducationID",
-            //    title: "EducationID",
-            //    width: "80px"
-            //},
+
             {
-                field: "DegreeAbrv",
-                title: "DegreeAbrv",
+                field: "Education",
+                title: "Education",
                 width: "80px"
-            }, {
-                field: "DegreeLevel",
-                title: "DegreeLevel",
-                width: "80px"
-            }, {
-                field: "DegreeType",
-                title: "DegreeType",
-                width: "80px"
-            }, {
-                field: "DegreeDetail",
-                title: "DegreeDetail",
-                width: "80px"
-            }, {
+            },
+            {
                 field: "CertCompletionDate",
                 title: "CertCompletionDate",
                 format: "{0:MM-dd-yyyy}",

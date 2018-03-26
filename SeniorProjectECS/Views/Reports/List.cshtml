@@ -1,0 +1,97 @@
+﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
+<script>
+    function exportexcel() {
+        $("#StaffTable").table2excel({
+            name: "Table2Excel",
+            filename: "ECSReport",
+            fileext: ".xls"
+        });
+    }
+    $(document).ready(function () {
+        $("StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+    });
+    $.ajax({
+        dataType: "json",
+        url: '/Reports/GetFilterLists',
+        data: 'ListData',
+        success: function (data) {
+            //console.log(data);
+            var trHTML = '';
+            $.each(data, function (index, staff) {
+                //console.log(staff);
+                CenterName = '';
+                CenterCounty = '';
+                CenterRegion = '';
+                Position = '';
+                EducationAbrv = '';
+                EducationLevel = '';
+                EducationType = '';
+                EducationDetail = '';
+                PRCertName = '';
+                PRCertExpireAmount = '';
+                PRCertCompletionDate= '';
+                $.each(JSON.parse(staff.Center), function (index, cen) { CenterName += cen.Name });
+                $.each(JSON.parse(staff.Center), function (index, cen) { CenterCounty += cen.County });
+                $.each(JSON.parse(staff.Center), function (index, cen) { CenterRegion += cen.Region });
+                $.each(JSON.parse(staff.Position), function (index, pos) { Position += pos.PositionTitle + ', ' });
+                $.each(JSON.parse(staff.Education), function (index, edu) { EducationAbrv += edu.DegreeAbrv + ', ' });
+                $.each(JSON.parse(staff.Education), function (index, edu) { EducationLevel += edu.DegreeLevel + ', ' });
+                $.each(JSON.parse(staff.Education), function (index, edu) { EducationType += edu.DegreeType + ', ' });
+                $.each(JSON.parse(staff.Education), function (index, edu) { EducationDetail += edu.DegreeDetail + ', ' });
+                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertName += posReq.CertName + ', ' });
+                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertExpireAmount += posReq.CertExpireAmount + ', ' });
+                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertCompletionDate += posReq.CertCompletionDate + ', ' });
+                trHTML += '<tr><td>'
+                    + staff.FirstName + '</td><td>'
+                    + staff.LastName + '</td><td>'
+                    + staff.Email + '</td><td>'
+                    + staff.DateOfHire + '</td><td>'
+                    + staff.DirectorCredentials + '</td><td>'
+                    + staff.DCExpiration + '</td><td>'
+                    + staff.Comments + '</td><td>'
+                    + CenterName + '</td><td>'
+                    + CenterCounty + '</td><td>'
+                    + CenterRegion + '</td><td>'
+                    + Position + '</td><td>'
+                    + EducationAbrv + '</td><td>'
+                    + EducationLevel + '</td><td>'
+                    + EducationType + '</td><td>'
+                    + EducationDetail + '</td><td>'
+                    + PRCertName + '</td><td>'
+                    + PRCertExpireAmount + '</td><td>'
+                    + PRCertCompletionDate+
+                    + '</td></tr >';
+            });
+
+            $('#StaffTable').append(trHTML);
+
+        },
+    });
+</script>
+<table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Date of Hire</th>
+            <th>Director Credantials</th>
+            <th>DC Expiration</th>
+            <th>Comments</th>
+            <th>Center Name</th>
+            <th>Center County</th>
+            <th>Ceter Region</th>
+            <th>Position</th>
+            <th>Degree Abrv</th>
+            <th>Degree Level</th>
+            <th>Degree Type</th>
+            <th>Degree Detail</th>
+            <th>Required Cert</th>
+            <th>Cert Expire Time</th>
+            <th>Cert Completion Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>

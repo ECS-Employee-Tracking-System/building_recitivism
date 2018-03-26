@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
 using System;
@@ -260,5 +261,11 @@ namespace SeniorProjectECS.Controllers
         {
             return View();
         }
+        
+        public IActionResult List()
+        {
+            return View();
+        }
+            
     }
 }
