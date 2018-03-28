@@ -7,15 +7,15 @@
             fileext: ".xls"
         });
     }
-    $(document).ready(function () {
-        $("StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
-    });
+    //$(document).ready(function () {
+    //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+    //});
     $.ajax({
         dataType: "json",
         url: '/Reports/GetFilterLists',
         data: 'ListData',
         success: function (data) {
-            //console.log(data);
+            console.log(data);
             var trHTML = '';
             $.each(data, function (index, staff) {
                 //console.log(staff);
@@ -30,17 +30,10 @@
                 PRCertName = '';
                 PRCertExpireAmount = '';
                 PRCertCompletionDate= '';
-                $.each(JSON.parse(staff.Center), function (index, cen) { CenterName += cen.Name });
-                $.each(JSON.parse(staff.Center), function (index, cen) { CenterCounty += cen.County });
-                $.each(JSON.parse(staff.Center), function (index, cen) { CenterRegion += cen.Region });
+                $.each(JSON.parse(staff.Center), function (index, cen) { CenterName += cen.Name; CenterCounty += cen.County; CenterRegion += cen.Region;});
                 $.each(JSON.parse(staff.Position), function (index, pos) { Position += pos.PositionTitle + ', ' });
-                $.each(JSON.parse(staff.Education), function (index, edu) { EducationAbrv += edu.DegreeAbrv + ', ' });
-                $.each(JSON.parse(staff.Education), function (index, edu) { EducationLevel += edu.DegreeLevel + ', ' });
-                $.each(JSON.parse(staff.Education), function (index, edu) { EducationType += edu.DegreeType + ', ' });
-                $.each(JSON.parse(staff.Education), function (index, edu) { EducationDetail += edu.DegreeDetail + ', ' });
-                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertName += posReq.CertName + ', ' });
-                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertExpireAmount += posReq.CertExpireAmount + ', ' });
-                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertCompletionDate += posReq.CertCompletionDate + ', ' });
+                $.each(JSON.parse(staff.Education), function (index, edu) { EducationAbrv += edu.DegreeAbrv + ', '; EducationLevel += edu.DegreeLevel + ', '; EducationType += edu.DegreeType + ', '; EducationDetail += edu.DegreeDetail + ', ';});
+                $.each(JSON.parse(staff.PositionReq), function (index, posReq) { PRCertName += posReq.CertName + ', '; PRCertExpireAmount += posReq.CertExpireAmount + ', '; PRCertCompletionDate += posReq.CertCompletionDate + ', ';  });
                 trHTML += '<tr><td>'
                     + staff.FirstName + '</td><td>'
                     + staff.LastName + '</td><td>'
