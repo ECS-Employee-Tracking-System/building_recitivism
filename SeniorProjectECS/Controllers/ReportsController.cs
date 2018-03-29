@@ -55,8 +55,33 @@ namespace SeniorProjectECS.Controllers
             var returnModel = new StaffFilterViewModel();
             using (var con = DBHandler.GetSqlConnection())
             {
-                var data = con.Query<StaffMember>(sql, parameters);
-                returnModel.StaffMembers = data.ToList();
+                var staffMembers = new List<StaffMember>();
+                con.Query<StaffMember, Position, Center, Education, StaffMember>(sql, (staff, pos, center, edu) =>
+                {
+                    int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
+                    if (foundStaff == -1)
+                    {
+                        if (pos != null) { staff.Positions.Add(pos); }
+                        if (center != null) { staff.Center = center; }
+                        if (edu != null) { staff.Education.Add(edu); }
+                        staffMembers.Add(staff);
+                    }
+                    else
+                    {
+                        if (pos != null && !staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
+                        {
+                            staffMembers[foundStaff].Positions.Add(pos);
+                        }
+
+                        if (edu != null && !staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
+                        {
+                            staffMembers[foundStaff].Education.Add(edu);
+                        }
+                    }
+                    return staff;
+                }, splitOn: "PositionID,CenterID,EducationID", param: parameters);
+
+                returnModel.StaffMembers = staffMembers;
                 returnModel.Filter = Model;
             }
 

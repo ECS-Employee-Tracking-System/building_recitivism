@@ -47,6 +47,7 @@ $.ajax({
         var degreeLevels = [];
         var degreeTypes = [];
         var degreeDetails = [];
+        var certs = [];
         $.each(data, function (index, value) {
             if (value.Name != undefined) {
                 centerNames.push(value.Name);
@@ -69,6 +70,9 @@ $.ajax({
             if (value.PositionTitle != undefined) {
                 positions.push(value.PositionTitle);
             }
+            if (value.CertName != undefined) {
+                certs.push(value.CertName);
+            }
         })
         centerNames = [...new Set(centerNames)];
         centerCounties = [...new Set(centerCounties)];
@@ -77,6 +81,7 @@ $.ajax({
         degreeLevels = [...new Set(degreeLevels)];
         degreeTypes = [...new Set(degreeTypes)];
         degreeDetails = [...new Set(degreeDetails)];
+        certs = [...new Set(certs)];
 
         $('<option>').val('').text('').appendTo("#CenterName_0_");
         $.each(centerNames, function (index, value) {
@@ -112,6 +117,11 @@ $.ajax({
         $('<option>').val('').text('').appendTo("#EducationDetail_0_");
         $.each(degreeDetails, function (index, value) {
             $('<option>').val(value).text(value).appendTo("#EducationDetail_0_");
+        })
+
+        $('<option>').val('').text('').appendTo("#CertCompleted_0_");
+        $.each(certs, function (index, value) {
+            $('<option>').val(value).text(value).appendTo("#CertCompleted_0_");
         })
     }
 })
