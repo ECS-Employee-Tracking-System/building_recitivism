@@ -147,7 +147,7 @@ namespace SeniorProjectECS.Controllers
         {
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
-                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID,c.Name,c.County,c.Region, e.EducationID,e.DegreeAbrv, " + 
+                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " + 
                          "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount " +
                          "FROM StaffMember as sm " +
                          "left Outer JOIN StaffPosition as sp on sp.StaffMemberID=sm.StaffMemberID " +
@@ -180,15 +180,23 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.EducationLevel, "DegreeLevel", "e");
             sql = BuildSQLFromArray(sql, model.EducationType, "DegreeType", "e");
             sql = BuildSQLFromArray(sql, model.EducationDetail, "DegreeDetail", "e");
-            sql = BuildSQLFromArray(sql, model.CenterName, "CenterName", "c");
-            sql = BuildSQLFromArray(sql, model.CenterCounty, "CenterCounty", "c");
-            sql = BuildSQLFromArray(sql, model.CenterRegion, "CenterRegion", "c");
+            sql = BuildSQLFromArray(sql, model.CenterName, "Name", "c");
+            sql = BuildSQLFromArray(sql, model.CenterCounty, "County", "c");
+            sql = BuildSQLFromArray(sql, model.CenterRegion, "Region", "c");
             //TimeUntilExpire
             //ShouldCheckPosition
 
             return sql;
         }
 
+        /// <summary>
+        /// Add WHERE clause to search on date
+        /// </summary>
+        /// <param name="sql">The base SQL string. This should be a valid SQL statement with a WHERE clause at the end.</param>
+        /// <param name="beginDate">The starting date. We will search on entries AFTER this date. Can be null.</param>
+        /// <param name="endDate">The ending date. We will search on entries BEFORE this date. Can be null.</param>
+        /// <param name="name">The name of the column.</param>
+        /// <returns></returns>
         private string HandleDate(string sql, DateTime? beginDate, DateTime? endDate, string name)
         {
             // Get entries after the begin date
@@ -214,7 +222,7 @@ namespace SeniorProjectECS.Controllers
         /// <param name="list">The list of strings to add to the query.</param>
         /// <param name="name">The base name of the column.</param>
         /// <param name="tableName">The name of the join table.</param>
-        /// <returns></returns>
+        /// <returns>The original sql strings with the additional where statements appended to the end.</returns>
         private String BuildSQLFromArray(String sql, List<String> list, String name, String tableName)
         {
             if(list.Count > 0 && list[0] != null)
