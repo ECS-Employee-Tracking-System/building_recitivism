@@ -36,9 +36,14 @@
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('Position')">Add Another</button>
             </div>
             <div class="form-group">
-                <label asp-for="DateOfHire" class="control-label"></label>
-                <input asp-for="DateOfHire" class="form-control" />
-                <span asp-validation-for="DateOfHire" class="text-danger"></span>
+                <label asp-for="BeginDateOfHire" class="control-label"></label>
+                <input asp-for="BeginDateOfHire" class="form-control" />
+                <span asp-validation-for="BeginDateOfHire" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDateOfHire" class="control-label"></label>
+                <input asp-for="EndDateOfHire" class="form-control" />
+                <span asp-validation-for="EndDateOfHire" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
@@ -107,9 +112,14 @@
                 <span asp-validation-for="HoursEarned" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TermDate" class="control-label"></label>
-                <input asp-for="TermDate" class="form-control" />
-                <span asp-validation-for="TermDate" class="text-danger"></span>
+                <label asp-for="BeginTermDate" class="control-label"></label>
+                <input asp-for="BeginTermDate" class="form-control" />
+                <span asp-validation-for="BeginTermDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndTermDate" class="control-label"></label>
+                <input asp-for="EndTermDate" class="form-control" />
+                <span asp-validation-for="EndTermDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CertCompleted" class="control-label"></label>
