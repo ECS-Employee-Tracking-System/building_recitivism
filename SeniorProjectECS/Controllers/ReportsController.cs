@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
@@ -14,6 +15,7 @@ namespace SeniorProjectECS.Controllers
 {
     public class ReportsController : Controller
     {
+        [AdminOnly]
         public ActionResult Index()
         {
             return View();
@@ -25,6 +27,7 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
+        [AdminOnly]
         public ActionResult ApplyFilter(int? id)
         {
             using (var con = DBHandler.GetSqlConnection())
@@ -46,6 +49,7 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        [AdminOnly]
         [HttpPost]
         public ActionResult ApplyFilter(Filter Model)
         {
@@ -92,6 +96,25 @@ namespace SeniorProjectECS.Controllers
         public ActionResult EditFilter(Filter model)
         {
             return View(model);
+        }
+
+        [AdminOnly]
+        [HttpPost]
+        public ActionResult SaveFilter(Filter model)
+        {
+            using(var con = DBHandler.GetSqlConnection())
+            {
+                var handle = new FilterHandlerDapper();
+                if (model.FilterID == null)
+                {
+                    handle.AddModel(model);
+                } else
+                {
+                    handle.UpdateModel(model);
+                }
+            }
+
+            return RedirectToAction("Details", model);
         }
 
         /// <summary>
@@ -277,11 +300,19 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        [AdminOnly]
         public JsonResult GetFilterLists()
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var dataList = con.Query("GetFilterLists", commandType: CommandType.StoredProcedure);
+                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, posReq) =>
+                {
+                    if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
+                    if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
+                    if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
+
+                    return staffMember;
+                },splitOn: "Center,Education,Position,PositionReq", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }
@@ -295,6 +326,7 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        [AdminOnly]
         public IActionResult CDACompliance(int NumberOfDays = 90)
         {
             var con = DBHandler.GetSqlConnection();
@@ -312,7 +344,8 @@ namespace SeniorProjectECS.Controllers
         {
             return View();
         }
-        
+
+        [AdminOnly]
         public IActionResult List()
         {
             return View();
