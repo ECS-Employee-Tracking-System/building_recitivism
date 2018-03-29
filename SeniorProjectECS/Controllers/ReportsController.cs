@@ -92,12 +92,12 @@ namespace SeniorProjectECS.Controllers
             parameters = AddPropertyToExpando(parameters, "IsInactive", model.IsInactive);
             parameters = AddArrayToExpando(parameters, "CertName", model.CertCompleted);
             parameters = AddArrayToExpando(parameters, "PositionTitle", model.Position);
-            parameters = AddArrayToExpando(parameters, "EducationLevel", model.EducationLevel);
-            parameters = AddArrayToExpando(parameters, "EducationType", model.EducationType);
-            parameters = AddArrayToExpando(parameters, "EducationDetail", model.EducationDetail);
-            parameters = AddArrayToExpando(parameters, "CenterName", model.CenterName);
-            parameters = AddArrayToExpando(parameters, "CenterCounty", model.CenterCounty);
-            parameters = AddArrayToExpando(parameters, "CenterRegion", model.CenterRegion);
+            parameters = AddArrayToExpando(parameters, "DegreeLevel", model.EducationLevel);
+            parameters = AddArrayToExpando(parameters, "DegreeType", model.EducationType);
+            parameters = AddArrayToExpando(parameters, "DegreeDetail", model.EducationDetail);
+            parameters = AddArrayToExpando(parameters, "Name", model.CenterName);
+            parameters = AddArrayToExpando(parameters, "County", model.CenterCounty);
+            parameters = AddArrayToExpando(parameters, "Region", model.CenterRegion);
 
             return parameters;
         }
