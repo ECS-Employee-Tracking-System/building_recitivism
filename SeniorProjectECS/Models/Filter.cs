@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,12 @@ namespace SeniorProjectECS.Models
         public List<String> FirstName { get; set; }
         public List<String> LastName { get; set; }
         public List<String> Email { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime? BeginDateOfHire { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? EndDateOfHire { get; set; }
+
         public bool? Goal { get; set; }
         public bool? MidYear { get; set; }
         public bool? EndYear { get; set; }
@@ -26,8 +31,12 @@ namespace SeniorProjectECS.Models
         public int RequiredHoursType { get; set; }
         public int? HoursEarned { get; set; }
         public int HoursEarnedType { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime? BeginTermDate { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? EndTermDate { get; set; }
+
         public bool IsInactive { get; set; }
         public List<String> CertCompleted { get; set; }
         public List<String> Position { get; set; }

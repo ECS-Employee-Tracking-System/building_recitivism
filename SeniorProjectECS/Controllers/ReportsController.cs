@@ -162,7 +162,7 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.FirstName, "FirstName", "sm");
             sql = BuildSQLFromArray(sql, model.LastName, "LastName", "sm");
             sql = BuildSQLFromArray(sql, model.Email, "Email", "sm");
-            //DateOfHire
+            sql = HandleDate(sql, model.BeginDateOfHire, model.EndDateOfHire, "DateOfHire");
             if(model.Goal != null) { sql += " AND (sm.Goal=@Goal)"; }
             if (model.MidYear != null) { sql += " AND (sm.MidYear=@MidYear)"; }
             if (model.EndYear != null) { sql += " AND (sm.EndYear=@EndYear)"; }
@@ -173,7 +173,7 @@ namespace SeniorProjectECS.Controllers
             if (model.ClassPaid != null) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
             //RequiredHours
             //HoursEarned
-            //TermDate
+            sql = HandleDate(sql, model.BeginTermDate, model.EndTermDate, "TermDate");
             if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
             sql = BuildSQLFromArray(sql, model.Position, "PositionTitle", "p");
@@ -186,6 +186,24 @@ namespace SeniorProjectECS.Controllers
             //TimeUntilExpire
             //ShouldCheckPosition
 
+            return sql;
+        }
+
+        private string HandleDate(string sql, DateTime? beginDate, DateTime? endDate, string name)
+        {
+            // Get entries after the begin date
+            if(beginDate != null)
+            {
+                sql += "AND (" + name + " >= '" + beginDate + "')";
+            }
+
+            // Get entries before the end date
+            if(endDate != null)
+            {
+                sql += "AND (" + name + " <= '" + endDate + "')";
+            }
+
+            // Don't search on date
             return sql;
         }
 
