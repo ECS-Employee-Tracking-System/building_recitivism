@@ -310,9 +310,10 @@ namespace SeniorProjectECS.Controllers
                     if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
                     if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
                     if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
-                
+                    if (pos != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(pos); }
+
                     return staffMember;
-                },splitOn: "Center,Education,Position,completedCerts", commandType: CommandType.StoredProcedure);
+                },splitOn: "Center,Education,Position,CompletedCert", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }
