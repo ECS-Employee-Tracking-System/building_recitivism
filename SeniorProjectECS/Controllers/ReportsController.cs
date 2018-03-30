@@ -305,14 +305,14 @@ namespace SeniorProjectECS.Controllers
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, posReq) =>
+                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, cert) =>
                 {
                     if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
                     if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
                     if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
-
+                
                     return staffMember;
-                },splitOn: "Center,Education,Position,PositionReq", commandType: CommandType.StoredProcedure);
+                },splitOn: "Center,Education,Position,completedCerts", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }
