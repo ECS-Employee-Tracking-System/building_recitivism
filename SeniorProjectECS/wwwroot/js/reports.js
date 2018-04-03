@@ -25,24 +25,18 @@ function addSelectField(fieldName) {
 $.ajax({
     dataType: "json",
     url: '/Reports/GetFilterList',
-    data: 'filterList',
+    data: 'dataList',
     success: function (data) {
         $.each(data, function (index, value) {
-            $('<option>').val(value.FilterID).text(value.FilterName).append('#filterSelect');
+            console.log(index);
+            console.log(value);
+            $('#filterSelect').append($('<option>', {
+                value: index,
+                text: value
+            }))
         })
     }
-})
-
-$.ajax({
-    dataType: "json",
-    url: '/Reports/GetFilterList',
-    data: 'datalist',
-    success: function (data) {
-        $.each(data, function (index, value) {
-            $('<option>').val(value.)
-        })
-    }
-})
+});
 
 //populates all select lists for the filter page
 $.ajax({
@@ -100,13 +94,13 @@ $.ajax({
         })
 
         $('<option>').val('').text('').appendTo("#CenterCounty_0_");
-        $.each(centerCounties, function (index, value)  {
+        $.each(centerCounties, function (index, value) {
             $('<option>').val(value).text(value).appendTo("#CenterCounty_0_");
         })
 
         $('<option>').val('').text('').appendTo("#CenterRegion_0_");
         $.each(centerRegions, function (index, value) {
-            
+
             $('<option>').val(value).text(value).appendTo("#CenterRegion_0_");
         })
 
@@ -135,4 +129,4 @@ $.ajax({
             $('<option>').val(value).text(value).appendTo("#CertCompleted_0_");
         })
     }
-})
+});
