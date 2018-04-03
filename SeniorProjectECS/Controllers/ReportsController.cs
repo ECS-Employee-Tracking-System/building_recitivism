@@ -103,16 +103,15 @@ namespace SeniorProjectECS.Controllers
         [AdminOnly]
         public ActionResult SaveFilter(Filter model)
         {
-            using(var con = DBHandler.GetSqlConnection())
+            //testing
+            model.FilterName = "testFilter";
+
+            var handle = new FilterHandlerJSON();
+            if (model.FilterID == null)
             {
-                var handle = new FilterHandlerDapper();
-                if (model.FilterID == null)
-                {
-                    handle.AddModel(model);
-                } else
-                {
-                    handle.UpdateModel(model);
-                }
+                handle.AddModel(model);
+            } else {
+                handle.UpdateModel(model);
             }
 
             return RedirectToAction("ApplyFilter", model);

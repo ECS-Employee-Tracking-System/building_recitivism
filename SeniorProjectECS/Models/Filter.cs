@@ -9,6 +9,7 @@ namespace SeniorProjectECS.Models
     public class Filter
     {
         public int? FilterID { get; set; }
+        public string FilterName { get; set; }
 
         public List<String> FirstName { get; set; }
         public List<String> LastName { get; set; }
