@@ -301,6 +301,16 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
+        public JsonResult GetKendoLists()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var dataList = con.Query("GetKendoLists", commandType: CommandType.StoredProcedure);
+                return Json(dataList);
+            }
+        }
+
+        [AdminOnly]
         public JsonResult GetFilterLists()
         {
             using (var con = DBHandler.GetSqlConnection())
