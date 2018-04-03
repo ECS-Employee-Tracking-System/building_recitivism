@@ -13,13 +13,13 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = "INSERT INTO Filter (FirstName, LastName, Email, DateOfHire, " +
+                String sql = "INSERT INTO Filter (FirstName, LastName, Email, BeginDateOfHire, EndDateOfHire, " +
                     "Goal, MidYear, EndYear, GoalMet, TAndAApp, AppApp, ClassCompleted, ClassPaid, " +
-                    "RequiredHours, HoursEarned, TermDate, IsInactive, CertCompleted, Position, " +
+                    "RequiredHours, HoursEarned, BeginTermDate, EndTermDate, IsInactive, CertCompleted, Position, " +
                     "EducationLevel, EducationType, EducationDetail, CenterName, CenterCounty, CenterRegion, " +
                     "TimeUntilExpire, ShouldCheckPositionReq) VALUES (@FirstName, @LastName, @Email, " +
-                    "@DateOfHire, @Goal, @MidYear, @EndYear, @GoalMet, @TAndAApp, @AppApp, @ClassCompleted, " +
-                    "@ClassPaid, @RequiredHours, @HoursEarned, @TermDate, @IsInactive, @CertCompleted, " +
+                    "@BeginDateOfHire, @EndDateOfHire, @Goal, @MidYear, @EndYear, @GoalMet, @TAndAApp, @AppApp, @ClassCompleted, " +
+                    "@ClassPaid, @RequiredHours, @HoursEarned, @BeginTermDate, @EndTermDate, @IsInactive, @CertCompleted, " +
                     "@Position, @EducationLevel, @EducationType, @EducationDetail, @CenterName, @CenterCounty, " +
                     "@CenterRegion, @TimeUntilExpire, @ShouldCheckPositionReq)";
 
@@ -74,7 +74,8 @@ namespace SeniorProjectECS.Models
                 FirstName = String.Join(",", Model.FirstName),
                 LastName = String.Join(",", Model.LastName),
                 Email = String.Join(",", Model.Email),
-                DateOfHire = Model.BeginDateOfHire,
+                Model.BeginDateOfHire,
+                Model.EndDateOfHire,
                 Model.Goal,
                 Model.MidYear,
                 Model.EndYear,
@@ -85,7 +86,8 @@ namespace SeniorProjectECS.Models
                 Model.ClassPaid,
                 Model.RequiredHours,
                 Model.HoursEarned,
-                TermDate = Model.BeginTermDate,
+                Model.BeginTermDate,
+                Model.EndTermDate,
                 Model.IsInactive,
                 CertCompleted = String.Join(",", Model.CertCompleted),
                 Position = String.Join(",", Model.Position),

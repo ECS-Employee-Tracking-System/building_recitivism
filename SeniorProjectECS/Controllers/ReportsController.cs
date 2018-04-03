@@ -27,30 +27,32 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
+        //[AdminOnly]
+        //public ActionResult ApplyFilter(int? id)
+        //{
+        //    if (id != null)
+        //    {
+        //        using (var con = DBHandler.GetSqlConnection())
+        //        {
+        //            // Get the filter
+        //            String sql = "SELECT * FROM Filter WHERE FilterID=@FilterID";
+        //            var filter = con.Query<Filter>(sql, new { FilterID = id });
+
+        //            // Apply the filter
+        //            var returnModel = new StaffFilterViewModel();
+        //            sql = BuildSQLFromFilter(filter.FirstOrDefault());
+        //            var parameters = BuildParamsFromFilter(filter.FirstOrDefault());
+        //            var data = con.Query<StaffMember>(sql, parameters);
+
+        //            returnModel.StaffMembers = data.ToList();
+        //            returnModel.Filter = filter.FirstOrDefault();
+
+        //            return View("ApplyFilter", returnModel);
+        //        }
+        //    }
+        //}
+
         [AdminOnly]
-        public ActionResult ApplyFilter(int? id)
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                // Get the filter
-                String sql = "SELECT * FROM Filter WHERE FilterID=@FilterID";
-                var filter = con.Query<Filter>(sql, new { FilterID = id });
-
-                // Apply the filter
-                var returnModel = new StaffFilterViewModel();
-                sql = BuildSQLFromFilter(filter.FirstOrDefault());
-                var parameters = BuildParamsFromFilter(filter.FirstOrDefault());
-                var data = con.Query<StaffMember>(sql, parameters);
-
-                returnModel.StaffMembers = data.ToList();
-                returnModel.Filter = filter.FirstOrDefault();
-
-                return View("Details", returnModel);
-            }
-        }
-
-        [AdminOnly]
-        [HttpPost]
         public ActionResult ApplyFilter(Filter Model)
         {
             String sql = BuildSQLFromFilter(Model);
@@ -99,7 +101,6 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
-        [HttpPost]
         public ActionResult SaveFilter(Filter model)
         {
             using(var con = DBHandler.GetSqlConnection())
@@ -114,7 +115,7 @@ namespace SeniorProjectECS.Controllers
                 }
             }
 
-            return RedirectToAction("Details", model);
+            return RedirectToAction("ApplyFilter", model);
         }
 
         /// <summary>
