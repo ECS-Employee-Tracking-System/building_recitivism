@@ -324,7 +324,7 @@ namespace SeniorProjectECS.Controllers
                     if (cert != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(cert); }
 
                     return staffMember;
-                },splitOn: "Center,Education,Position,CompletedCert", commandType: CommandType.StoredProcedure);
+                },splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }

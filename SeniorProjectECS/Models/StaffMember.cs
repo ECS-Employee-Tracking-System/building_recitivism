@@ -17,6 +17,8 @@ namespace SeniorProjectECS.Models
 
         [DataType(DataType.Date)]
         public DateTime? DateCompleted { get; set; }
+        [DisplayName("Is Certification in Progress")]
+        public bool CertInProgress { get; set; }
     }
 
     public class StaffMember
