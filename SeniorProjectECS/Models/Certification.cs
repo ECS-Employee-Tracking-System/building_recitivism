@@ -14,10 +14,5 @@ namespace SeniorProjectECS.Models
         public String CertName { get; set; }
         [DisplayName("Months Cert is Valid")]
         public int CertExpireAmount { get; set; }
-        [DisplayName("Cert Completion Date")]
-        [DataType(DataType.Date)]
-        public DateTime? CertCompletionDate { get; set; }
-        [DisplayName("Is Certification in Progress")]
-        public bool CertInProgress { get; set; }
     }
 }
