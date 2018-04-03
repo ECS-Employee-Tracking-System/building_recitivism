@@ -33,6 +33,17 @@ $.ajax({
     }
 })
 
+$.ajax({
+    dataType: "json",
+    url: '/Reports/GetFilterList',
+    data: 'datalist',
+    success: function (data) {
+        $.each(data, function (index, value) {
+            $('<option>').val(value.)
+        })
+    }
+})
+
 //populates all select lists for the filter page
 $.ajax({
     dataType: "json",

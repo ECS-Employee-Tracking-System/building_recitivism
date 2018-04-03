@@ -27,31 +27,6 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
-        //[AdminOnly]
-        //public ActionResult ApplyFilter(int? id)
-        //{
-        //    if (id != null)
-        //    {
-        //        using (var con = DBHandler.GetSqlConnection())
-        //        {
-        //            // Get the filter
-        //            String sql = "SELECT * FROM Filter WHERE FilterID=@FilterID";
-        //            var filter = con.Query<Filter>(sql, new { FilterID = id });
-
-        //            // Apply the filter
-        //            var returnModel = new StaffFilterViewModel();
-        //            sql = BuildSQLFromFilter(filter.FirstOrDefault());
-        //            var parameters = BuildParamsFromFilter(filter.FirstOrDefault());
-        //            var data = con.Query<StaffMember>(sql, parameters);
-
-        //            returnModel.StaffMembers = data.ToList();
-        //            returnModel.Filter = filter.FirstOrDefault();
-
-        //            return View("ApplyFilter", returnModel);
-        //        }
-        //    }
-        //}
-
         [AdminOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
@@ -300,6 +275,11 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        public JsonResult GetFilterList()
+        {
+            return Json(FilterHandlerJSON.FilterList);
+        }
+
         [AdminOnly]
         public JsonResult GetKendoLists()
         {
@@ -325,15 +305,6 @@ namespace SeniorProjectECS.Controllers
                     return staffMember;
                 },splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
-            }
-        }
-
-        public JsonResult GetFilterList()
-        {
-            using(var con = DBHandler.GetSqlConnection())
-            {
-                var filterList = con.Query("SELECT * FROM Filter");
-                return Json(filterList);
             }
         }
 

@@ -33,10 +33,30 @@ namespace SeniorProjectECS.Models
             }
         }
 
+        public static void UpdateFilterList()
+        {
+            using(StreamWriter sw = new StreamWriter("filterIndex.json", false))
+            {
+                string jString = JsonConvert.SerializeObject(FilterList);
+                sw.WriteLine(jString);
+            }
+
+            ReloadFilterList();
+        }
+
         public void AddModel(Filter model)
         {
             if (model.FilterName != null && model.FilterName.Length > 0)
             {
+                // Get the next key to be used
+                int newKey = 0;
+                if(FilterList.Count != 0)
+                {
+                    newKey = FilterList.OrderBy(f => f.Key).Last().Key + 1;
+                }
+                model.FilterID = newKey;
+
+                // Convert to json
                 string jString = JsonConvert.SerializeObject(model);
 
                 // Write the filter to a json file
@@ -45,6 +65,7 @@ namespace SeniorProjectECS.Models
                     using (StreamWriter sw = new StreamWriter("filters/" + model.FilterName + ".json", false))
                     {
                         sw.WriteLine(jString);
+                        FilterList.Add(model.FilterID.Value, model.FilterName);
                     }
                 } catch (DirectoryNotFoundException)
                 {
@@ -53,7 +74,7 @@ namespace SeniorProjectECS.Models
                     return;
                 }
 
-                ReloadFilterList();
+                UpdateFilterList();
             }
         }
 
