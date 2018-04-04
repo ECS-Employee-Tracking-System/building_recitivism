@@ -266,6 +266,16 @@ namespace SeniorProjectECS.Controllers
             return sql;
         }
 
+        public ActionResult ValidateSave(string filterName)
+        {
+            if(FilterHandlerJSON.FilterList.ContainsValue(filterName))
+            {
+                return Content("false");
+            }
+
+            return Content("true");
+        }
+
         public JsonResult GetSelectLists()
         {
             using (var con = DBHandler.GetSqlConnection())
