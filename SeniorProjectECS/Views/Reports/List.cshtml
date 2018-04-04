@@ -1,4 +1,5 @@
 ﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
+<script src="~/lib/moment/min/moment.min.js"></script>
 <script>
     function exportexcel() {
         $("#StaffTable").table2excel({
@@ -15,10 +16,10 @@
         url: '/Reports/GetFilterLists',
         data: 'ListData',
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             var trHTML = '';
             $.each(data, function (index, staff) {
-                console.log(staff);
+                //console.log(staff);
                Position = '';
                 EducationAbrv = '';
                 EducationLevel = '';
@@ -26,16 +27,22 @@
                 EducationDetail = '';
                 PRCertName = '';
                 PRCertExpireAmount = '';
-                PRCertCompletionDate= '';
+                PRCertCompletionDate = '';
+                CertName = '';
+                CertExpireAmount = '';
+                CertCompletionDate = '';
+                CertInProgress = '';
                 $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
-                $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', ';});               
+                $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
+                $.each(staff.completedCerts, function (index, certs) { CertCompletionDate += moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY, "); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                console.log(CertCompletionDate);
                 trHTML += '<tr><td>'
                     + staff.firstName + '</td><td>'
                     + staff.lastName + '</td><td>'
                     + staff.email + '</td><td>'
-                    + staff.dateOfHire + '</td><td>'
+                    + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
                     + staff.directorCredentials + '</td><td>'
-                    + staff.dcExpiration + '</td><td>'
+                    + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
                     + staff.comments + '</td><td>'
                     + staff.center.name + '</td><td>'
                     + staff.center.county + '</td><td>'
@@ -46,8 +53,9 @@
                     + EducationType + '</td><td>'
                     + EducationDetail + '</td><td>'
                     + PRCertName + '</td><td>'
-                    //+ PRCertExpireAmount + '</td><td>'
-                    //+ PRCertCompletionDate+
+                    + CertName + '</td><td>'
+                    + CertExpireAmount + '</td><td>'
+                    + CertCompletionDate+
                     + '</td></tr >';
             });
 
@@ -75,6 +83,7 @@
             <th>Degree Type</th>
             <th>Degree Detail</th>
             <th>Required Cert</th>
+            <th>Cert Name </th>
             <th>Cert Expire Time</th>
             <th>Cert Completion Date</th>
         </tr>
