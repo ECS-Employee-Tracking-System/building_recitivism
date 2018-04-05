@@ -1,4 +1,5 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
+@using SeniorProjectECS.Library
 
 <script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript">
@@ -232,32 +233,24 @@
 <script type="text/javascript">
     function validateSave() {
 
+        // Ensure that a filter name is given
         if ($('#Filter_FilterName').val() == '') {
             alert("Please enter a filter name.");
             console.log('chhirs says so')
             return false;
         }
 
-        var promise = new Promise(function (resolve, reject) {
-            resolve(val)
-            $.get("/Reports/ValidateSave", { filterName: $('#Filter_FilterName').val() },
-                function (response) {
-                    if (response == "false") {
-                        if (confirm("Filter name already in use. Do you want to overwrite it?")) {
-                            console.log("true");
-                            val = true;
-                        } else {
-                            console.log("false");
-                            val = false;
-                        }
-                    } else {
-                        console.log("filter name good!")
-                        val = true;
+        // Check if we want to override a filter if it already exists
+        $.get("/Reports/ValidateSave", { filterName: $('#Filter_FilterName').val() },
+            function (response) {
+                if (response == "false") {
+                    if (confirm("Filter name already in use. Do you want to overwrite it?")) {
+                        $('#saveFilterForm').submit()
                     }
-                })
-        })
-
-        console.log("We should not be here.")
+                } else {
+                    $('#saveFilterForm').submit()
+                }
+            })
     }
 
     //gets filter list from database and puts in a select list
@@ -275,10 +268,11 @@
         }
     });
 </script>
+
 <div id="saveFilter" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form asp-action="SaveFilter" onsubmit="return validateSave()">
+            <form asp-action="SaveFilter">
                 <div class="modal-header">
                     <h5 class="modal-title" id="saveFilterTitle">Save Filter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -291,9 +285,60 @@
                         <input asp-for="Filter.FilterName" class="form-control" />
                     </div>
                 </div>
+
+                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.FirstName, "FirstName", "hidden")
+                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.LastName, "LastName", "hidden")
+                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Email, "Email", "hidden")
+
+                <div id="PositionList">
+                    <select id="Position_0_" name="Position[0]" class="form-control"></select>
+                </div>
+
+                <input type="hidden" asp-for="Filter.BeginDateOfHire" class="form-control" />
+                <input type="hidden" asp-for="Filter.EndDateOfHire" class="form-control" />
+                <input type="hidden" asp-for="Filter.Goal" /> @Html.DisplayNameFor(model => model.Filter.Goal)
+                <input type="hidden" asp-for="Filter.MidYear" /> @Html.DisplayNameFor(model => model.Filter.MidYear)
+                <input type="hidden" asp-for="Filter.EndYear" /> @Html.DisplayNameFor(model => model.Filter.EndYear)
+                <input type="hidden" asp-for="Filter.GoalMet" /> @Html.DisplayNameFor(model => model.Filter.GoalMet)
+                <input type="hidden" asp-for="Filter.TAndAApp" /> @Html.DisplayNameFor(model => model.Filter.TAndAApp)
+                <input type="hidden" asp-for="Filter.AppApp" /> @Html.DisplayNameFor(model => model.Filter.AppApp)
+                <input type="hidden" asp-for="Filter.ClassCompleted" /> @Html.DisplayNameFor(model => model.Filter.ClassCompleted)
+                <input type="hidden" asp-for="Filter.ClassPaid" /> @Html.DisplayNameFor(model => model.Filter.ClassPaid)
+                <input type="hidden" asp-for="Filter.RequiredHours" class="form-control" />
+                <input type="hidden" asp-for="Filter.HoursEarned" class="form-control" />
+                <input type="hidden" asp-for="Filter.BeginTermDate" class="form-control" />
+                <input type="hidden" asp-for="Filter.EndTermDate" class="form-control" />
+
+                <div id="CertCompletedList">
+                    <select id="CertCompleted_0_" name="CertCompleted[0]" class="form-control"></select>
+                </div>
+                <div id="EducationLevelList">
+                    <select id="EducationLevel_0_" name="EducationLevel[0]" class="form-control"></select>
+                </div>
+                <div id="EducationTypeList">
+                    <select id="EducationType_0_" name="EducationType[0]" class="form-control"></select>
+                </div>
+                <div id="EducationDetailList">
+                    <select id="EducationDetail_0_" name="EducationDetail[0]" class="form-control"></select>
+                </div>
+                <div id="CenterNameList">
+                    <select id="CenterName_0_" name="CenterName[0]" class="form-control"></select>
+                </div>
+                <div id="CenterCountyList">
+                    <select id="CenterCounty_0_" name="CenterCounty[0]" class="form-control"></select>
+                </div>
+                <div id="CenterRegionList">
+                    <select id="CenterRegion_0_" name="CenterRegion[0]" class="form-control"></select>
+                </div>
+
+                <input asp-for="Filter.TimeUntilExpire" class="form-control" />
+
+                <input asp-for="Filter.ShouldCheckPositionReq" /> @Html.DisplayNameFor(model => model.Filter.ShouldCheckPositionReq)
+                <input asp-for="Filter.IsInactive" /> @Html.DisplayNameFor(model => model.Filter.IsInactive)
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" value="Add" class="btn btn-primary" />
+                    <button type="button" value="Add" class="btn btn-primary" onclick="validateSave()">Save</button>
                 </div>
             </form>
         </div>

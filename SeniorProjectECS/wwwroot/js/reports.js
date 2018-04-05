@@ -1,27 +1,4 @@
-﻿function addTextField(fieldName) {
-    var numInputs = $('#' + fieldName + 'List').children().length;
-    $('<input>').attr({
-        class: 'form-control',
-        type: 'text',
-        id: fieldName + '_' + numInputs + '_',
-        name: fieldName + '[' + numInputs + ']'
-    }).appendTo('#' + fieldName + 'List');
-}
-
-function addSelectField(fieldName) {
-    var numInputs = $('#' + fieldName + 'List').children().length;
-    $('<select>').attr({
-        class: 'form-control',
-        id: fieldName + '_' + numInputs + '_',
-        name: fieldName + '[' + numInputs + ']'
-    }).appendTo('#' + fieldName + 'List');
-
-    var $options = $('#' + fieldName + '_0_ > option').clone();
-    $('#' + fieldName + '_' + numInputs + '_').append($options);
-}
-
-
-//gets filter list from database and puts in a select list
+﻿//gets filter list from database and puts in a select list
 $.ajax({
     dataType: "json",
     url: '/Reports/GetFilterList',
@@ -54,29 +31,29 @@ $.ajax({
         var degreeDetails = [];
         var certs = [];
         $.each(data, function (index, value) {
-            if (value.Name != undefined) {
-                centerNames.push(value.Name);
+            if (value.CenterName != undefined) {
+                centerNames.push(value.CenterName);
             }
-            if (value.County != undefined) {
-                centerCounties.push(value.County);
+            if (value.CenterCounty != undefined) {
+                centerCounties.push(value.CenterCounty);
             }
-            if (value.Region != undefined) {
-                centerRegions.push(value.Region);
+            if (value.CenterRegion != undefined) {
+                centerRegions.push(value.CenterRegion);
             }
-            if (value.DegreeLevel != undefined) {
-                degreeLevels.push(value.DegreeLevel);
+            if (value.EducationLevel != undefined) {
+                degreeLevels.push(value.EducationLevel);
             }
-            if (value.DegreeType != undefined) {
-                degreeTypes.push(value.DegreeType);
+            if (value.EducationType != undefined) {
+                degreeTypes.push(value.EducationType);
             }
-            if (value.DegreeDetail != undefined) {
-                degreeDetails.push(value.DegreeDetail);
+            if (value.EducationDetail != undefined) {
+                degreeDetails.push(value.EducationDetail);
             }
-            if (value.PositionTitle != undefined) {
-                positions.push(value.PositionTitle);
+            if (value.Position != undefined) {
+                positions.push(value.Position);
             }
-            if (value.CertName != undefined) {
-                certs.push(value.CertName);
+            if (value.CertCompleted != undefined) {
+                certs.push(value.CertCompleted);
             }
         })
         centerNames = [...new Set(centerNames)];
