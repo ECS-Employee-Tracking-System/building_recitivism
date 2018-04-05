@@ -12,16 +12,19 @@
     function getCerts() {
         $.getJSON('/Reports/GetCertList', function (json) {
             var trCenter = '';
+            var tdCenter = '';
             $.each(json, function (index, cert) {
-                trCenter += '<th>' + cert.CertName + ' Expire Date</th>';            
+                trCenter += '<th>' + cert.CertName + ' Expire Date</th>'; 
+                tdCenter += '<td id ="' + findAndReplace(cert.CertName," ", "_")+'"></td>'
             });
-            getTable(trCenter);
+            getTable(trCenter, tdCenter);
         });
     }
+
         //$(document).ready(function () {
         //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
         //});
-    function getTable(trCenter) {
+    function getTable(trCenter, tdCenter) {
         $.getJSON('/Reports/GetFilterLists', function (data) {
             //console.log(data);
             var trHTML = '';
@@ -43,9 +46,8 @@
                 CertInProgress = '';
                 $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
                 $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
-                $.each(staff.completedCerts, function (index, certs) { CertCompletionDate += moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY, "); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
-                trHTML +=
-                    '<tr><td>'
+                $('#StaffTable tbody').append(
+                    '<tr id="'+staff.staffMemberID+'"><td>'
                     + staff.firstName + '</td><td>'
                     + staff.lastName + '</td><td>'
                     + staff.email + '</td><td>'
@@ -61,11 +63,14 @@
                     + EducationLevel + '</td><td>'
                     + EducationType + '</td><td>'
                     + EducationDetail + '</td><td>'
-                    + PRCertName + '</td><td>'
-                    + CertCompletionDate
-                    + '</td></tr >';
+                    + PRCertName + '</td>'
+                    + tdCenter
+                    + '</tr >');
+                console.log('finished table');
+                $.each(staff.completedCerts, function (index, certs) {  $("#"+(staff.staffMemberID)+"> #"+(findAndReplace(certs.cert.certName ," ", "_"))).text(moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY")); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+
             });
-            $('#StaffTable tbody').append(trHTML);
+           
 
         });
     }
