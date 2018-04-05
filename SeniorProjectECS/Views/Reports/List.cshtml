@@ -1,150 +1,76 @@
 ﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="~/lib/moment/min/moment.min.js"></script>
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-    function responseHandler(res) {
-        var flatArray = [];
-        $.each(res, function (i, element) {
-            flatArray.push(JSON.flatten(element));
-        });
-        console.log(flatArray);
-        return flatArray;
-    }
-    JSON.unflatten = function (data) {
-        "use strict";
-        if (Object(data) !== data || Array.isArray(data))
-            return data;
-        var result = {}, cur, prop, idx, last, temp;
-        for (var p in data) {
-            cur = result, prop = "", last = 0;
-            do {
-                idx = p.indexOf(".", last);
-                temp = p.substring(last, idx !== -1 ? idx : undefined);
-                cur = cur[prop] || (cur[prop] = (!isNaN(parseInt(temp)) ? [] : {}));
-                prop = temp;
-                last = idx + 1;
-            } while (idx >= 0);
-            cur[prop] = data[p];
-        }
-        return result[""];
-    }
-    JSON.flatten = function (data) {
-        var result = {};
-        function recurse(cur, prop) {
-            if (Object(cur) !== cur) {
-                result[prop] = cur;
-            } else if (Array.isArray(cur)) {
-                for (var i = 0, l = cur.length; i < l; i++)
-                    recurse(cur[i], prop ? prop + "." + i : "" + i);
-                if (l == 0)
-                    result[prop] = [];
-            } else {
-                var isEmpty = true;
-                for (var p in cur) {
-                    isEmpty = false;
-                    recurse(cur[p], prop ? prop + "." + p : p);
-                }
-                if (isEmpty)
-                    result[prop] = {};
-            }
-        }
-        recurse(data, "");
-        return result;
-    }
-</script>*@
-
-
-
 
 <script>
-        function exportexcel() {
-            $("#StaffTable").table2excel({
-                name: "Table2Excel",
-                filename: "ECSReport",
-                fileext: ".xls"
+    function exportexcel() {
+        $("#StaffTable").table2excel({
+            name: "Table2Excel",
+            filename: "ECSReport",
+            fileext: ".xls"
             });
         }
+    function getCerts() {
+        $.getJSON('/Reports/GetCertList', function (json) {
+            var trCenter = '';
+            $.each(json, function (index, cert) {
+                trCenter += '<th>' + cert.CertName + ' Expire Date</th>';            
+            });
+            getTable(trCenter);
+        });
+    }
         //$(document).ready(function () {
         //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
         //});
-        $.ajax({
-            dataType: "json",
-            url: '/Reports/GetFilterLists',
-            data: 'ListData',
-            success: function (data) {
-                //console.log(data);
-                var trHTML = '';
-                var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Director Credantials</th><th>DC Expiration</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th><th>Cert Name </th><th>Cert Expire Time</th><th>Cert Completion Date</th></tr>';
-                $('#StaffTable thead').append(thead);
-                $.each(data, function (index, staff) {
-                    //console.log(staff);
-                    Position = '';
-                    EducationAbrv = '';
-                    EducationLevel = '';
-                    EducationType = '';
-                    EducationDetail = '';
-                    PRCertName = '';
-                    PRCertExpireAmount = '';
-                    PRCertCompletionDate = '';
-                    CertName = '';
-                    CertExpireAmount = '';
-                    CertCompletionDate = '';
-                    CertInProgress = '';
-                    $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
-                    $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
-                    $.each(staff.completedCerts, function (index, certs) { CertCompletionDate += moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY, "); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
-                    console.log(CertCompletionDate);
-                    trHTML +=
-                        '<tr><td>'
-                        + staff.firstName + '</td><td>'
-                        + staff.lastName + '</td><td>'
-                        + staff.email + '</td><td>'
-                        + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
-                        + staff.directorCredentials + '</td><td>'
-                        + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
-                        + staff.comments + '</td><td>'
-                        + staff.center.name + '</td><td>'
-                        + staff.center.county + '</td><td>'
-                        + staff.center.region + '</td><td>'
-                        + Position + '</td><td>'
-                        + EducationAbrv + '</td><td>'
-                        + EducationLevel + '</td><td>'
-                        + EducationType + '</td><td>'
-                        + EducationDetail + '</td><td>'
-                        + PRCertName + '</td><td>'
-                        + CertName + '</td><td>'
-                        + CertExpireAmount + '</td><td>'
-                        + CertCompletionDate
-                        + '</td></tr >';
-                });
-
-                $('#StaffTable tbody').append(trHTML);
-
-            },
+    function getTable(trCenter) {
+        $.getJSON('/Reports/GetFilterLists', function (data) {
+            //console.log(data);
+            var trHTML = '';
+            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Director Credantials</th><th>DC Expiration</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
+            $('#StaffTable thead').append(thead);
+            $.each(data, function (index, staff) {
+                //console.log(staff);
+                Position = '';
+                EducationAbrv = '';
+                EducationLevel = '';
+                EducationType = '';
+                EducationDetail = '';
+                PRCertName = '';
+                PRCertExpireAmount = '';
+                PRCertCompletionDate = '';
+                CertName = '';
+                CertExpireAmount = '';
+                CertCompletionDate = '';
+                CertInProgress = '';
+                $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
+                $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
+                $.each(staff.completedCerts, function (index, certs) { CertCompletionDate += moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY, "); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                trHTML +=
+                    '<tr><td>'
+                    + staff.firstName + '</td><td>'
+                    + staff.lastName + '</td><td>'
+                    + staff.email + '</td><td>'
+                    + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
+                    + staff.directorCredentials + '</td><td>'
+                    + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
+                    + staff.comments + '</td><td>'
+                    + staff.center.name + '</td><td>'
+                    + staff.center.county + '</td><td>'
+                    + staff.center.region + '</td><td>'
+                    + Position + '</td><td>'
+                    + EducationAbrv + '</td><td>'
+                    + EducationLevel + '</td><td>'
+                    + EducationType + '</td><td>'
+                    + EducationDetail + '</td><td>'
+                    + PRCertName + '</td><td>'
+                    + CertCompletionDate
+                    + '</td></tr >';
+            });
+            $('#StaffTable tbody').append(trHTML);
 
         });
+    }
+   getCerts();           
     </script>
-
-
-    @*<table data-url='/Reports/GetFilterLists' data-toggle="table" data-response-handler="responseHandler">
-        <thead>
-            <tr>
-                <th data-field="staffMemberID">ID</th>
-                <th data-field="firstName"> First Name</th>
-                <th data-field="lastName">Last Name</th>
-                <th data-field="email">Email</th>
-                <th data-field="dateOfHire">Date of Hire</th>
-                <th data-field="directorCredentials">Director Credentials</th>
-                <th data-field="dcExpiration">DC Expiration</th>
-                <th data-field="cdaInProgress">CDA In Progress</th>
-                <th data-field="cdaType">CDA Type</th>
-                <th data-field="center.name">Center Name</th>
-
-            </tr>
-        </thead>
-    </table>*@
-
 
 <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
     <thead></thead>

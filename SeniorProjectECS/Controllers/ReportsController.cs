@@ -331,6 +331,16 @@ namespace SeniorProjectECS.Controllers
             return View(cdaexpiration);
         }//end View Index
 
+        public JsonResult GetCertList()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"select distinct(CertName) from Certification ";
+                var certs = con.Query(sql);
+                return Json(certs);
+            }
+        }
+
         [AdminOnly]
         public IActionResult ListData()
         {
