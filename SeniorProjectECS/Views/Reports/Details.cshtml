@@ -1,6 +1,8 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
 @using SeniorProjectECS.Library
 
+@Html.ViewData.TemplateInfo.HtmlFieldPrefix = "";
+
 <script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript">
     function exportexcel() {
@@ -239,7 +241,6 @@
             return false;
         }
 
-        
         // Check if we want to override a filter if it already exists
         $.get("/Reports/ValidateSave", { filterName: $('#Filter_FilterName').val() },
             function (response) {
@@ -252,23 +253,7 @@
                 }
             })
     }
-
-    //gets filter list from database and puts in a select list
-    $.ajax({
-        dataType: "json",
-        url: '/Reports/GetFilterList',
-        data: 'dataList',
-        success: function (data) {
-            $.each(data, function (index, value) {
-                $('#filterSelect').append($('<option>', {
-                    value: index,
-                    text: value
-                }))
-            })
-        }
-    });
 </script>
-
 <div id="saveFilter" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -284,40 +269,39 @@
                         <label asp-for="Filter.FilterName" class="control-label"></label>
                         <input asp-for="Filter.FilterName" class="form-control" />
                     </div>
+
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.FirstName, "Filter.FirstName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.LastName, "Filter.LastName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Email, "Filter.Email", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Position, "Filter.Position", "hidden")
+
+                    <input type="hidden" asp-for="Filter.BeginDateOfHire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.EndDateOfHire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.Goal" />
+                    <input type="hidden" asp-for="Filter.MidYear" />
+                    <input type="hidden" asp-for="Filter.EndYear" />
+                    <input type="hidden" asp-for="Filter.GoalMet" />
+                    <input type="hidden" asp-for="Filter.TAndAApp" />
+                    <input type="hidden" asp-for="Filter.AppApp" />
+                    <input type="hidden" asp-for="Filter.ClassCompleted" />
+                    <input type="hidden" asp-for="Filter.ClassPaid" />
+                    <input type="hidden" asp-for="Filter.RequiredHours" class="form-control" />
+                    <input type="hidden" asp-for="Filter.HoursEarned" class="form-control" />
+                    <input type="hidden" asp-for="Filter.BeginTermDate" class="form-control" />
+                    <input type="hidden" asp-for="Filter.EndTermDate" class="form-control" />
+
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CertCompleted, "Filter.CertCompleted", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationLevel, "Filter.EducationLevel", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationType, "Filter.EducationType", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationDetail, "Filter.EducationDetail", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterName, "Filter.CenterName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterCounty, "Filter.CenterCounty", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterRegion, "Filter.CenterRegion", "hidden")
+
+                    <input type="hidden" asp-for="Filter.TimeUntilExpire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.ShouldCheckPositionReq" />
+                    <input type="hidden" asp-for="Filter.IsInactive" />
                 </div>
-
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.FirstName, "FirstName", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.LastName, "LastName", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Email, "Email", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Position, "Position", "hidden")
-
-                <input type="hidden" asp-for="Filter.BeginDateOfHire" class="form-control" />
-                <input type="hidden" asp-for="Filter.EndDateOfHire" class="form-control" />
-                <input type="hidden" asp-for="Filter.Goal" />
-                <input type="hidden" asp-for="Filter.MidYear" />
-                <input type="hidden" asp-for="Filter.EndYear" />
-                <input type="hidden" asp-for="Filter.GoalMet" />
-                <input type="hidden" asp-for="Filter.TAndAApp" />
-                <input type="hidden" asp-for="Filter.AppApp" />
-                <input type="hidden" asp-for="Filter.ClassCompleted" />
-                <input type="hidden" asp-for="Filter.ClassPaid" />
-                <input type="hidden" asp-for="Filter.RequiredHours" class="form-control" />
-                <input type="hidden" asp-for="Filter.HoursEarned" class="form-control" />
-                <input type="hidden" asp-for="Filter.BeginTermDate" class="form-control" />
-                <input type="hidden" asp-for="Filter.EndTermDate" class="form-control" />
-
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CertCompleted, "CertCompleted", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationLevel, "EducationLevel", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationType, "EducationType", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationDetail, "EducationDetail", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterName, "CenterName", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterCounty, "CenterCounty", "hidden")
-                @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterRegion, "CenterRegion", "hidden")
-
-                <input type="hidden" asp-for="Filter.TimeUntilExpire" class="form-control" />
-                <input type="hidden" asp-for="Filter.ShouldCheckPositionReq" />
-                <input type="hidden" asp-for="Filter.IsInactive" />
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" value="Add" class="btn btn-primary" onclick="validateSave()">Save</button>

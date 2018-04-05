@@ -76,17 +76,14 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
-        public ActionResult SaveFilter(Filter model)
+        public ActionResult SaveFilter(StaffFilterViewModel model)
         {
-            //testing
-            model.FilterName = "testFilter";
-
             var handle = new FilterHandlerJSON();
-            if (model.FilterID == null)
+            if (model.Filter.FilterID == null)
             {
-                handle.AddModel(model);
+                handle.AddModel(model.Filter);
             } else {
-                handle.UpdateModel(model);
+                handle.UpdateModel(model.Filter);
             }
 
             return RedirectToAction("ApplyFilter", model);
