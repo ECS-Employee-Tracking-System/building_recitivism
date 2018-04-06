@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SeniorProjectECS.Library;
+using SeniorProjectECS.Models;
 
 namespace SeniorProjectECS
 {
@@ -14,6 +15,7 @@ namespace SeniorProjectECS
     {
         public Startup(IConfiguration configuration)
         {
+            FilterHandlerJSON.ReloadFilterList();
             Configuration = configuration;
         }
 

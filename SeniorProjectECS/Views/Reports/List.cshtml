@@ -1,0 +1,79 @@
+﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
+<script src="~/lib/moment/min/moment.min.js"></script>
+
+<script>
+    function exportexcel() {
+        $("#StaffTable").table2excel({
+            name: "Table2Excel",
+            filename: "ECSReport",
+            fileext: ".xls"
+            });
+        }
+    function getCerts() {
+        $.getJSON('/Reports/GetCertList', function (json) {
+            var trCenter = '';
+            $.each(json, function (index, cert) {
+                trCenter += '<th>' + cert.CertName + ' Expire Date</th>';            
+            });
+            getTable(trCenter);
+        });
+    }
+        //$(document).ready(function () {
+        //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+        //});
+    function getTable(trCenter) {
+        $.getJSON('/Reports/GetFilterLists', function (data) {
+            //console.log(data);
+            var trHTML = '';
+            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Director Credantials</th><th>DC Expiration</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
+            $('#StaffTable thead').append(thead);
+            $.each(data, function (index, staff) {
+                //console.log(staff);
+                Position = '';
+                EducationAbrv = '';
+                EducationLevel = '';
+                EducationType = '';
+                EducationDetail = '';
+                PRCertName = '';
+                PRCertExpireAmount = '';
+                PRCertCompletionDate = '';
+                CertName = '';
+                CertExpireAmount = '';
+                CertCompletionDate = '';
+                CertInProgress = '';
+                $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
+                $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
+                $.each(staff.completedCerts, function (index, certs) { CertCompletionDate += moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY, "); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                trHTML +=
+                    '<tr><td>'
+                    + staff.firstName + '</td><td>'
+                    + staff.lastName + '</td><td>'
+                    + staff.email + '</td><td>'
+                    + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
+                    + staff.directorCredentials + '</td><td>'
+                    + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
+                    + staff.comments + '</td><td>'
+                    + staff.center.name + '</td><td>'
+                    + staff.center.county + '</td><td>'
+                    + staff.center.region + '</td><td>'
+                    + Position + '</td><td>'
+                    + EducationAbrv + '</td><td>'
+                    + EducationLevel + '</td><td>'
+                    + EducationType + '</td><td>'
+                    + EducationDetail + '</td><td>'
+                    + PRCertName + '</td><td>'
+                    + CertCompletionDate
+                    + '</td></tr >';
+            });
+            $('#StaffTable tbody').append(trHTML);
+
+        });
+    }
+   getCerts();           
+    </script>
+
+<table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
+    <thead></thead>
+    <tbody></tbody>
+</table>
+<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>

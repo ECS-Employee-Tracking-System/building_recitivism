@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SeniorProjectECS</title>   
+    <title>@ViewData["Title"] - ECS Employee Tracking System</title>   
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -13,6 +13,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="@Url.Content("~/lib/tablesorter/jquery.tablesorter.min.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/lib/tablesorter/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/js/shared.js")" type="text/javascript"></script>
     </environment>
 
     <environment exclude="Development">
@@ -33,6 +34,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
         <script src="@Url.Content("~/lib/tablesorter/jquery.tablesorter.min.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/lib/tablesorter/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/js/shared.js")" type="text/javascript"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
@@ -41,13 +43,13 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">                
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SeniorProjectECS</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ECS Employee Tracking System</a>
             </div>
             <div class=" navbar-collapse collapse">
                 <div>
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item dropdown">
+                        <li  AdminOnly class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Dashboard</a><br />
@@ -57,13 +59,14 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">View Only User</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Staff</a><br />
+                                <a class="dropdown-item" asp-area="" asp-controller="StaffMember" asp-action="Index">Dashboard</a><br />
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="CDACompliance">CDA Compliance</a><br />
+                                <a AdminOnly class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="Index">Custom Reports</a><br />
                             </div>
                         </li>
                     </ul>
@@ -78,7 +81,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - SeniorProjectECS</p>
+            <p>&copy; 2018 - Episcopal Children's Services </p>
         </footer>
     </div>
 

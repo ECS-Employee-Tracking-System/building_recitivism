@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SeniorProjectECS.Models.Education>
+<div class="page-header">
+    <h2>Delete Unused Educations</h2>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EducationID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DegreeAbrv)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DegreeLevel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DegreeType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DegreeDetail)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EducationID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeAbrv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeDetail)
+            </td>
+            <td>
+                <span class="deleteValidate">@Html.ActionLink("Delete", "DeleteEducation", new {id=item.EducationID })</span>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

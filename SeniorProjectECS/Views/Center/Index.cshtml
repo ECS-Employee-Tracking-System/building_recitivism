@@ -9,7 +9,9 @@
         $("#myTable").tablesorter({ sortList: [[0, 0], [1, 0]] });
     });
 </script>
-
+<div class="page-header">
+    <h2>ECS Centers</h2>
+</div>
 <table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
     <thead>
         <tr>
@@ -29,3 +31,7 @@
         }
     </tbody>
 </table>
+<div AdminOnly class="container">
+    <a class="btn btn-primary btn-default" @Html.ActionLink("Create New Center", "Create", "Center")</a>
+    <a class="btn btn-primary btn-default" @Html.ActionLink("Delete Unused Center", "CleanCenters", "Center")</a>
+</div>

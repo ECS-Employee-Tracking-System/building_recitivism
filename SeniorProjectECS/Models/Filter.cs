@@ -8,7 +8,8 @@ namespace SeniorProjectECS.Models
 {
     public class Filter
     {
-        public int FilterID { get; set; }
+        public int? FilterID { get; set; }
+        public string FilterName { get; set; }
 
         public List<String> FirstName { get; set; }
         public List<String> LastName { get; set; }
@@ -48,6 +49,7 @@ namespace SeniorProjectECS.Models
         public List<String> CenterRegion { get; set; }
         public int? TimeUntilExpire { get; set; }
         public bool ShouldCheckPositionReq { get; set; }
+        public DateTime? TermDate { get; set; }
 
         /// <summary>
         /// Constructor

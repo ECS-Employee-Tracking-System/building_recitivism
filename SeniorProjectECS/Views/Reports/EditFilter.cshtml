@@ -1,6 +1,6 @@
 ﻿@model SeniorProjectECS.Models.Filter
 @using SeniorProjectECS.Library
-<script src="~/js/reports.js" asp-append-version="true"></script>
+<script src="~/js/reportCreation.js" asp-append-version="true"></script>
 <h4>Filter</h4>
 <hr />
 <div class="row">
@@ -30,8 +30,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Position" class="control-label"></label>
-                <div id="PositionList">
+                @*<div id="PositionList">
                     <select id="Position_0_" name="Position[0]" class="form-control"></select>
+                </div>*@
+                <div id="PositionList">
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Position, "Position", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('Position')">Add Another</button>
             </div>
@@ -124,49 +127,49 @@
             <div class="form-group">
                 <label asp-for="CertCompleted" class="control-label"></label>
                 <div id="CertCompletedList">
-                    <select id="CertCompleted_0_" name="CertCompleted[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.CertCompleted, "CertCompleted", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('CertCompleted')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="EducationLevel" class="control-label"></label>
                 <div id="EducationLevelList">
-                    <select id="EducationLevel_0_" name="EducationLevel[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.EducationLevel, "EducationLevel", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('EducationLevel')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="EducationType" class="control-label"></label>
                 <div id="EducationTypeList">
-                    <select id="EducationType_0_" name="EducationType[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.EducationType, "EducationType", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('EducationType')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="EducationDetail" class="control-label"></label>
                 <div id="EducationDetailList">
-                    <select id="EducationDetail_0_" name="EducationDetail[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.EducationDetail, "EducationDetail", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('EducationDetail')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="CenterName" class="control-label"></label>
                 <div id="CenterNameList">
-                    <select id="CenterName_0_" name="CenterName[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.CenterName, "CenterName", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('CenterName')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="CenterCounty" class="control-label"></label>
                 <div id="CenterCountyList">
-                    <select id="CenterCounty_0_" name="CenterCounty[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.CenterCounty, "CenterCounty", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('CenterCounty')">Add Another</button>
             </div>
             <div class="form-group">
                 <label asp-for="CenterRegion" class="control-label"></label>
                 <div id="CenterRegionList">
-                    <select id="CenterRegion_0_" name="CenterRegion[0]" class="form-control"></select>
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.CenterRegion, "CenterRegion", "select")
                 </div>
                 <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('CenterRegion')">Add Another</button>
             </div>

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<SeniorProjectECS.Models.Certification>
+<div class="page-header">
+    <h2>Certification List</h2>
+</div>
 
-<p>
-    <a asp-action="Create">Create New Certification</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -32,11 +32,12 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.CertificationID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.CertificationID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CertificationID })
+                @Html.ActionLink("Details", "Details", new { id = item.CertificationID })|
+                <span class="deleteValidate"> @Html.ActionLink("Delete", "Delete", new { id = item.CertificationID })</span>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Create New Certification", "Create", "Cert")</a>
 <a class="btn btn-primary btn-default" @Html.ActionLink("Edit Positions", "Index", "Position")</a>

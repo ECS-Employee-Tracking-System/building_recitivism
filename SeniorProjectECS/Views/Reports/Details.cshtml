@@ -1,15 +1,24 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
+@using SeniorProjectECS.Library
 
+@Html.ViewData.TemplateInfo.HtmlFieldPrefix = "";
 
+<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript">
+    function exportexcel() {
+        $("#myTable").table2excel({
+            name: "Table2Excel",
+            filename: "ECSReport",
+            fileext: ".xls"
+        });
+    }
     $(document).ready(function () {
         $("#myTable").tablesorter({ sortList: [[2, 0], [1, 0]] });
     });
 </script>
-
 @Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
 <br />
-@Html.ActionLink("Save Current Filter", "SaveFilter", Model.Filter)
+<input type="button" class="btn btn-default" value="Save Filter" data-toggle="modal" data-target="#saveFilter" />
 
 <table class="table table-bordered table-condensed tablesorter" id="myTable">
     <thead>
@@ -92,40 +101,50 @@
         </tr>
     </thead>
     <tbody>
-        
-    @*@{int i = 0;}
-    @foreach (var item in Model.StaffMembers)
-    {
-        <tr>
-            <td>@item.StaffMemberID</td>
-            <td>@item.FirstName</td>
-            <td>@item.LastName</td>
-            <td>@item.Email</td>
-            <td>@item.DateOfHire</td>
-            <td>@item.DirectorCredentials</td>
-            <td>@item.DCExpiration</td>
-            <td>@item.CDAInProgress</td>
-            <td>@item.CDAType</td>
-            <td>@item.CDAExpiration</td>
-            <td>@item.CDARenewalProcess</td>
-            <td>@item.Comments</td>
-            <td>@item.Goal</td>
-            <td>@item.MidYear</td>
-            <td>@item.EndYear</td>
-            <td>@item.GoalMet</td>
-            <td>@item.TAndAApp</td>
-            <td>@item.AppApp</td>
-            <td>@item.ClassCompleted</td>
-            <td>@item.ClassPaid</td>
-            <td>@item.RequiredHours</td>
-            <td>@item.HoursEarned</td>
-            <td>@item.Notes</td>
-            <td>@item.TermDate</td>
-            <td>@item.IsInactive</td>
-        </tr>
-    }*@
-    @foreach (var item in Model.StaffMembers)
+        @foreach (var item in Model.StaffMembers)
+        {
+            // Filter inactive staff members
+            if (!item.IsInactive)
             {
+                // check if member CDA is about to expire
+                String CDAFormat;
+
+                if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
+                {
+                    CDAFormat = "danger";
+                }
+                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    CDAFormat = "warning";
+                }
+                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    CDAFormat = "info";
+                }
+                else
+                {
+                    CDAFormat = "";
+                }//end expiration check
+
+                // check if member DC is about to expire
+                String DCFormat;
+                if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 30)
+                {
+                    DCFormat = "danger";
+                }
+                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 60)
+                {
+                    DCFormat = "warning";
+                }
+                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 90)
+                {
+                    DCFormat = "info";
+                }
+                else
+                {
+                    DCFormat = "";
+                }//end expiration check
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.StaffMemberID)
@@ -145,16 +164,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.DirectorCredentials)
                     </td>
-                    <td>
+                    <td class="@DCFormat">
                         @Html.DisplayFor(modelItem => item.DCExpiration)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CDAInProgress)
+                        @(item.CDAInProgress ? "Yes" : "No")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CDAType)
                     </td>
-                    <td>
+                    <td class="@CDAFormat">
                         @Html.DisplayFor(modelItem => item.CDAExpiration)
                     </td>
                     <td>
@@ -164,28 +183,28 @@
                         @Html.DisplayFor(modelItem => item.Comments)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Goal)
+                        @(item.Goal ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MidYear)
+                        @(item.MidYear ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EndYear)
+                        @(item.EndYear ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.GoalMet)
+                        @(item.GoalMet ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TAndAApp)
+                        @(item.TAndAApp ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AppApp)
+                        @(item.AppApp ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ClassCompleted)
+                        @(item.ClassCompleted ? "Yes" : "No")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ClassPaid)
+                        @(item.ClassPaid ? "Yes" : "No")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.RequiredHours)
@@ -200,13 +219,95 @@
                         @Html.DisplayFor(modelItem => item.TermDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsInactive)
+                        @(item.IsInactive ? "Yes" : "No")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CompletedCerts)
                     </td>
                 </tr>
+            }
         }
-
     </tbody>
 </table>
+<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+
+<!-- Begin name filter save modal -->
+<script type="text/javascript">
+    function validateSave() {
+
+        // Ensure that a filter name is given
+        if ($('#Filter_FilterName').val() == '') {
+            alert("Please enter a filter name.");
+            return false;
+        }
+
+        // Check if we want to override a filter if it already exists
+        $.get("/Reports/ValidateSave", { filterName: $('#Filter_FilterName').val() },
+            function (response) {
+                if (response == "false") {
+                    if (confirm("Filter name already in use. Do you want to overwrite it?")) {
+                        $('#saveFilterForm').submit()
+                    }
+                } else {
+                    $('#saveFilterForm').submit()
+                }
+            })
+    }
+</script>
+<div id="saveFilter" class="modal fade" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTile" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="saveFilterForm" asp-action="SaveFilter">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="saveFilterTitle">Save Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Filter.FilterName" class="control-label"></label>
+                        <input asp-for="Filter.FilterName" class="form-control" />
+                    </div>
+
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.FirstName, "Filter.FirstName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.LastName, "Filter.LastName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Email, "Filter.Email", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Position, "Filter.Position", "hidden")
+
+                    <input type="hidden" asp-for="Filter.BeginDateOfHire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.EndDateOfHire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.Goal" />
+                    <input type="hidden" asp-for="Filter.MidYear" />
+                    <input type="hidden" asp-for="Filter.EndYear" />
+                    <input type="hidden" asp-for="Filter.GoalMet" />
+                    <input type="hidden" asp-for="Filter.TAndAApp" />
+                    <input type="hidden" asp-for="Filter.AppApp" />
+                    <input type="hidden" asp-for="Filter.ClassCompleted" />
+                    <input type="hidden" asp-for="Filter.ClassPaid" />
+                    <input type="hidden" asp-for="Filter.RequiredHours" class="form-control" />
+                    <input type="hidden" asp-for="Filter.HoursEarned" class="form-control" />
+                    <input type="hidden" asp-for="Filter.BeginTermDate" class="form-control" />
+                    <input type="hidden" asp-for="Filter.EndTermDate" class="form-control" />
+
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CertCompleted, "Filter.CertCompleted", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationLevel, "Filter.EducationLevel", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationType, "Filter.EducationType", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.EducationDetail, "Filter.EducationDetail", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterName, "Filter.CenterName", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterCounty, "Filter.CenterCounty", "hidden")
+                    @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterRegion, "Filter.CenterRegion", "hidden")
+
+                    <input type="hidden" asp-for="Filter.TimeUntilExpire" class="form-control" />
+                    <input type="hidden" asp-for="Filter.ShouldCheckPositionReq" />
+                    <input type="hidden" asp-for="Filter.IsInactive" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" value="Add" class="btn btn-primary" onclick="validateSave()">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End name filter save modal -->

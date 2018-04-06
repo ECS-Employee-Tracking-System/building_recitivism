@@ -3,8 +3,9 @@
 <link href="~/css/site.css" rel="stylesheet">
 <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.js"></script>
 @model SeniorProjectECS.Models.StaffMember
-<h1>StaffMember</h1>
-<hr />
+<div class="page-header">
+    <h2>Staff Member Edit Page</h2>
+</div>
 <div class="row">
     <div class="col-md-3, col-lg-6">
         <form asp-action="Edit">
@@ -254,7 +255,7 @@
                             <input type="hidden" name="StaffMemberID" value="@Model.StaffMemberID" />
                             <div class="form-group">
                                 <label class="control-label">Position Title</label>
-                                <input class="form-control" type=text name="PositionTitle" placeholder="Lead Teacher" />
+                                <input class="form-control" type=text name="PositionTitle" placeholder="Lead Teacher" list="Position"/><datalist id=Position name="Position"></datalist>
                             </div>
                         </div>
                         <div class="modal-footer">

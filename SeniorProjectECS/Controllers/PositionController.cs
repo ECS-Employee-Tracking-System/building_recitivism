@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using SeniorProjectECS.Models;
 using SeniorProjectECS.Library;
 using Dapper;
+using System.Data;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -108,6 +109,24 @@ namespace SeniorProjectECS.Controllers
             }
 
             return RedirectToAction("Edit", new { id = PositionID.GetValueOrDefault() });
+        }
+        [AdminOnly]
+        public IActionResult CleanPosition()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var results = con.Query<Position>("GetEmptyPositions", commandType: CommandType.StoredProcedure);
+                return View(results);
+            }
+        }
+        [AdminOnly]
+        public IActionResult Delete(int id)
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Query<Center>("DELETE from Position where PositionID=@id", new { id = id }).FirstOrDefault();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

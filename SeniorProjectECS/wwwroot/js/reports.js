@@ -1,37 +1,19 @@
-﻿function addTextField(fieldName) {
-    var numInputs = $('#' + fieldName + 'List').children().length;
-    $('<input>').attr({
-        class: 'form-control',
-        type: 'text',
-        id: fieldName + '_' + numInputs + '_',
-        name: fieldName + '[' + numInputs + ']'
-    }).appendTo('#' + fieldName + 'List');
-}
-
-function addSelectField(fieldName) {
-    var numInputs = $('#' + fieldName + 'List').children().length;
-    $('<select>').attr({
-        class: 'form-control',
-        id: fieldName + '_' + numInputs + '_',
-        name: fieldName + '[' + numInputs + ']'
-    }).appendTo('#' + fieldName + 'List');
-
-    var $options = $('#' + fieldName + '_0_ > option').clone();
-    $('#' + fieldName + '_' + numInputs + '_').append($options);
-}
-
-
-//gets filter list from database and puts in a select list
+﻿//gets filter list from database and puts in a select list
 $.ajax({
     dataType: "json",
     url: '/Reports/GetFilterList',
-    data: 'filterList',
+    data: 'dataList',
     success: function (data) {
         $.each(data, function (index, value) {
-            $('<option>').val(value.FilterID).text(value.FilterName).append('#filterSelect');
+            console.log(index);
+            console.log(value);
+            $('#filterSelect').append($('<option>', {
+                value: index,
+                text: value
+            }))
         })
     }
-})
+});
 
 //populates all select lists for the filter page
 $.ajax({
@@ -47,27 +29,31 @@ $.ajax({
         var degreeLevels = [];
         var degreeTypes = [];
         var degreeDetails = [];
+        var certs = [];
         $.each(data, function (index, value) {
-            if (value.Name != undefined) {
-                centerNames.push(value.Name);
+            if (value.CenterName != undefined) {
+                centerNames.push(value.CenterName);
             }
-            if (value.County != undefined) {
-                centerCounties.push(value.County);
+            if (value.CenterCounty != undefined) {
+                centerCounties.push(value.CenterCounty);
             }
-            if (value.Region != undefined) {
-                centerRegions.push(value.Region);
+            if (value.CenterRegion != undefined) {
+                centerRegions.push(value.CenterRegion);
             }
-            if (value.DegreeLevel != undefined) {
-                degreeLevels.push(value.DegreeLevel);
+            if (value.EducationLevel != undefined) {
+                degreeLevels.push(value.EducationLevel);
             }
-            if (value.DegreeType != undefined) {
-                degreeTypes.push(value.DegreeType);
+            if (value.EducationType != undefined) {
+                degreeTypes.push(value.EducationType);
             }
-            if (value.DegreeDetail != undefined) {
-                degreeDetails.push(value.DegreeDetail);
+            if (value.EducationDetail != undefined) {
+                degreeDetails.push(value.EducationDetail);
             }
-            if (value.PositionTitle != undefined) {
-                positions.push(value.PositionTitle);
+            if (value.Position != undefined) {
+                positions.push(value.Position);
+            }
+            if (value.CertCompleted != undefined) {
+                certs.push(value.CertCompleted);
             }
         })
         centerNames = [...new Set(centerNames)];
@@ -77,6 +63,7 @@ $.ajax({
         degreeLevels = [...new Set(degreeLevels)];
         degreeTypes = [...new Set(degreeTypes)];
         degreeDetails = [...new Set(degreeDetails)];
+        certs = [...new Set(certs)];
 
         $('<option>').val('').text('').appendTo("#CenterName_0_");
         $.each(centerNames, function (index, value) {
@@ -84,13 +71,13 @@ $.ajax({
         })
 
         $('<option>').val('').text('').appendTo("#CenterCounty_0_");
-        $.each(centerCounties, function (index, value)  {
+        $.each(centerCounties, function (index, value) {
             $('<option>').val(value).text(value).appendTo("#CenterCounty_0_");
         })
 
         $('<option>').val('').text('').appendTo("#CenterRegion_0_");
         $.each(centerRegions, function (index, value) {
-            
+
             $('<option>').val(value).text(value).appendTo("#CenterRegion_0_");
         })
 
@@ -113,5 +100,10 @@ $.ajax({
         $.each(degreeDetails, function (index, value) {
             $('<option>').val(value).text(value).appendTo("#EducationDetail_0_");
         })
+
+        $('<option>').val('').text('').appendTo("#CertCompleted_0_");
+        $.each(certs, function (index, value) {
+            $('<option>').val(value).text(value).appendTo("#CertCompleted_0_");
+        })
     }
-})
+});

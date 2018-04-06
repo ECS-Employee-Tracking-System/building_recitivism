@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using SeniorProjectECS.Library;
+using SeniorProjectECS.Models;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -24,6 +25,24 @@ namespace SeniorProjectECS.Controllers
             {
                 con.Query("AnnualReset", commandType: CommandType.StoredProcedure);
                 return RedirectToAction("Index");
+            }
+        }
+        [AdminOnly]
+        public IActionResult CleanEducation()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var results =con.Query<Education>("GetEmptyEducations", commandType: CommandType.StoredProcedure);
+                return View(results);
+            }
+        }
+        [AdminOnly]
+        public IActionResult DeleteEducation(int id)
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Query<Education>("DELETE from Education where EducationID=@id",   new {id=id}).FirstOrDefault();
+                return RedirectToAction("CleanEducation");
             }
         }
     }

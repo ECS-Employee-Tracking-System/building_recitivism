@@ -13,13 +13,13 @@ namespace SeniorProjectECS.Models
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = "INSERT INTO Filter (FirstName, LastName, Email, DateOfHire, " +
+                String sql = "INSERT INTO Filter (FirstName, LastName, Email, BeginDateOfHire, EndDateOfHire, " +
                     "Goal, MidYear, EndYear, GoalMet, TAndAApp, AppApp, ClassCompleted, ClassPaid, " +
-                    "RequiredHours, HoursEarned, TermDate, IsInactive, CertCompleted, Position, " +
+                    "RequiredHours, HoursEarned, BeginTermDate, EndTermDate, IsInactive, CertCompleted, Position, " +
                     "EducationLevel, EducationType, EducationDetail, CenterName, CenterCounty, CenterRegion, " +
                     "TimeUntilExpire, ShouldCheckPositionReq) VALUES (@FirstName, @LastName, @Email, " +
-                    "@DateOfHire, @Goal, @MidYear, @EndYear, @GoalMet, @TAndAApp, @AppApp, @ClassCompleted, " +
-                    "@ClassPaid, @RequiredHours, @HoursEarned, @TermDate, @IsInactive, @CertCompleted, " +
+                    "@BeginDateOfHire, @EndDateOfHire, @Goal, @MidYear, @EndYear, @GoalMet, @TAndAApp, @AppApp, @ClassCompleted, " +
+                    "@ClassPaid, @RequiredHours, @HoursEarned, @BeginTermDate, @EndTermDate, @IsInactive, @CertCompleted, " +
                     "@Position, @EducationLevel, @EducationType, @EducationDetail, @CenterName, @CenterCounty, " +
                     "@CenterRegion, @TimeUntilExpire, @ShouldCheckPositionReq)";
 
@@ -52,9 +52,19 @@ namespace SeniorProjectECS.Models
             throw new NotImplementedException();
         }
 
-        public void UpdateModel(Filter Model)
+        public void UpdateModel(Filter model)
         {
-            throw new NotImplementedException();
+            String sql = "UPDATE Filter SET FirstName = @FirstName, LastName = @LastName, Email = @Email, BeginDateOfHire = @BeginDateOfHire, EndDateOfHire = @EndDateOfHire" +
+                    "Goal = @Goal, MidYear = @MidYear, EndYear = @EndYear, GoalMet = @GoalMet, TAndAApp = @TAndAApp, AppApp = @AppApp, " +
+                    "ClassCompleted = @ClassCompleted, ClassPaid = @ClassPaid, RequiredHours = @RequiredHours, HoursEarned = @HoursEarned, " +
+                    "BeginTermDate = @BeginTermDate, EndTermDate = @EndTermDate, IsInactive = @IsInactive, CertCompleted = @CertCompleted, Position = @Position, EducationLevel = @EducationLevel, " +
+                    "EducationType = @EducationType, EducationDetail = @EducationDetail, Name = @CenterName, County = @CenterCounty, " +
+                    "Region = @CenterRegion, TimeUntilExpire = @TimeUntilExpire, ShouldCheckPositionReq = @ShouldCheckPositionReq WHERE FilterID=@FilterID";
+
+            using(var con = DBHandler.GetSqlConnection())
+            {
+                con.Execute(sql, BuildFilterParams(model));
+            }
         }
 
         private object BuildFilterParams(Filter Model)
@@ -64,19 +74,21 @@ namespace SeniorProjectECS.Models
                 FirstName = String.Join(",", Model.FirstName),
                 LastName = String.Join(",", Model.LastName),
                 Email = String.Join(",", Model.Email),
-                DateOfHire = Model.BeginDateOfHire,
-                Goal = Model.Goal,
-                MidYear = Model.MidYear,
-                EndYear = Model.EndYear,
-                GoalMet = Model.GoalMet,
-                TAndAApp = Model.TAndAApp,
-                AppApp = Model.AppApp,
-                ClassCompleted = Model.ClassCompleted,
-                ClassPaid = Model.ClassPaid,
-                RequiredHours = Model.RequiredHours,
-                HoursEarned = Model.HoursEarned,
-                TermDate = Model.BeginTermDate,
-                IsInactive = Model.IsInactive,
+                Model.BeginDateOfHire,
+                Model.EndDateOfHire,
+                Model.Goal,
+                Model.MidYear,
+                Model.EndYear,
+                Model.GoalMet,
+                Model.TAndAApp,
+                Model.AppApp,
+                Model.ClassCompleted,
+                Model.ClassPaid,
+                Model.RequiredHours,
+                Model.HoursEarned,
+                Model.BeginTermDate,
+                Model.EndTermDate,
+                Model.IsInactive,
                 CertCompleted = String.Join(",", Model.CertCompleted),
                 Position = String.Join(",", Model.Position),
                 EducationLevel = String.Join(",", Model.EducationLevel),
@@ -85,8 +97,8 @@ namespace SeniorProjectECS.Models
                 CenterName = String.Join(",", Model.CenterName),
                 CenterCounty = String.Join(",", Model.CenterCounty),
                 CenterRegion = String.Join(",", Model.CenterRegion),
-                TimeUntilExpire = Model.TimeUntilExpire,
-                ShouldCheckPositionReq = Model.ShouldCheckPositionReq
+                Model.TimeUntilExpire,
+                Model.ShouldCheckPositionReq
             };
         }
     }

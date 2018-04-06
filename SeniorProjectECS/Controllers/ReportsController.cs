@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
 using System;
@@ -13,6 +15,7 @@ namespace SeniorProjectECS.Controllers
 {
     public class ReportsController : Controller
     {
+        [AdminOnly]
         public ActionResult Index()
         {
             return View();
@@ -24,28 +27,7 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
-        public ActionResult ApplyFilter(int? id)
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                // Get the filter
-                String sql = "SELECT * FROM Filter WHERE FilterID=@FilterID";
-                var filter = con.Query<Filter>(sql, new { FilterID = id });
-
-                // Apply the filter
-                var returnModel = new StaffFilterViewModel();
-                sql = BuildSQLFromFilter(filter.FirstOrDefault());
-                var parameters = BuildParamsFromFilter(filter.FirstOrDefault());
-                var data = con.Query<StaffMember>(sql, parameters);
-
-                returnModel.StaffMembers = data.ToList();
-                returnModel.Filter = filter.FirstOrDefault();
-
-                return View("Details", returnModel);
-            }
-        }
-
-        [HttpPost]
+        [AdminOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
             String sql = BuildSQLFromFilter(Model);
@@ -54,8 +36,33 @@ namespace SeniorProjectECS.Controllers
             var returnModel = new StaffFilterViewModel();
             using (var con = DBHandler.GetSqlConnection())
             {
-                var data = con.Query<StaffMember>(sql, parameters);
-                returnModel.StaffMembers = data.ToList();
+                var staffMembers = new List<StaffMember>();
+                con.Query<StaffMember, Position, Center, Education, StaffMember>(sql, (staff, pos, center, edu) =>
+                {
+                    int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
+                    if (foundStaff == -1)
+                    {
+                        if (pos != null) { staff.Positions.Add(pos); }
+                        if (center != null) { staff.Center = center; }
+                        if (edu != null) { staff.Education.Add(edu); }
+                        staffMembers.Add(staff);
+                    }
+                    else
+                    {
+                        if (pos != null && !staffMembers[foundStaff].Positions.Any(p => p.PositionID == pos.PositionID))
+                        {
+                            staffMembers[foundStaff].Positions.Add(pos);
+                        }
+
+                        if (edu != null && !staffMembers[foundStaff].Education.Any(e => e.EducationID == edu.EducationID))
+                        {
+                            staffMembers[foundStaff].Education.Add(edu);
+                        }
+                    }
+                    return staff;
+                }, splitOn: "PositionID,CenterID,EducationID", param: parameters);
+
+                returnModel.StaffMembers = staffMembers;
                 returnModel.Filter = Model;
             }
 
@@ -66,6 +73,20 @@ namespace SeniorProjectECS.Controllers
         public ActionResult EditFilter(Filter model)
         {
             return View(model);
+        }
+
+        [AdminOnly]
+        public ActionResult SaveFilter(StaffFilterViewModel model)
+        {
+            var handle = new FilterHandlerJSON();
+            if (model.Filter.FilterID == null)
+            {
+                handle.AddModel(model.Filter);
+            } else {
+                handle.UpdateModel(model.Filter);
+            }
+
+            return RedirectToAction("ApplyFilter", model);
         }
 
         /// <summary>
@@ -91,12 +112,12 @@ namespace SeniorProjectECS.Controllers
             parameters = AddPropertyToExpando(parameters, "IsInactive", model.IsInactive);
             parameters = AddArrayToExpando(parameters, "CertName", model.CertCompleted);
             parameters = AddArrayToExpando(parameters, "PositionTitle", model.Position);
-            parameters = AddArrayToExpando(parameters, "EducationLevel", model.EducationLevel);
-            parameters = AddArrayToExpando(parameters, "EducationType", model.EducationType);
-            parameters = AddArrayToExpando(parameters, "EducationDetail", model.EducationDetail);
-            parameters = AddArrayToExpando(parameters, "CenterName", model.CenterName);
-            parameters = AddArrayToExpando(parameters, "CenterCounty", model.CenterCounty);
-            parameters = AddArrayToExpando(parameters, "CenterRegion", model.CenterRegion);
+            parameters = AddArrayToExpando(parameters, "DegreeLevel", model.EducationLevel);
+            parameters = AddArrayToExpando(parameters, "DegreeType", model.EducationType);
+            parameters = AddArrayToExpando(parameters, "DegreeDetail", model.EducationDetail);
+            parameters = AddArrayToExpando(parameters, "Name", model.CenterName);
+            parameters = AddArrayToExpando(parameters, "County", model.CenterCounty);
+            parameters = AddArrayToExpando(parameters, "Region", model.CenterRegion);
 
             return parameters;
         }
@@ -242,6 +263,16 @@ namespace SeniorProjectECS.Controllers
             return sql;
         }
 
+        public ActionResult ValidateSave(string filterName)
+        {
+            if(FilterHandlerJSON.FilterList.ContainsValue(filterName))
+            {
+                return Content("false");
+            }
+
+            return Content("true");
+        }
+
         public JsonResult GetSelectLists()
         {
             using (var con = DBHandler.GetSqlConnection())
@@ -251,24 +282,40 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
-        public JsonResult GetFilterLists()
+        public JsonResult GetFilterList()
+        {
+            return Json(FilterHandlerJSON.FilterList);
+        }
+
+        [AdminOnly]
+        public JsonResult GetKendoLists()
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var dataList = con.Query("GetFilterLists", commandType: CommandType.StoredProcedure);
+                var dataList = con.Query("GetKendoLists", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }
 
-        public JsonResult GetFilterList()
+        [AdminOnly]
+        public JsonResult GetFilterLists()
         {
-            using(var con = DBHandler.GetSqlConnection())
+            using (var con = DBHandler.GetSqlConnection())
             {
-                var filterList = con.Query("SELECT * FROM Filter");
-                return Json(filterList);
+                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, cert) =>
+                {
+                    if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
+                    if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
+                    if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
+                    if (cert != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(cert); }
+
+                    return staffMember;
+                },splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
+                return Json(dataList);
             }
         }
 
+        [AdminOnly]
         public IActionResult CDACompliance(int NumberOfDays = 90)
         {
             var con = DBHandler.GetSqlConnection();
@@ -280,5 +327,28 @@ namespace SeniorProjectECS.Controllers
             var cdaexpiration = con.Query<StaffMember>(sql ,new{ NumberOfDays = NumberOfDays});
             return View(cdaexpiration);
         }//end View Index
+
+        public JsonResult GetCertList()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                String sql = @"select distinct(CertName) from Certification ";
+                var certs = con.Query(sql);
+                return Json(certs);
+            }
+        }
+
+        [AdminOnly]
+        public IActionResult ListData()
+        {
+            return View();
+        }
+
+        [AdminOnly]
+        public IActionResult List()
+        {
+            return View();
+        }
+            
     }
 }
