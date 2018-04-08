@@ -10,10 +10,6 @@
         });
     }
 
-    //$(document).ready(function () {
-    //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
-    //});
-
     //gets the list of all available certs to create table headers and then passes them to getTable function
     function getCerts() {
         $.getJSON('/Reports/GetCertList', function (json) {
@@ -41,14 +37,13 @@
     }
 
     function getTable(trCenter, tdCenter) {
-        $.getJSON('/Reports/GetFilterLists', function (data) {
-            //console.log(data);
+        $.getJSON('/Reports/GetDashBoardLists', function (data) {
             var trHTML = '';
-            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
+            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
             $('#StaffTable thead').append(thead);
+            $("#StaffTable").tablesorter();
             $.each(data, function (index, staff) {
                 if (!staff.isInactive) {
-                    //console.log(staff);
                     Position = '';
                     EducationAbrv = '';
                     EducationLevel = '';
@@ -69,7 +64,6 @@
                         + staff.lastName + '</td><td>'
                         + staff.email + '</td><td>'
                         + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
-                        + staff.comments + '</td><td>'
                         + staff.center.name + '</td><td>'
                         + staff.center.county + '</td><td>'
                         + staff.center.region + '</td><td>'
@@ -80,9 +74,8 @@
                         + EducationDetail + '</td><td>'
                         + PRCertName + '</td>'
                         + tdCenter
-                        + '</tr >');
-                    //console.log('finished table');
-                    $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                        + '</tr >').trigger("update");
+                    $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
                 }
             });
         });
@@ -119,10 +112,18 @@
         </div>
     </div>
 </div>
+<div class="col-12 col-md-10 container page-header">
+    <h2>@Html.Raw(ViewBag.LoggedUser)'s @Html.Raw(ViewBag.AccessRole) Staff Management Panel</h2>
+</div>
 <div class="col-12 col-md-10 container">
     <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
         <thead></thead>
         <tbody></tbody>
     </table>
+    <div AdminOnly class="container">
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
+    </div>
 </div>
     <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+

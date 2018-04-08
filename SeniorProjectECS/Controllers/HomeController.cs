@@ -68,7 +68,7 @@ namespace SeniorProjectECS.Controllers
                             }
                             var user = HttpContext.Session.GetString("LogUserName");
                             HttpContext.Session.SetString("LoginStatus", user + " is Logged in");
-                            return RedirectToAction("Index", "StaffMember");
+                            return RedirectToAction("List", "Reports");
                         }
                     }
                     HttpContext.Session.SetString("LoginStatus", "Login Failed, Please Try Again");

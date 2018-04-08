@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -315,6 +316,23 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        [ViewOnly]
+        public JsonResult GetDashBoardLists()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetDashBoardLists", (staffMember, center, edu, pos, cert) =>
+                {
+                    if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
+                    if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
+                    if (pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
+                    if (cert != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(cert); }
+
+                    return staffMember;
+                }, splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
+                return Json(dataList);
+            }
+        }
         [AdminOnly]
         public IActionResult CDACompliance(int NumberOfDays = 90)
         {
@@ -344,9 +362,11 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
-        [AdminOnly]
+        [ViewOnly]
         public IActionResult List()
         {
+            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
+            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             return View();
         }
             
