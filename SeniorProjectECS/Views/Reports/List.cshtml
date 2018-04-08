@@ -9,6 +9,9 @@
             fileext: ".xls"
         });
     }
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 
     //gets the list of all available certs to create table headers and then passes them to getTable function
     function getCerts() {
@@ -103,6 +106,10 @@
 @{
     ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
 }
+<div class="tooltip">
+    Hover over me
+    <span class="tooltiptext">Tooltip text</span>
+</div>
 <div class="row">
     <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
 </div>
@@ -142,7 +149,7 @@
             <tr>
                 <th>First Name</th>
                 <th>LastName</th>
-                <th>Email</th>
+                <th><i class="glyphicon glyphicon-envelope"></i>Email</th>
                 <th>Date of Hire</th>
                 <th>Center Name</th>
                 <th>Center County</th>
@@ -152,7 +159,7 @@
                 <th>Mid Year</th>
                 <th>End Year</th>
                 <th>Goal Met</th>
-                <th>TA</th>
+                <th>TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
                 <th>Class Completed</th>
                 <th>Class Paid</th>
                 <th>Required Hours</th>
