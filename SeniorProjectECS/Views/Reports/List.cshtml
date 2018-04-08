@@ -7,12 +7,12 @@
             name: "Table2Excel",
             filename: "ECSReport",
             fileext: ".xls"
-            });
+        });
     }
 
-        //$(document).ready(function () {
-        //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
-        //});
+    //$(document).ready(function () {
+    //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+    //});
 
     //gets the list of all available certs to create table headers and then passes them to getTable function
     function getCerts() {
@@ -20,21 +20,21 @@
             var trCenter = '';
             var tdCenter = '';
             $.each(json, function (index, cert) {
-                trCenter += '<th>' + cert.CertName + ' Expire Date</th>'; 
-                tdCenter += '<td id ="' + findAndReplace(cert.CertName," ", "_")+'"></td>'
+                trCenter += '<th>' + cert.CertName + ' Expire Date</th>';
+                tdCenter += '<td id ="' + findAndReplace(cert.CertName, " ", "_") + '"></td>'
             });
             getTable(trCenter, tdCenter);
-            
+
         });
     }
     //takes in the date of cert and the amount of time cert is valid and returns the expiration date and sets class to color which will expire
-    function colorCodeDate(expDateIn,expAmount) {
+    function colorCodeDate(expDateIn, expAmount) {
         var expDate = moment(moment(expDateIn).add(expAmount, "Months"));
         var todaysDate = moment();
         var calcDate = expDate.diff(todaysDate, 'days');
         var calcOut = '';
-        if (calcDate <= 30) { calcOut = '<span class ="thirtyDays btn-danger">'+moment(expDate).format("M/D/YYYY")+'(' + calcDate + ')<span>'; }
-        else if (calcDate <= 60) { calcOut = '<span class ="sixtyDays btn-warning">'+moment(expDate).format("M/D/YYYY")+'(' + calcDate + ')<span>';}
+        if (calcDate <= 30) { calcOut = '<span class ="thirtyDays btn-danger">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        else if (calcDate <= 60) { calcOut = '<span class ="sixtyDays btn-warning">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         else if (calcDate <= 90) { calcOut = '<span class ="ninetyDays btn-info">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         else { calcOut = '<span>' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         return calcOut;
@@ -44,7 +44,7 @@
         $.getJSON('/Reports/GetFilterLists', function (data) {
             //console.log(data);
             var trHTML = '';
-            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Director Credantials</th><th>DC Expiration</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
+            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
             $('#StaffTable thead').append(thead);
             $.each(data, function (index, staff) {
                 if (!staff.isInactive) {
@@ -69,8 +69,6 @@
                         + staff.lastName + '</td><td>'
                         + staff.email + '</td><td>'
                         + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
-                        + staff.directorCredentials + '</td><td>'
-                        + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
                         + staff.comments + '</td><td>'
                         + staff.center.name + '</td><td>'
                         + staff.center.county + '</td><td>'
@@ -86,14 +84,45 @@
                     //console.log('finished table');
                     $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
                 }
-            });           
+            });
         });
     }
-   getCerts();           
-    </script>
+    getCerts();
+</script>
+<div class="row">
+    <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
+</div>
+<link rel="stylesheet" href="~/css/legendstyling.css" />
+<div class="container">
+    <div class="row">
+        <div class="col">
 
-<table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
-    <thead></thead>
-    <tbody></tbody>
-</table>
-<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-8"></div>
+    <div class="col-6 col-md-4">.</div>
+</div>
+<div class="col-2 col-md-2">
+    <div class='my-legend'>
+        <div class='legend-title'>Color Legend</div>
+        <div class='legend-scale'>
+            <ul class='legend-labels'>
+                <li><span style='background:#FB8072;'></span>30 Days before CDA Expires</li>
+                <li><span style='background:#FFFFB3;'></span>60 Days before CDA Expires</li>
+                <li><span style='background:#80B1D3;'></span>90 Days before CDA Expires</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-md-10 container">
+    <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</div>
+    <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
