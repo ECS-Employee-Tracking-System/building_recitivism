@@ -18,7 +18,21 @@
                 tdCenter += '<td id ="' + findAndReplace(cert.CertName," ", "_")+'"></td>'
             });
             getTable(trCenter, tdCenter);
+            
         });
+    }
+    //takes in the date of cert and the amount of time cert is valid and returns the expiration date and sets class to color which will expire
+    function colorCodeDate(expDateIn,expAmount) {
+        var colorCode = "noColor";
+        var expDate = moment(moment(expDateIn).add(expAmount, "Months"));
+        var todaysDate = moment();
+        var calcDate = expDate.diff(todaysDate, 'days');
+        var calcOut = '';
+        if (calcDate <= 30) { calcOut = '<span class ="thirtyDays btn-danger">'+moment(expDate).format("M/D/YYYY")+'(' + calcDate + ')<span>'; }
+        else if (calcDate <= 60) { calcOut = '<span class ="sixtyDays btn-warning">'+moment(expDate).format("M/D/YYYY")+'(' + calcDate + ')<span>';}
+        else if (calcDate <= 90) { calcOut = '<span class ="ninetyDays btn-info">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        else { calcOut = '<span>' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        return calcOut;
     }
 
         //$(document).ready(function () {
@@ -66,12 +80,10 @@
                     + PRCertName + '</td>'
                     + tdCenter
                     + '</tr >');
-                console.log('finished table');
-                $.each(staff.completedCerts, function (index, certs) {  $("#"+(staff.staffMemberID)+"> #"+(findAndReplace(certs.cert.certName ," ", "_"))).text(moment(moment(certs.dateCompleted).add(certs.cert.certExpireAmount, "Months")).format("M/D/YYYY")); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                //console.log('finished table');
+                $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
 
-            });
-           
-
+            });           
         });
     }
    getCerts();           
