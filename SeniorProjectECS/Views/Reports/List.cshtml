@@ -36,11 +36,19 @@
         return calcOut;
     }
 
+    //changes true or false to yes or no
+    function yesNoConvert(boolvar) {
+        if (boolvar) {
+            return "yes";
+        }
+        else return "no";
+
+    }
     function getTable(trCenter, tdCenter) {
         $.getJSON('/Reports/GetDashBoardLists', function (data) {
             var trHTML = '';
-            var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
-            $('#StaffTable thead').append(thead);
+            //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
+            $('#StaffTable thead tr').append(trCenter);
             $("#StaffTable").tablesorter();
             $.each(data, function (index, staff) {
                 if (!staff.isInactive) {
@@ -68,6 +76,16 @@
                         + staff.center.county + '</td><td>'
                         + staff.center.region + '</td><td>'
                         + Position + '</td><td>'
+                        + yesNoConvert(staff.goal) + '</td><td>'
+                        + yesNoConvert(staff.midYear) + '</td><td>'
+                        + yesNoConvert(staff.endYear) + '</td><td>'
+                        + yesNoConvert(staff.goalMet) + '</td><td>'
+                        + yesNoConvert(staff.tAndAApp) + '</td><td>'
+                        + yesNoConvert(staff.classCompleted) + '</td><td>'
+                        + yesNoConvert(staff.classPaid) + '</td><td>'
+                        + staff.requiredHours + '</td><td>'
+                        + staff.hoursEarned + '</td><td>'
+                        + moment(staff.termDate).format("M/D/YYYY") + '</td><td>'
                         + EducationAbrv + '</td><td>'
                         + EducationLevel + '</td><td>'
                         + EducationType + '</td><td>'
@@ -82,6 +100,9 @@
     }
     getCerts();
 </script>
+@{
+    ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
+}
 <div class="row">
     <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
 </div>
@@ -117,7 +138,33 @@
 </div>
 <div class="col-12 col-md-10 container">
     <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
-        <thead></thead>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Date of Hire</th>
+                <th>Center Name</th>
+                <th>Center County</th>
+                <th>Ceter Region</th>
+                <th>Position</th>
+                <th>Goal</th>
+                <th>Mid Year</th>
+                <th>End Year</th>
+                <th>Goal Met</th>
+                <th>TA</th>
+                <th>Class Completed</th>
+                <th>Class Paid</th>
+                <th>Required Hours</th>
+                <th>Hours Earned</th>
+                <th>Term Date</th>
+                <th>Degree Abrv</th>
+                <th>Degree Level</th>
+                <th>Degree Type</th>
+                <th>Degree Detail</th>
+                <th>Required Cert</th>
+            </tr>
+        </thead>
         <tbody></tbody>
     </table>
     <div AdminOnly class="container">
@@ -125,5 +172,5 @@
         <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
     </div>
 </div>
-    <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
 
