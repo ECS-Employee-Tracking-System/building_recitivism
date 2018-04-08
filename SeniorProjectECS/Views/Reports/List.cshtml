@@ -8,7 +8,13 @@
             filename: "ECSReport",
             fileext: ".xls"
             });
-        }
+    }
+
+        //$(document).ready(function () {
+        //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+        //});
+
+    //gets the list of all available certs to create table headers and then passes them to getTable function
     function getCerts() {
         $.getJSON('/Reports/GetCertList', function (json) {
             var trCenter = '';
@@ -23,7 +29,6 @@
     }
     //takes in the date of cert and the amount of time cert is valid and returns the expiration date and sets class to color which will expire
     function colorCodeDate(expDateIn,expAmount) {
-        var colorCode = "noColor";
         var expDate = moment(moment(expDateIn).add(expAmount, "Months"));
         var todaysDate = moment();
         var calcDate = expDate.diff(todaysDate, 'days');
@@ -35,9 +40,6 @@
         return calcOut;
     }
 
-        //$(document).ready(function () {
-        //    $("#StaffTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
-        //});
     function getTable(trCenter, tdCenter) {
         $.getJSON('/Reports/GetFilterLists', function (data) {
             //console.log(data);
@@ -45,44 +47,45 @@
             var thead = '<tr><th>First Name</th><th>LastName</th><th>Email</th><th>Date of Hire</th><th>Director Credantials</th><th>DC Expiration</th><th>Comments</th><th>Center Name</th><th>Center County</th><th>Ceter Region</th><th>Position</th><th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter + '</tr>';
             $('#StaffTable thead').append(thead);
             $.each(data, function (index, staff) {
-                //console.log(staff);
-                Position = '';
-                EducationAbrv = '';
-                EducationLevel = '';
-                EducationType = '';
-                EducationDetail = '';
-                PRCertName = '';
-                PRCertExpireAmount = '';
-                PRCertCompletionDate = '';
-                CertName = '';
-                CertExpireAmount = '';
-                CertCompletionDate = '';
-                CertInProgress = '';
-                $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
-                $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
-                $('#StaffTable tbody').append(
-                    '<tr id="'+staff.staffMemberID+'"><td>'
-                    + staff.firstName + '</td><td>'
-                    + staff.lastName + '</td><td>'
-                    + staff.email + '</td><td>'
-                    + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
-                    + staff.directorCredentials + '</td><td>'
-                    + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
-                    + staff.comments + '</td><td>'
-                    + staff.center.name + '</td><td>'
-                    + staff.center.county + '</td><td>'
-                    + staff.center.region + '</td><td>'
-                    + Position + '</td><td>'
-                    + EducationAbrv + '</td><td>'
-                    + EducationLevel + '</td><td>'
-                    + EducationType + '</td><td>'
-                    + EducationDetail + '</td><td>'
-                    + PRCertName + '</td>'
-                    + tdCenter
-                    + '</tr >');
-                //console.log('finished table');
-                $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
-
+                if (!staff.isInactive) {
+                    //console.log(staff);
+                    Position = '';
+                    EducationAbrv = '';
+                    EducationLevel = '';
+                    EducationType = '';
+                    EducationDetail = '';
+                    PRCertName = '';
+                    PRCertExpireAmount = '';
+                    PRCertCompletionDate = '';
+                    CertName = '';
+                    CertExpireAmount = '';
+                    CertCompletionDate = '';
+                    CertInProgress = '';
+                    $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
+                    $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
+                    $('#StaffTable tbody').append(
+                        '<tr id="' + staff.staffMemberID + '"><td>'
+                        + staff.firstName + '</td><td>'
+                        + staff.lastName + '</td><td>'
+                        + staff.email + '</td><td>'
+                        + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
+                        + staff.directorCredentials + '</td><td>'
+                        + moment(staff.dcExpiration).format("M/D/YYYY") + '</td><td>'
+                        + staff.comments + '</td><td>'
+                        + staff.center.name + '</td><td>'
+                        + staff.center.county + '</td><td>'
+                        + staff.center.region + '</td><td>'
+                        + Position + '</td><td>'
+                        + EducationAbrv + '</td><td>'
+                        + EducationLevel + '</td><td>'
+                        + EducationType + '</td><td>'
+                        + EducationDetail + '</td><td>'
+                        + PRCertName + '</td>'
+                        + tdCenter
+                        + '</tr >');
+                    //console.log('finished table');
+                    $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); console.log('finished fill'); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                }
             });           
         });
     }
