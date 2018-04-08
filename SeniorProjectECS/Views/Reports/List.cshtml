@@ -18,11 +18,13 @@
         $.getJSON('/Reports/GetCertList', function (json) {
             var trCenter = '';
             var tdCenter = '';
+            var chkCenter = '';
             $.each(json, function (index, cert) {
-                trCenter += '<th>' + cert.CertName + ' Expire Date</th>';
+                trCenter += '<th class="'+ findAndReplace(cert.CertName, " ", "_") +'">' + cert.CertName + ' Expire Date</th>';
                 tdCenter += '<td id ="' + findAndReplace(cert.CertName, " ", "_") + '"></td>'
+                chkCenter += '<li><input type="checkbox" name="' + findAndReplace(cert.CertName, " ", "_") + '" />' + cert.CertName+'</li>'
             });
-            getTable(trCenter, tdCenter);
+            getTable(trCenter, tdCenter, chkCenter);
 
         });
     }
@@ -47,12 +49,27 @@
         else return "no";
 
     }
-    function getTable(trCenter, tdCenter) {
+    function getTable(trCenter, tdCenter,chkCenter) {
         $.getJSON('/Reports/GetDashBoardLists', function (data) {
             var trHTML = '';
             //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
             $('#StaffTable thead tr').append(trCenter);
+            $('#grpChkBox ul').append(chkCenter);
             $("#StaffTable").tablesorter();
+            //turns off and on colums on table
+            $(function () {
+                var $chk = $("#grpChkBox input:checkbox");
+                var $tbl = $("#StaffTable");
+                var $tblhead = $("#StaffTable th");
+                console.log(moment());
+                $chk.prop('checked', true);
+
+                $chk.click(function () {
+                    var colToHide = $tblhead.filter("." + $(this).attr("name"));
+                    var index = $(colToHide).index();
+                    $tbl.find('tr :nth-child(' + (index + 1) + ')').toggle();
+                });
+            });
             $.each(data, function (index, staff) {
                 if (!staff.isInactive) {
                     Position = '';
@@ -67,8 +84,16 @@
                     CertExpireAmount = '';
                     CertCompletionDate = '';
                     CertInProgress = '';
-                    $.each(staff.positions, function (index, pos) { Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) { PRCertName += posReq.certName + ', '; PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', '; }); });
-                    $.each(staff.education, function (index, edu) { EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', '; EducationDetail += edu.degreeDetail + ', '; });
+                    $.each(staff.positions, function (index, pos) {
+                        Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) {
+                            PRCertName += posReq.certName + ', ';
+                            PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', ';
+                        });
+                    });
+                    $.each(staff.education, function (index, edu) {
+                        EducationAbrv += edu.degreeAbrv + ', '; EducationLevel += edu.degreeLevel + ', '; EducationType += edu.degreeType + ', ';
+                        EducationDetail += edu.degreeDetail + ', ';
+                    });
                     $('#StaffTable tbody').append(
                         '<tr id="' + staff.staffMemberID + '"><td>'
                         + staff.firstName + '</td><td>'
@@ -96,12 +121,15 @@
                         + PRCertName + '</td>'
                         + tdCenter
                         + '</tr >').trigger("update");
-                    $.each(staff.completedCerts, function (index, certs) { $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount)); CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', '; });
+                    $.each(staff.completedCerts, function (index, certs) {
+                        $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount));
+                        CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', ';
+                    });
                 }
             });
         });
     }
-    getCerts();
+    getCerts(); 
 </script>
 @{
     ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
@@ -143,33 +171,81 @@
 <div class="col-12 col-md-10 container page-header">
     <h2>@Html.Raw(ViewBag.LoggedUser)'s @Html.Raw(ViewBag.AccessRole) Staff Management Panel</h2>
 </div>
+
 <div class="col-12 col-md-10 container">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Filter Columns
+    </button>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add or Remove Columns</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="grpChkBox">
+                        <ul>
+                            <li><input type="checkbox" name="FirstName" /> First Name</li>
+                            <li><input type="checkbox" name="LastName" /> Last Name</li>
+                            <li><input type="checkbox" name="Email" /> Email</li>
+                            <li><input type="checkbox" name="DateOfHire" />Date Of Hire</li>
+                            <li><input type="checkbox" name="CenterName" /> Center Name</li>
+                            <li><input type="checkbox" name="CenterCounty" /> Center County</li>
+                            <li><input type="checkbox" name="CenterRegion" /> Center Region</li>
+                            <li><input type="checkbox" name="Position" /> Position</li>
+                            <li><input type="checkbox" name="Goal" /> Goal</li>
+                            <li><input type="checkbox" name="MidYear" /> MidYear</li>
+                            <li><input type="checkbox" name="EndYear" /> EndYear</li>
+                            <li><input type="checkbox" name="GoalMet" /> GoalMet</li>
+                            <li><input type="checkbox" name="TA" /> TA</li>
+                            <li><input type="checkbox" name="ClassCompleted" />Class Completed</li>
+                            <li><input type="checkbox" name="ClassPaid" /> Class Paid</li>
+                            <li><input type="checkbox" name="RequiredHours" /> Required Hours</li>
+                            <li><input type="checkbox" name="HoursEarned" /> Hours Earned</li>
+                            <li><input type="checkbox" name="TermDate" /> TermDate</li>
+                            <li><input type="checkbox" name="DegreeAbrv" /> Degree Abreviation</li>
+                            <li><input type="checkbox" name="DegreeLevel" /> DegreeLevel</li>
+                            <li><input type="checkbox" name="DegreeType" /> DegreeType</li>
+                            <li><input type="checkbox" name="DegreeDetail" /> DegreeDetail</li>
+                            <li><input type="checkbox" name="RequiredCert" /> Required Certifications</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>LastName</th>
-                <th><i class="glyphicon glyphicon-envelope"></i>Email</th>
-                <th>Date of Hire</th>
-                <th>Center Name</th>
-                <th>Center County</th>
-                <th>Ceter Region</th>
-                <th>Position</th>
-                <th>Goal</th>
-                <th>Mid Year</th>
-                <th>End Year</th>
-                <th>Goal Met</th>
-                <th>TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
-                <th>Class Completed</th>
-                <th>Class Paid</th>
-                <th>Required Hours</th>
-                <th>Hours Earned</th>
-                <th>Term Date</th>
-                <th>Degree Abrv</th>
-                <th>Degree Level</th>
-                <th>Degree Type</th>
-                <th>Degree Detail</th>
-                <th>Required Cert</th>
+                <th class="FirstName">First Name</th>
+                <th class="LastName">LastName</th>
+                <th class="Email"><i class="glyphicon glyphicon-envelope"></i>Email</th>
+                <th class="DateOfHire">Date of Hire</th>
+                <th class="CenterName">Center Name</th>
+                <th class="CenterCounty">Center County</th>
+                <th class="CenterRegion">Ceter Region</th>
+                <th class="Position">Position</th>
+                <th class="Goal">Goal</th>
+                <th class="MidYear">Mid Year</th>
+                <th class="EndYear">End Year</th>
+                <th class="GoalMet">Goal Met</th>
+                <th class="TA">TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
+                <th class ="ClassCompleted">Class Completed</th>
+                <th class="ClassPaid">Class Paid</th>
+                <th class="RequiredHours">Required Hours</th>
+                <th class="HoursEarned">Hours Earned</th>
+                <th class="TermDate">Term Date</th>
+                <th class="DegreeAbrv">Degree Abrv</th>
+                <th class="DegreeLevel">Degree Level</th>
+                <th class="DegreeType">Degree Type</th>
+                <th class="DegreeDetail">Degree Detail</th>
+                <th class="RequiredCert">Required Cert</th>
             </tr>
         </thead>
         <tbody></tbody>
