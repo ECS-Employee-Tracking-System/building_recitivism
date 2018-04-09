@@ -35,27 +35,9 @@
                 <input asp-for="Positions[0].PositionTitle" class="form-control" list=Position placeholder="Lead Teacher"><datalist id=Position name="Positions[0].PositionTitle"></datalist>
                 <span asp-validation-for="Positions[0].PositionTitle" class="text-danger"></span>
             </div>
-            <span data-toggle="collapse" data-target="#DirCred">
-                <input type="checkbox" data-toggle="toggle" data-off='Hide Director Credentials' data-width="300" data-on='Show Director Credentials' data-target="#CDA"><br><br />
-            </span>
-            <div id="DirCred" class="collapse in">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="DirectorCredentials" /> @Html.DisplayNameFor(model => model.DirectorCredentials)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DCExpiration" class="control-label"></label>
-                    <input asp-for="DCExpiration" class="form-control" />
-                    <span asp-validation-for="DCExpiration" class="text-danger"></span>
-                </div>
-            </div>
             <span data-toggle="collapse" data-target="#CDA">
                 <input type="checkbox" data-toggle="toggle" data-off="Hide CDA" data-width="300" data-on="Show CDA" data-target="#CDA"><br><br />
             </span>
-            <button type="button" class="btn btn-default btn-danger" onclick="naCDA()">NA CDA Info</button><br /><br />
             <div id="CDA" class="collapse in">
                 <div class="form-group">
                     <div class="checkbox">
@@ -63,16 +45,6 @@
                             <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
                         </label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDAType" class="control-label"></label>
-                    <input asp-for="CDAType" placeholder="CDA Type" class="form-control" />
-                    <span asp-validation-for="CDAType" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDAExpiration" class="control-label"></label>
-                    <input asp-for="CDAExpiration" class="form-control" />
-                    <span asp-validation-for="CDAExpiration" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CDARenewalProcess" class="control-label"></label>
@@ -160,11 +132,6 @@
                 <label asp-for="HoursEarned" class="control-label"></label>
                 <input asp-for="HoursEarned" placeholder="0-40" class="form-control" />
                 <span asp-validation-for="HoursEarned" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" placeholder="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Comments" class="control-label"></label>

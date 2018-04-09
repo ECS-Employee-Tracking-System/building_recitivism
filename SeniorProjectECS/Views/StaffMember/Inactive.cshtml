@@ -21,8 +21,6 @@
                     <th>Position</th>
                     <th>Date of Hire</th>
                     <th>Center</th>
-                    <th>CDA Type</th>
-                    <th>CDA Expiration</th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,9 +37,6 @@
                             <td>@foreach (Position pos in staff.Positions) { @pos.PositionTitle; }</td>
                             <td>@staff.DateOfHire.Value.ToShortDateString()</td>
                             <td>@staff.Center.Name</td>
-
-                            <td>@staff.CDAType</td>
-                            <td>@staff.CDAExpiration?.ToShortDateString()</td>
                             <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
                         </tr>
                     }
