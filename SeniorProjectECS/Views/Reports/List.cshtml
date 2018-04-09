@@ -56,6 +56,7 @@
             var done= 0;
             //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
             $('#StaffTable thead tr').append(trCenter);
+            $('#StaffTable thead tr').append("<th>Edit</th>");
             $('#grpChkBox ul').append(chkCenter);
             //turns off and on colums on table
             $(function () {
@@ -120,11 +121,13 @@
                         + EducationDetail + '</td><td>'
                         + PRCertName + '</td>'
                         + tdCenter
+                        + '<td adminonly=""><a href="/StaffMember/Edit/' + staff.staffMemberID+'">Edit</a></td>'
                         + '</tr >').trigger("update");
                     $.each(staff.completedCerts, function (index, certs) {
                         $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount));
                         CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', ';
                         done++;
+                       
                     });
                 }
             });
