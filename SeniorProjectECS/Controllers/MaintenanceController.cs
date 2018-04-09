@@ -45,5 +45,14 @@ namespace SeniorProjectECS.Controllers
                 return RedirectToAction("CleanEducation");
             }
         }
+        [AdminOnly]
+        public IActionResult SeedDatabase()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Query("SeedDatabase", commandType: CommandType.StoredProcedure);
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
