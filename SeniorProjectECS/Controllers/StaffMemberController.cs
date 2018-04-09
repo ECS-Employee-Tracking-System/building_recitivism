@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PagedList;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
@@ -15,22 +14,14 @@ namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        private int PageSize = 20;
-        private int PageNumber;
         [ViewOnly]
         public IActionResult Index(int? page)
         {
-            PageNumber = (page ?? 1);
-            if (PageNumber <= 0) { PageNumber = 1; }
-            ViewBag.PageNumber = PageNumber;
-
             var handler = new StaffHandlerDapper();
             var results = handler.GetModels();
-            DateTime nDaysAgo = DateTime.Today.AddMonths(12);
-            TempData["SomeProperty"] = nDaysAgo;
             ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
             ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
-            return View(results.ToList().ToPagedList(PageNumber, PageSize));
+            return View(results);
         }//end View Index
 
         public IActionResult Details(int? id)
