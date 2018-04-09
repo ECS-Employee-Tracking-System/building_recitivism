@@ -131,7 +131,8 @@
             });
         });
     }
-    getCerts(); 
+    getCerts();
+  
 </script>
 @{
     ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
@@ -189,8 +190,23 @@
                 </div>
                 <div class="modal-body">
                     <div id="grpChkBox">
+                        <script>
+                        //unchecks all checkboxes
+                         $(document).on("click", "#resetChecks", function() {
+                            $('input[type=checkbox]').each(function() 
+                            { 
+                             this.click(); 
+                            }); 
+                        });
+                        //checks all checkboxes
+                        $(document).on("click", "#setChecks", function() {
+                            $('input[type=checkbox]').each(function() 
+                            { 
+                             this.click(); 
+                            }); 
+                        });
+                        </script>
                         <ul>
-                            <li><input type="checkbox" name="FirstName" /> First Name</li>
                             <li><input type="checkbox" name="LastName" /> Last Name</li>
                             <li><input type="checkbox" name="Email" /> Email</li>
                             <li><input type="checkbox" name="DateOfHire" />Date Of Hire</li>
@@ -217,6 +233,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" id="resetChecks" class="btn btn-default btn-primary">Uncheck all</button>
+                    <button type="button" id="setChecks" class="btn btn-default btn-primary">Check all</button>
                     <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
