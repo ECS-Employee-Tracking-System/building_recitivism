@@ -61,7 +61,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.AddModel(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("List", "Reports");
         }
 
         [AdminOnly]
@@ -75,7 +75,7 @@ namespace SeniorProjectECS.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("List", "Reports");
             }
         }
 
@@ -108,7 +108,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.DeleteModel(id.GetValueOrDefault());
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("List", "Reports");
         }
 
         [AdminOnly]
