@@ -9,13 +9,6 @@ function validateUpdate() {
     }//end if
 }//end validateUpdate function
 
-//Pust NA in CDA blocks if person doesnot require CDA
-function naCDA() {
-    document.getElementById('CDAInProgress').checked = false;
-    document.getElementById('CDAType').value = 'NA';
-    document.getElementById('CDARenewalProcess').value = 'NA';
-    document.getElementById('CDAExpiration').value = "";
-}//end naCD function
 
 //checks to make sure staffmember is deactivated before deleting
 function validateDelete(url) {
