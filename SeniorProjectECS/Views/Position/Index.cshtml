@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<SeniorProjectECS.Models.Position>
+<script>
+        $(document).ready(function () {
+        $("#myTable").DataTable();
+    });
+</script>
 <div class="page-header">
     <h2>Position List</h2>
 </div>
 
-<table class="table">
+<table class="col-12 col-md-10 col-sm-1 table table-hover table-bordered table-condensed tablesorter" id="myTable">
     <thead>
         <tr>
             <th>
