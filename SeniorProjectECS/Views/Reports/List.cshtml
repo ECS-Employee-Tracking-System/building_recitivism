@@ -23,7 +23,7 @@
             var tdCenter = '';
             var chkCenter = '';
             $.each(json, function (index, cert) {
-                trCenter += '<th class="'+ findAndReplace(cert.CertName, " ", "_") +'">' + cert.CertName + ' Expire Date</th>';
+                trCenter += '<th class="'+ findAndReplace(cert.CertName, " ", "_") +'">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, - Numbers are Expired )"></i></th>';
                 tdCenter += '<td id ="' + findAndReplace(cert.CertName, " ", "_") + '"></td>'
                 chkCenter += '<li><input type="checkbox" name="' + findAndReplace(cert.CertName, " ", "_") + '" />' + cert.CertName+'</li>'
             });
@@ -265,7 +265,7 @@
                 <th class="DegreeLevel">Degree Level</th>
                 <th class="DegreeType">Degree Type</th>
                 <th class="DegreeDetail">Degree Detail</th>
-                <th class="RequiredCert">Required Cert</th>
+                <th class="RequiredCert">Required Cert<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Certs Required by Position"></i></th>
             </tr>
         </thead>
         <tbody></tbody>
