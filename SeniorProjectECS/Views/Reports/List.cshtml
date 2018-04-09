@@ -1,11 +1,9 @@
 ﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="~/lib/moment/min/moment.min.js"></script>
-
 <script>
     function exportexcel() {
     var $clonedTable = $("#StaffTable").clone();
     $clonedTable.find('[style*="display: none"]').remove();
-    console.log($clonedTable.html());
        $($clonedTable).table2excel({
             name: "Table2Excel",
             filename: "ECSReport",
@@ -55,17 +53,17 @@
     function getTable(trCenter, tdCenter,chkCenter) {
         $.getJSON('/Reports/GetDashBoardLists', function (data) {
             var trHTML = '';
+            var done= 0;
             //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
             $('#StaffTable thead tr').append(trCenter);
             $('#grpChkBox ul').append(chkCenter);
-            $("#StaffTable").tablesorter();
             //turns off and on colums on table
             $(function () {
                 var $chk = $("#grpChkBox input:checkbox");
                 var $tbl = $("#StaffTable");
                 var $tblhead = $("#StaffTable th");
                 $chk.prop('checked', true);
-            
+
                 $chk.click(function () {
                     var colToHide = $tblhead.filter("." + $(this).attr("name"));
                     var index = $(colToHide).index();
@@ -126,21 +124,21 @@
                     $.each(staff.completedCerts, function (index, certs) {
                         $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount));
                         CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', ';
+                        done++;
                     });
                 }
             });
+         //build data table after js is done
+          buildTable(done);
         });
     }
+    function buildTable(data){$("#StaffTable").DataTable(); console.log(data)};
     getCerts();
-  
+
 </script>
 @{
     ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
 }
-<div class="tooltip">
-    Hover over me
-    <span class="tooltiptext">Tooltip text</span>
-</div>
 <div class="row">
     <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
 </div>
@@ -193,17 +191,17 @@
                         <script>
                         //unchecks all checkboxes
                          $(document).on("click", "#resetChecks", function() {
-                            $('input[type=checkbox]').each(function() 
-                            { 
-                             this.click(); 
-                            }); 
+                            $('input[type=checkbox]').each(function()
+                            {
+                             this.click();
+                            });
                         });
                         //checks all checkboxes
                         $(document).on("click", "#setChecks", function() {
-                            $('input[type=checkbox]').each(function() 
-                            { 
-                             this.click(); 
-                            }); 
+                            $('input[type=checkbox]').each(function()
+                            {
+                             this.click();
+                            });
                         });
                         </script>
                         <ul>
@@ -256,7 +254,7 @@
                 <th class="EndYear">End Year</th>
                 <th class="GoalMet">Goal Met</th>
                 <th class="TA">TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
-                <th class ="ClassCompleted">Class Completed</th>
+                <th class="ClassCompleted">Class Completed</th>
                 <th class="ClassPaid">Class Paid</th>
                 <th class="RequiredHours">Required Hours</th>
                 <th class="HoursEarned">Hours Earned</th>
