@@ -3,7 +3,10 @@
 
 <script>
     function exportexcel() {
-        $("#StaffTable").table2excel({
+    var $clonedTable = $("#StaffTable").clone();
+    $clonedTable.find('[style*="display: none"]').remove();
+    console.log($clonedTable.html());
+       $($clonedTable).table2excel({
             name: "Table2Excel",
             filename: "ECSReport",
             fileext: ".xls"
@@ -61,9 +64,8 @@
                 var $chk = $("#grpChkBox input:checkbox");
                 var $tbl = $("#StaffTable");
                 var $tblhead = $("#StaffTable th");
-                console.log(moment());
                 $chk.prop('checked', true);
-
+            
                 $chk.click(function () {
                     var colToHide = $tblhead.filter("." + $(this).attr("name"));
                     var index = $(colToHide).index();
