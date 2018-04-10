@@ -29,6 +29,19 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
+        public ActionResult LoadFilter(int? filterID)
+        {
+            if(filterID != null)
+            {
+                var handle = new FilterHandlerJSON();
+                Filter filter = handle.GetModel(filterID.Value);
+                return RedirectToAction("ApplyFilter", filter);
+            }
+
+            return RedirectToAction("ApplyFilter", new Filter());
+        }
+
+        [AdminOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
             String sql = BuildSQLFromFilter(Model);

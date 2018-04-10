@@ -87,7 +87,11 @@ namespace SeniorProjectECS.Models
         {
             if(FilterList.TryGetValue(id, out string filterName))
             {
-
+                using(StreamReader sr = new StreamReader("filters/" + filterName + ".json"))
+                {
+                    string jString = sr.ReadToEnd();
+                    return JsonConvert.DeserializeObject<Filter>(jString);
+                }
             }
 
             return null;
