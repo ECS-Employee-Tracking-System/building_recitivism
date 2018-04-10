@@ -1,8 +1,6 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
 @using SeniorProjectECS.Library
 
-@Html.ViewData.TemplateInfo.HtmlFieldPrefix = "";
-
 <script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script type="text/javascript">
     function exportexcel() {
@@ -293,6 +291,7 @@
                         @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Email, "Filter.Email", "hidden")
                         @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.Position, "Filter.Position", "hidden")
 
+                        <input type="hidden" asp-for="Filter.FilterID" class="form-control" />
                         <input type="hidden" asp-for="Filter.BeginDateOfHire" class="form-control" />
                         <input type="hidden" asp-for="Filter.EndDateOfHire" class="form-control" />
                         <input type="hidden" asp-for="Filter.Goal" />

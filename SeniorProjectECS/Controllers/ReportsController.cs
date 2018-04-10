@@ -80,14 +80,14 @@ namespace SeniorProjectECS.Controllers
         public ActionResult SaveFilter(StaffFilterViewModel model)
         {
             var handle = new FilterHandlerJSON();
-            if (model.Filter.FilterID == null)
+            if (model.Filter.FilterID == null || (ValidateSave(model.Filter.FilterName) as ContentResult).Content.Equals("true"))
             {
                 handle.AddModel(model.Filter);
             } else {
                 handle.UpdateModel(model.Filter);
             }
 
-            return RedirectToAction("ApplyFilter", model);
+            return RedirectToAction("ApplyFilter", model.Filter);
         }
 
         /// <summary>
