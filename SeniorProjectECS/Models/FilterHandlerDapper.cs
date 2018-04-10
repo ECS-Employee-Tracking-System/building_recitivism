@@ -84,8 +84,10 @@ namespace SeniorProjectECS.Models
                 Model.AppApp,
                 Model.ClassCompleted,
                 Model.ClassPaid,
-                Model.RequiredHours,
-                Model.HoursEarned,
+                Model.BeginRequiredHours,
+                Model.EndRequiredHours,
+                Model.BeginHoursEarned,
+                Model.EndHoursEarned,
                 Model.BeginTermDate,
                 Model.EndTermDate,
                 Model.IsInactive,
@@ -97,7 +99,8 @@ namespace SeniorProjectECS.Models
                 CenterName = String.Join(",", Model.CenterName),
                 CenterCounty = String.Join(",", Model.CenterCounty),
                 CenterRegion = String.Join(",", Model.CenterRegion),
-                Model.TimeUntilExpire,
+                Model.BeginTimeUntilExpire,
+                Model.EndTimeUntilExpire,
                 Model.ShouldCheckPositionReq
             };
         }

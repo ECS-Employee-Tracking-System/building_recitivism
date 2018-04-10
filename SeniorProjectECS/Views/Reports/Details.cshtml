@@ -302,8 +302,10 @@
                         <input type="hidden" asp-for="Filter.AppApp" />
                         <input type="hidden" asp-for="Filter.ClassCompleted" />
                         <input type="hidden" asp-for="Filter.ClassPaid" />
-                        <input type="hidden" asp-for="Filter.RequiredHours" class="form-control" />
-                        <input type="hidden" asp-for="Filter.HoursEarned" class="form-control" />
+                        <input type="hidden" asp-for="Filter.BeginRequiredHours" class="form-control" />
+                        <input type="hidden" asp-for="Filter.EndRequiredHours" class="form-control" />
+                        <input type="hidden" asp-for="Filter.BeginHoursEarned" class="form-control" />
+                        <input type="hidden" asp-for="Filter.EndHoursEarned" class="form-control" />
                         <input type="hidden" asp-for="Filter.BeginTermDate" class="form-control" />
                         <input type="hidden" asp-for="Filter.EndTermDate" class="form-control" />
 
@@ -315,7 +317,8 @@
                         @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterCounty, "Filter.CenterCounty", "hidden")
                         @CustomHTMLHelpers.BuildEditFromArray(Model.Filter.CenterRegion, "Filter.CenterRegion", "hidden")
 
-                        <input type="hidden" asp-for="Filter.TimeUntilExpire" class="form-control" />
+                        <input type="hidden" asp-for="Filter.BeginTimeUntilExpire" class="form-control" />
+                        <input type="hidden" asp-for="Filter.EndTimeUntilExpire" class="form-control" />
                         <input type="hidden" asp-for="Filter.ShouldCheckPositionReq" />
                         <input type="hidden" asp-for="Filter.IsInactive" />
                     </div>

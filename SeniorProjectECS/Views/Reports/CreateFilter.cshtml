@@ -103,14 +103,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="RequiredHours" class="control-label"></label>
-                    <input asp-for="RequiredHours" class="form-control" />
-                    <span asp-validation-for="RequiredHours" class="text-danger"></span>
+                    <label asp-for="BeginRequiredHours" class="control-label"></label>
+                    <input asp-for="BeginRequiredHours" class="form-control" />
+                    <span asp-validation-for="BeginRequiredHours" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="HoursEarned" class="control-label"></label>
-                    <input asp-for="HoursEarned" class="form-control" />
-                    <span asp-validation-for="HoursEarned" class="text-danger"></span>
+                    <label asp-for="EndRequiredHours" class="control-label"></label>
+                    <input asp-for="EndRequiredHours" class="form-control" />
+                    <span asp-validation-for="EndRequiredHours" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BeginHoursEarned" class="control-label"></label>
+                    <input asp-for="BeginHoursEarned" class="form-control" />
+                    <span asp-validation-for="BeginHoursEarned" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndHoursEarned" class="control-label"></label>
+                    <input asp-for="EndHoursEarned" class="form-control" />
+                    <span asp-validation-for="EndHoursEarned" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="BeginTermDate" class="control-label"></label>
@@ -172,9 +182,14 @@
                     <button type="button" class="btn btn-default btn-primary" onclick="addSelectField('CenterRegion')">Add Another</button>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TimeUntilExpire" class="control-label"></label>
-                    <input asp-for="TimeUntilExpire" class="form-control" />
-                    <span asp-validation-for="TimeUntilExpire" class="text-danger"></span>
+                    <label asp-for="BeginTimeUntilExpire" class="control-label"></label>
+                    <input asp-for="BeginTimeUntilExpire" class="form-control" />
+                    <span asp-validation-for="BeginTimeUntilExpire" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndTimeUntilExpire" class="control-label"></label>
+                    <input asp-for="EndTimeUntilExpire" class="form-control" />
+                    <span asp-validation-for="EndTimeUntilExpire" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">

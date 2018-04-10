@@ -28,10 +28,10 @@ namespace SeniorProjectECS.Models
         public bool? AppApp { get; set; }
         public bool? ClassCompleted { get; set; }
         public bool? ClassPaid { get; set; }
-        public int? RequiredHours { get; set; }
-        public int RequiredHoursType { get; set; }
-        public int? HoursEarned { get; set; }
-        public int HoursEarnedType { get; set; }
+        public int? BeginRequiredHours { get; set; }
+        public int? EndRequiredHours { get; set; }
+        public int? BeginHoursEarned { get; set; }
+        public int? EndHoursEarned { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? BeginTermDate { get; set; }
@@ -47,9 +47,10 @@ namespace SeniorProjectECS.Models
         public List<String> CenterName { get; set; }
         public List<String> CenterCounty { get; set; }
         public List<String> CenterRegion { get; set; }
-        public int? TimeUntilExpire { get; set; }
+
+        public int? BeginTimeUntilExpire { get; set; }
+        public int? EndTimeUntilExpire { get; set; }
         public bool ShouldCheckPositionReq { get; set; }
-        public DateTime? TermDate { get; set; }
 
         /// <summary>
         /// Constructor

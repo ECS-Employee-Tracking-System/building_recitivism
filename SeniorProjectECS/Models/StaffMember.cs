@@ -17,6 +17,14 @@ namespace SeniorProjectECS.Models
 
         [DataType(DataType.Date)]
         public DateTime? DateCompleted { get; set; }
+
+        public int DaysUntilExpire { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? ExpireDate { get; set; }
+
+        public bool IsRequired { get; set; }
+
         [DisplayName("Is Certification in Progress")]
         public bool CertInProgress { get; set; }
     }

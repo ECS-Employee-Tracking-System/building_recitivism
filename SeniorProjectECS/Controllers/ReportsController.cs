@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
 using System;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -180,10 +178,10 @@ namespace SeniorProjectECS.Controllers
         /// <returns>The completed SQL string.</returns>
         private string BuildSQLFromFilter(Filter model)
         {
-            String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
+            String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email, sm.DateofHire, sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
-                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " + 
-                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount " +
+                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " +
+                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount, RequiredCerts.CertName" +
                          "FROM StaffMember as sm " +
                          "left Outer JOIN StaffPosition as sp on sp.StaffMemberID=sm.StaffMemberID " +
                          "left Outer JOIN Position as p on p.PositionID = sp.PositionID " +
@@ -192,6 +190,8 @@ namespace SeniorProjectECS.Controllers
                          "Left Outer JOIN Education as e on e.educationID = se.EducationID " +
                          "Left Outer JOIN CertCompletion as cc on cc.StaffMemberID = sm.StaffMemberID " +
                          "Left Outer JOIN Certification as cert on cert.CertificationID = cc.CertificationID " +
+                         "Left Outer JOIN PositionReq as pr on pr.PositionID=p.PositionID" +
+                         "Left Outer JOIN Certification as RequiredCerts on pr.CertificationID=RequiredCerts.CertificationID" + 
                          "WHERE (sm.StaffMemberID like '%')";
 
             sql = BuildSQLFromArray(sql, model.FirstName, "FirstName", "sm");
@@ -206,8 +206,8 @@ namespace SeniorProjectECS.Controllers
             if (model.AppApp != null) { sql += " AND (sm.AppApp=@AppApp)"; }
             if (model.ClassCompleted != null) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
             if (model.ClassPaid != null) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
-            //RequiredHours
-            //HoursEarned
+            sql = HandleNum(sql, model.BeginRequiredHours, model.EndRequiredHours, "RequiredHours");
+            sql = HandleNum(sql, model.BeginHoursEarned, model.EndHoursEarned, "HoursEarned");
             sql = HandleDate(sql, model.BeginTermDate, model.EndTermDate, "TermDate");
             if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
@@ -218,6 +218,7 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.CenterName, "Name", "c");
             sql = BuildSQLFromArray(sql, model.CenterCounty, "County", "c");
             sql = BuildSQLFromArray(sql, model.CenterRegion, "Region", "c");
+
             //TimeUntilExpire
             //ShouldCheckPosition
 
@@ -246,7 +247,23 @@ namespace SeniorProjectECS.Controllers
                 sql += "AND (" + name + " <= '" + endDate + "')";
             }
 
-            // Don't search on date
+            return sql;
+        }
+
+        private string HandleNum(string sql, int? beginNum, int? endNum, string name)
+        {
+            // Get entries after the begin date
+            if (beginNum != null)
+            {
+                sql += "AND (" + name + " >= '" + beginNum + "')";
+            }
+
+            // Get entries before the end date
+            if (endNum != null)
+            {
+                sql += "AND (" + name + " <= '" + endNum + "')";
+            }
+
             return sql;
         }
 
