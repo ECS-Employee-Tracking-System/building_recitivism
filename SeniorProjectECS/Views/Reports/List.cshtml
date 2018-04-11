@@ -1,6 +1,7 @@
 ﻿<script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="~/lib/moment/min/moment.min.js"></script>
 <script>
+    //takes the current view on the page without hidden elements and exports it to excel
     function exportexcel() {
         var $clonedTable = $("#StaffTable").clone();
         $clonedTable.find('[style*="display: none"]').remove();
@@ -10,6 +11,7 @@
             fileext: ".xls"
         });
     }
+    //toggles css tooltips for bootstrap
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -22,7 +24,7 @@
             var modalCenter = '';
             var i = 23;
             $.each(json, function (index, cert) {
-                trCenter += '<th class="' + findAndReplace(cert.CertName, " ", "_") + '">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, - Numbers are Expired )"></i></th>';
+                trCenter += '<th class="' + findAndReplace(cert.CertName, " ", "_") + '">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, Negative Numbers are Expired, * are required)"></i></th>';
                 tdCenter += '<td id ="' + findAndReplace(cert.CertName, " ", "_") + '"></td>'
                 modalCenter += '<li><input type="checkbox" class="toggle-vis" data-column="' + i + '"> ' + cert.CertName + '</li>'
                 i++;
@@ -32,14 +34,14 @@
         });
     }
     //takes in the date of cert and the amount of time cert is valid and returns the expiration date and sets class to color which will expire
-    function colorCodeDate(expDateIn, expAmount) {
+    function colorCodeDate(expDateIn, expAmount,needsColor) {
         var expDate = moment(moment(expDateIn).add(expAmount, "Months"));
         var todaysDate = moment();
         var calcDate = expDate.diff(todaysDate, 'days');
         var calcOut = '';
-        if (calcDate <= 30) { calcOut = '<span class ="thirtyDays btn-danger">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
-        else if (calcDate <= 60) { calcOut = '<span class ="sixtyDays btn-warning">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
-        else if (calcDate <= 90) { calcOut = '<span class ="ninetyDays btn-info">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        if ((calcDate <= 30) && (needsColor==true)) { calcOut = '<span class ="thirtyDays btn-danger">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        else if ((calcDate <= 60) && (needsColor == true)) { calcOut = '<span class ="sixtyDays btn-warning">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        else if ((calcDate <= 90) && (needsColor == true)) { calcOut = '<span class ="ninetyDays btn-info">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         else { calcOut = '<span>' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         return calcOut;
     }
@@ -56,7 +58,6 @@
         $.getJSON('/Reports/GetDashBoardLists', function (data) {
             var trHTML = '';
             var done = 0;
-            //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
             $('#StaffTable thead tr').append(trCenter);
             $('#StaffTable thead tr').append("<th>Edit</th>");
             $('#checks').append(modalCenter);
@@ -74,8 +75,10 @@
                     CertExpireAmount = '';
                     CertCompletionDate = '';
                     CertInProgress = '';
+                    reqCertsArray = [];
                     $.each(staff.positions, function (index, pos) {
                         Position += pos.positionTitle + ', '; $.each(pos.requiredCerts, function (index, posReq) {
+                            reqCertsArray.push(posReq.certName);
                             PRCertName += posReq.certName + ', ';
                             PRCertExpireAmount += posReq.certExpireAmount + ', '; PRCertCompletionDate += posReq.certCompletionDate + ', ';
                         });
@@ -87,7 +90,6 @@
                     $('#StaffTable tbody').append(
                         '<tr id="' + staff.staffMemberID + '"><td>'
                         + '<a href="/StaffMember/Details/' + staff.staffMemberID + '">' + staff.firstName + '</a></td><td>'
-                        //+ staff.firstName + '</td><td>'
                         + staff.lastName + '</td><td>'
                         + staff.email + '</td><td>'
                         + moment(staff.dateOfHire).format("M/D/YYYY") + '</td><td>'
@@ -113,11 +115,23 @@
                         + tdCenter
                         + '<td adminonly=""><a href="/StaffMember/Edit/' + staff.staffMemberID + '">Edit</a></td>'
                         + '</tr >').trigger("update");
-                    $.each(staff.completedCerts, function (index, certs) {
-                        $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount));
+                    //add all the members certs to the table color code if required for expiration
+                    $.each(staff.completedCerts, function (index, certs) {                          
+                        var needsColor='';
+                        if ($.inArray(certs.cert.certName, reqCertsArray) != -1) {
+                            needsColor = true;
+                            $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount,needsColor ));
+                        }
+                        else {
+                            needsColor = false;
+                            $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount, needsColor));  
+                        }
                         CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', ';
                         done++;
-
+                    });
+                    //append * to all requeried Certs
+                    $.each(reqCertsArray, function (index, reqCA) {
+                        $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(reqCA, " ", "_"))).append('*');
                     });
                 }
             });
@@ -125,6 +139,8 @@
             buildTable(done);
         });
     }
+
+    //datatable section
     function buildTable(data) {
         var table = $("#StaffTable").DataTable({
             "order": [[1, "asc"]], "pageLength": 15, columnDefs: [
@@ -214,9 +230,9 @@
         <div class='legend-title'>Color Legend</div>
         <div class='legend-scale'>
             <ul class='legend-labels'>
-                <li><span style='background:#FB8072;'></span>30 Days before CDA Expires</li>
-                <li><span style='background:#FFFFB3;'></span>60 Days before CDA Expires</li>
-                <li><span style='background:#80B1D3;'></span>90 Days before CDA Expires</li>
+                <li><span style='background:#FB8072;'></span>30 Days before Expires and Required</li>
+                <li><span style='background:#FFFFB3;'></span>60 Days before Expires and Required</li>
+                <li><span style='background:#80B1D3;'></span>90 Days before Expires and Required</li>
             </ul>
         </div>
     </div>
