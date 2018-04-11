@@ -376,6 +376,7 @@ namespace SeniorProjectECS.Controllers
             return Content("true");
         }
 
+        //gets all the data to prepare the select list called in reports.js
         public JsonResult GetSelectLists()
         {
             using (var con = DBHandler.GetSqlConnection())
@@ -390,6 +391,7 @@ namespace SeniorProjectECS.Controllers
             return Json(FilterHandlerJSON.FilterList);
         }
 
+        //expiremental for Kendo UI remove before deploying
         [AdminOnly]
         public JsonResult GetKendoLists()
         {
@@ -400,24 +402,14 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
+        //expiremental for Kendo UI remove before deploying
         [AdminOnly]
-        public JsonResult GetFilterLists()
+        public IActionResult ListData()
         {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, cert) =>
-                {
-                    if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
-                    if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
-                    if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
-                    if (cert != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(cert); }
-
-                    return staffMember;
-                },splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
-                return Json(dataList);
-            }
+            return View();
         }
 
+        //gets all the information to pass to the dashboard in JSON format
         [ViewOnly]
         public JsonResult GetDashBoardLists()
         {
@@ -435,19 +427,8 @@ namespace SeniorProjectECS.Controllers
                 return Json(dataList);
             }
         }
-        [AdminOnly]
-        public IActionResult CDACompliance(int NumberOfDays = 90)
-        {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT StaffMemberID, FirstName, LastName, Email, CDAExpiration FROM StaffMember 
-                WHERE CDAExpiration is not NULL 
-                and datediff(""dd"",CONVERT(date, getdate()),""CDAExpiration"") <=@NumberOfDays";
 
-            
-            var cdaexpiration = con.Query<StaffMember>(sql ,new{ NumberOfDays = NumberOfDays});
-            return View(cdaexpiration);
-        }//end View Index
-
+        //used in reports.js to display CertID and CertName in select list 
         public JsonResult GetCertList()
         {
             using (var con = DBHandler.GetSqlConnection())
@@ -458,12 +439,8 @@ namespace SeniorProjectECS.Controllers
             }
         }
 
-        [AdminOnly]
-        public IActionResult ListData()
-        {
-            return View();
-        }
 
+        //used to display current Dashboard
         [ViewOnly]
         public IActionResult List()
         {
