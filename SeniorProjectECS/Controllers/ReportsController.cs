@@ -49,7 +49,7 @@ namespace SeniorProjectECS.Controllers
             using (var con = DBHandler.GetSqlConnection())
             {
                 var staffMembers = new List<StaffMember>();
-                con.Query<StaffMember, Position, Center, Education, StaffMember>(sql, (staff, pos, center, edu) =>
+                con.Query<StaffMember, Position, Center, Education, CertCompletion, Certification, string, StaffMember>(sql, (staff, pos, center, edu, certCompleted, cert, requiredCerts) =>
                 {
                     int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
                     if (foundStaff == -1)
@@ -57,6 +57,49 @@ namespace SeniorProjectECS.Controllers
                         if (pos != null) { staff.Positions.Add(pos); }
                         if (center != null) { staff.Center = center; }
                         if (edu != null) { staff.Education.Add(edu); }
+                        if(requiredCerts != null)
+                        {
+                            var reqCerts = new List<int>();
+                            var temp = JsonConvert.DeserializeObject<List<Dictionary<string, int>>>(requiredCerts);
+                            temp.ForEach(f => reqCerts.Add(f.FirstOrDefault().Value));
+
+                            foreach (int reqCert in reqCerts)
+                            {
+                                staff.CompletedCerts.Add(new CertCompletion
+                                {
+                                    Cert = new Certification { CertificationID = reqCert },
+                                    IsRequired = true,
+                                    CertInProgress = false
+                                });
+                            }
+                        }
+
+                        if (certCompleted != null && cert != null)
+                        {
+                            bool found = false;
+                            for(int i=0; i<staff.CompletedCerts.Count; i++)
+                            {
+                                if(staff.CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
+                                {
+                                    staff.CompletedCerts[i].Cert = cert;
+                                    staff.CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
+                                    staff.CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
+                                    staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if(!found)
+                            {
+                                certCompleted.Cert = cert;
+                                certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                certCompleted.IsRequired = false;
+                                staff.CompletedCerts.Add(certCompleted);
+                            }
+                        }
                         staffMembers.Add(staff);
                     }
                     else
@@ -70,9 +113,36 @@ namespace SeniorProjectECS.Controllers
                         {
                             staffMembers[foundStaff].Education.Add(edu);
                         }
+
+                        if (certCompleted != null && cert != null)
+                        {
+                            bool found = false;
+                            for (int i = 0; i < staff.CompletedCerts.Count; i++)
+                            {
+                                if (staff.CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
+                                {
+                                    staff.CompletedCerts[i].Cert = cert;
+                                    staff.CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
+                                    staff.CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
+                                    staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                            {
+                                certCompleted.Cert = cert;
+                                certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                certCompleted.IsRequired = false;
+                                staff.CompletedCerts.Add(certCompleted);
+                            }
+                        }
                     }
                     return staff;
-                }, splitOn: "PositionID,CenterID,EducationID", param: parameters);
+                }, splitOn: "PositionID,CenterID,EducationID,DateCompleted,CertificationID,RequiredCerts", param: parameters);
 
                 returnModel.StaffMembers = staffMembers;
                 returnModel.Filter = Model;
@@ -181,7 +251,11 @@ namespace SeniorProjectECS.Controllers
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email, sm.DateofHire, sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
                          "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " +
-                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount, RequiredCerts.CertName" +
+                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate as DateCompleted, cc.CertInProgress, cert.CertificationID, cert.CertName, cert.CertExpireAmount, " +
+                         "(select c.CertificationID from Certification as c " +
+                         "inner join PositionReq as pr on pr.CertificationID = c.CertificationID " +
+                         "inner join Position as pos on pos.PositionID = pr.PositionID " +
+                         "where pos.PositionID like p.PositionID for json path) as RequiredCerts " +
                          "FROM StaffMember as sm " +
                          "left Outer JOIN StaffPosition as sp on sp.StaffMemberID=sm.StaffMemberID " +
                          "left Outer JOIN Position as p on p.PositionID = sp.PositionID " +
@@ -190,8 +264,6 @@ namespace SeniorProjectECS.Controllers
                          "Left Outer JOIN Education as e on e.educationID = se.EducationID " +
                          "Left Outer JOIN CertCompletion as cc on cc.StaffMemberID = sm.StaffMemberID " +
                          "Left Outer JOIN Certification as cert on cert.CertificationID = cc.CertificationID " +
-                         "Left Outer JOIN PositionReq as pr on pr.PositionID=p.PositionID" +
-                         "Left Outer JOIN Certification as RequiredCerts on pr.CertificationID=RequiredCerts.CertificationID" + 
                          "WHERE (sm.StaffMemberID like '%')";
 
             sql = BuildSQLFromArray(sql, model.FirstName, "FirstName", "sm");

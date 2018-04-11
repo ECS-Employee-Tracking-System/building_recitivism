@@ -11,14 +11,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SeniorProjectECS.Models
 {
-    public struct CertCompletion
+    public class CertCompletion
     {
         public Certification Cert { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateCompleted { get; set; }
 
-        public int DaysUntilExpire { get; set; }
+        public int? DaysUntilExpire { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? ExpireDate { get; set; }
