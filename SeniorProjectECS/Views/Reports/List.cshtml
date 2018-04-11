@@ -59,7 +59,7 @@
             //var thead = '<th>Degree Abrv</th><th>Degree Level</th><th>Degree Type</th><th>Degree Detail</th><th>Required Cert</th>' + trCenter;
             $('#StaffTable thead tr').append(trCenter);
             $('#StaffTable thead tr').append("<th>Edit</th>");
-            $('#grpChkBox ul').append(modalCenter);
+            $('#checks').append(modalCenter);
             $.each(data, function (index, staff) {
                 if (!staff.isInactive) {
                     Position = '';
@@ -154,7 +154,7 @@
         });
 
         $("#unselectTA").click(function () {
-            table.columns([12, 13, 14, 17 ]).visible(false, false);
+            table.columns([12, 13, 14, 17]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectTA").click(function () {
@@ -163,11 +163,11 @@
         });
 
         $("#unselectTraining").click(function () {
-            table.columns([15,16]).visible(false, false);
+            table.columns([15, 16]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectTraining").click(function () {
-            table.columns([15,16]).visible(true, true);
+            table.columns([15, 16]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
 
@@ -221,105 +221,104 @@
 <div class="col-12 col-md-10 container page-header">
     <h2>@Html.Raw(ViewBag.LoggedUser)'s @Html.Raw(ViewBag.AccessRole) Staff Management Panel</h2>
 </div>
-    <div class="col-12 col-md-10 container">
-        <!-- Button trigger modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add or Remove Columns</h4>
+<div class="col-12 col-md-10 container">
+    <!-- Button trigger modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add or Remove Columns</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="grpChkBox">
+                        <ul id="checks" class="col-2" style="list-style-type: none; display: inline-block;">
+                            Individual
+                            <li><input type="checkbox" class="toggle-vis" data-column="0" /> First Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="1" /> Last Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="2" /> Email</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="3" /> Date Of Hire</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="4" /> Center Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="5" /> Center County</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="6" /> Ceter Region</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="7" /> Position</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="8" /> Goal</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="9" /> Mid Year</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="10" /> End Year</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="11" /> GoalMet </li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="12" /> TA</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="13" /> Class Completed</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="14" /> Class Paid</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="15" /> Required Hours</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="16" /> Hours Earned></li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="17" /> Term Date</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="18" /> Degree Abrv</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="19" /> Degree Level</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="20" /> Degree Type</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="21" /> Degree Detail</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="22" /> Required Cert</li>
+                        </ul>
+                        <ul class="col-2" style="list-style-type: none; display: inline-block;">
+                            Groups
+
+                            <li><button type="button" id="unselectCenters" class="btn btn-default btn-danger">Unselect Centers</button></li>
+                            <li><button type="button" id="unselectGoals" class="btn btn-default btn-danger">Unselect Goals</button></li>
+                            <li><button type="button" id="unselectTA" class="btn btn-default btn-danger">Unselect Tuition</button></li>
+                            <li><button type="button" id="unselectTraining" class="btn btn-default btn-danger">Unselect Training Hours</button></li>
+                            <li><button type="button" id="unselectEdu" class="btn btn-default btn-danger">Unselect Education</button></li>
+                            <li><button type="button" id="selectCenters" class="btn btn-default btn-primary">Select Centers</button></li>
+                            <li><button type="button" id="selectGoals" class="btn btn-default btn-primary">Select Goals</button></li>
+                            <li><button type="button" id="selectTA" class="btn btn-default btn-primary">Select Goals</button></li>
+                            <li><button type="button" id="selectTraining" class="btn btn-default btn-primary">Select Training Hours</button></li>
+                            <li><button type="button" id="selectEdu" class="btn btn-default btn-primary">Select Education</button></li>
+                        </ul>
                     </div>
-                    <div class="modal-body">
-                        <div id="grpChkBox">
-                            <ul>
-                                <li><input type="checkbox" class="toggle-vis" data-column="0" /> First Name</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="1" /> Last Name</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="2" /> Email</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="3" /> Date Of Hire</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="4" /> Center Name</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="5" /> Center County</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="6" /> Ceter Region</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="7" /> Position</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="8" /> Goal</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="9" /> Mid Year</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="10" /> End Year</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="11" /> GoalMet </li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="12" /> TA</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="13" /> Class Completed</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="14" /> Class Paid</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="15" /> Required Hours</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="16" /> Hours Earned></li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="17" /> Term Date</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="18" /> Degree Abrv</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="19" /> Degree Level</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="20" /> Degree Type</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="21" /> Degree Detail</li>
-                                <li><input type="checkbox" class="toggle-vis" data-column="22" /> Required Cert</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-
-        <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
-            <thead>
-                <tr>
-                    <th class="FirstName">First Name</th>
-                    <th class="LastName">LastName</th>
-                    <th class="Email"><i class="glyphicon glyphicon-envelope"></i>Email</th>
-                    <th class="DateOfHire">Date of Hire</th>
-                    <th class="CenterName">Center Name</th>
-                    <th class="CenterCounty">Center County</th>
-                    <th class="CenterRegion">Ceter Region</th>
-                    <th class="Position">Position</th>
-                    <th class="Goal">Goal</th>
-                    <th class="MidYear">Mid Year</th>
-                    <th class="EndYear">End Year</th>
-                    <th class="GoalMet">Goal Met</th>
-                    <th class="TA">TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
-                    <th class="ClassCompleted">Class Completed</th>
-                    <th class="ClassPaid">Class Paid</th>
-                    <th class="RequiredHours">Required Hours</th>
-                    <th class="HoursEarned">Hours Earned</th>
-                    <th class="TermDate">Term Date</th>
-                    <th class="DegreeAbrv">Degree Abrv</th>
-                    <th class="DegreeLevel">Degree Level</th>
-                    <th class="DegreeType">Degree Type</th>
-                    <th class="DegreeDetail">Degree Detail</th>
-                    <th class="RequiredCert">Required Cert<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Certs Required by Position"></i></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div AdminOnly class="container">
-            <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
-            <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
-            <h2>Filters</h2>
-            <table class="table table-bordered">
-            <tr>
-                <td><button type="button" id="unselectCenters" class="btn btn-default btn-danger">Unselect Centers</button></td>
-                <td><button type="button" id="unselectGoals" class="btn btn-default btn-danger">Unselect Goals</button></td>
-                <td><button type="button" id="unselectTA" class="btn btn-default btn-danger">Unselect Tuition</button></td>
-                <td><button type="button" id="unselectTraining" class="btn btn-default btn-danger">Unselect Training Hours</button></td>
-                <td><button type="button" id="unselectEdu" class="btn btn-default btn-danger">Unselect Education</button></td>
-            </tr>
-            <tr>
-                <td><button type="button" id="selectCenters" class="btn btn-default btn-primary">Select Centers</button></td>
-                <td><button type="button" id="selectGoals" class="btn btn-default btn-primary">Select Goals</button></td>
-                <td><button type="button" id="selectTA" class="btn btn-default btn-primary">Select Goals</button></td>
-                <td><button type="button" id="selectTraining" class="btn btn-default btn-primary">Select Training Hours</button></td>
-                <td><button type="button" id="selectEdu" class="btn btn-default btn-primary">Select Education</button></td>
-            </tr>
-            <tr>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button></td>
-            </tr>
-        </table>   
-        </div>
     </div>
-    <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+
+    <table id="StaffTable" class="table table-hover table-bordered table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th class="FirstName">First Name</th>
+                <th class="LastName">LastName</th>
+                <th class="Email"><i class="glyphicon glyphicon-envelope"></i>Email</th>
+                <th class="DateOfHire">Date of Hire</th>
+                <th class="CenterName">Center Name</th>
+                <th class="CenterCounty">Center County</th>
+                <th class="CenterRegion">Ceter Region</th>
+                <th class="Position">Position</th>
+                <th class="Goal">Goal</th>
+                <th class="MidYear">Mid Year</th>
+                <th class="EndYear">End Year</th>
+                <th class="GoalMet">Goal Met</th>
+                <th class="TA">TA<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Is Tuition Assistance Owed"></i></th>
+                <th class="ClassCompleted">Class Completed</th>
+                <th class="ClassPaid">Class Paid</th>
+                <th class="RequiredHours">Required Hours</th>
+                <th class="HoursEarned">Hours Earned</th>
+                <th class="TermDate">Term Date</th>
+                <th class="DegreeAbrv">Degree Abrv</th>
+                <th class="DegreeLevel">Degree Level</th>
+                <th class="DegreeType">Degree Type</th>
+                <th class="DegreeDetail">Degree Detail</th>
+                <th class="RequiredCert">Required Cert<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Certs Required by Position"></i></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div AdminOnly class="container">
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button>
+<br />
+<br/>
+<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
 
