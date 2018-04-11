@@ -126,7 +126,10 @@
         });
     }
     function buildTable(data) {
-        var table = $("#StaffTable").DataTable();
+        var table = $("#StaffTable").DataTable({
+            "order": [[1, "asc"]], "pageLength": 15, columnDefs: [
+                { targets: [7,8,9,10,11,12,13,14,15,16,17], visible: false },
+            ]});
         $('.toggle-vis:checkbox').on('click', function () {
             // Get the column API object
             var column = table.column($(this).attr('data-column'));
@@ -268,7 +271,7 @@
                             <li><button type="button" id="unselectEdu" class="btn btn-default btn-danger">Unselect Education</button></li>
                             <li><button type="button" id="selectCenters" class="btn btn-default btn-primary">Select Centers</button></li>
                             <li><button type="button" id="selectGoals" class="btn btn-default btn-primary">Select Goals</button></li>
-                            <li><button type="button" id="selectTA" class="btn btn-default btn-primary">Select Goals</button></li>
+                            <li><button type="button" id="selectTA" class="btn btn-default btn-primary">Select Tuition</button></li>
                             <li><button type="button" id="selectTraining" class="btn btn-default btn-primary">Select Training Hours</button></li>
                             <li><button type="button" id="selectEdu" class="btn btn-default btn-primary">Select Education</button></li>
                         </ul>
