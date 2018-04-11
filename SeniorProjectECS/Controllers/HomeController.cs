@@ -22,7 +22,7 @@ namespace SeniorProjectECS.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "ECS Employee Tracking System";
 
             return View();
         }

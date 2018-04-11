@@ -55,7 +55,7 @@
                 <div>
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li  AdminOnly class="nav-item dropdown">
+                        <li AdminOnly class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="List">Dashboard</a><br />
@@ -74,7 +74,9 @@
                                 <a AdminOnly class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="Index">Custom Reports</a><br />
                             </div>
                         </li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     </ul>
+                  
                 </div>
                 <div class="navbar navbar-right">
                     <button type="button" class="navbar-btn btn-primary" onclick="location.href='@Url.Action("Logout", "Home")'">Logout <span class="glyphicon glyphicon-log-out"></span></button>
