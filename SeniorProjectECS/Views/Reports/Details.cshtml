@@ -78,46 +78,7 @@
             // Filter inactive staff members
             if (!item.IsInactive)
             {
-                // check if member CDA is about to expire
-                String CDAFormat;
-
-                if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 30)
-                {
-                    CDAFormat = "danger";
-                }
-                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 60)
-                {
-                    CDAFormat = "warning";
-                }
-                else if (item.CDAExpiration?.Subtract(DateTime.Now).Days <= 90)
-                {
-                    CDAFormat = "info";
-                }
-                else
-                {
-                    CDAFormat = "";
-                }//end expiration check
-
-                // check if member DC is about to expire
-                String DCFormat;
-                if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 30)
-                {
-                    DCFormat = "danger";
-                }
-                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 60)
-                {
-                    DCFormat = "warning";
-                }
-                else if (item.DCExpiration?.Subtract(DateTime.Now).Days <= 90)
-                {
-                    DCFormat = "info";
-                }
-                else
-                {
-                    DCFormat = "";
-                }//end expiration check
-
-
+              
                 <tr id="@item.StaffMemberID">
                     <td>
                         @Html.DisplayFor(modelItem => item.StaffMemberID)
@@ -329,27 +290,29 @@
             $('#StaffTable thead tr').append(trCenter);
             $('#StaffTable tbody tr').append(tdCenter);
             console.log(RTBody);
-            $.each(RTBody, function(index, razorCert)
-            {
-                if (razorCert.isReq) {
-                    if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 30) {
-                        $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    }//end 30 days
-                    if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 60) {
-                        $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    }//end 60 days
-                    if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 90) {
-                        $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    }//end 90 days
-                }//end required cert if check
-                else
-                {
-                    if (razorCert.certName != "") {
-                        $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    }//end 30 days
-
-                }    
-            });
+         $.each(RTBody, function (index, razorCert) {
+             if (razorCert.isReq) {
+                 if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 30) {
+                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 }//end 30 days
+                 else if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 60) {
+                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 }//end 60 days
+                 else if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 90) {
+                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 }//end 90 days
+                 else {
+                     if (razorCert.certName != "") {
+                         $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                     }//end 90 days
+                 }
+             }//end required cert if check
+             if (razorCert.isReq = false) {
+                 if (razorCert.certName != "") {
+                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 }
+             }
+         });
             //$('#checks').append(modalCenter);
 
             //build data table after js is done
