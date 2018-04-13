@@ -7,6 +7,7 @@ using SeniorProjectECS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 
@@ -65,6 +66,7 @@ namespace SeniorProjectECS.Controllers
 
                             foreach (int reqCert in reqCerts)
                             {
+                                Debug.WriteLine(reqCert, staff.StaffMemberID.ToString());
                                 staff.CompletedCerts.Add(new CertCompletion
                                 {
                                     Cert = new Certification { CertificationID = reqCert },
@@ -114,18 +116,49 @@ namespace SeniorProjectECS.Controllers
                             staffMembers[foundStaff].Education.Add(edu);
                         }
 
+                        if (requiredCerts != null)
+                        {
+                            var reqCerts = new List<int>();
+                            var temp = JsonConvert.DeserializeObject<List<Dictionary<string, int>>>(requiredCerts);
+                            temp.ForEach(f => reqCerts.Add(f.FirstOrDefault().Value));
+
+                            foreach (int reqCert in reqCerts)
+                            {
+                                Debug.WriteLine(reqCert, staff.StaffMemberID.ToString());
+                                if (!staffMembers[foundStaff].CompletedCerts.Any(rq => rq.Cert.CertificationID == reqCert))
+                                {
+                                    staffMembers[foundStaff].CompletedCerts.Add(new CertCompletion
+                                    {
+                                        Cert = new Certification { CertificationID = reqCert },
+                                        IsRequired = true,
+                                        CertInProgress = false
+                                    });
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < staffMembers[foundStaff].CompletedCerts.Count; i++)
+                                    {
+                                        if (staffMembers[foundStaff].CompletedCerts[i].Cert.CertificationID == reqCert)
+                                        {
+                                            staffMembers[foundStaff].CompletedCerts[i].IsRequired = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         if (certCompleted != null && cert != null)
                         {
                             bool found = false;
-                            for (int i = 0; i < staff.CompletedCerts.Count; i++)
+                            
+                            for (int i = 0; i < staffMembers[foundStaff].CompletedCerts.Count; i++)
                             {
-                                if (staff.CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
+                                if (staffMembers[foundStaff].CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
                                 {
-                                    staff.CompletedCerts[i].Cert = cert;
-                                    staff.CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
-                                    staff.CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
-                                    staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
-                                    staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    staffMembers[foundStaff].CompletedCerts[i].Cert = cert;
+                                    staffMembers[foundStaff].CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
+                                    staffMembers[foundStaff].CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
+                                    staffMembers[foundStaff].CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    staffMembers[foundStaff].CompletedCerts[i].DaysUntilExpire = (staffMembers[foundStaff].CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
                                     found = true;
                                     break;
                                 }
@@ -137,7 +170,7 @@ namespace SeniorProjectECS.Controllers
                                 certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
                                 certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
                                 certCompleted.IsRequired = false;
-                                staff.CompletedCerts.Add(certCompleted);
+                                staffMembers[foundStaff].CompletedCerts.Add(certCompleted);
                             }
                         }
                     }
