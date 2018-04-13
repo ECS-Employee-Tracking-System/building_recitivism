@@ -99,8 +99,7 @@ namespace SeniorProjectECS.Models
                 CenterName = String.Join(",", Model.CenterName),
                 CenterCounty = String.Join(",", Model.CenterCounty),
                 CenterRegion = String.Join(",", Model.CenterRegion),
-                Model.BeginTimeUntilExpire,
-                Model.EndTimeUntilExpire,
+                Model.TimeUntilExpire,
                 Model.ShouldCheckPositionReq
             };
         }

@@ -48,8 +48,7 @@ namespace SeniorProjectECS.Models
         public List<String> CenterCounty { get; set; }
         public List<String> CenterRegion { get; set; }
 
-        public int? BeginTimeUntilExpire { get; set; }
-        public int? EndTimeUntilExpire { get; set; }
+        public int? TimeUntilExpire { get; set; }
         public bool ShouldCheckPositionReq { get; set; }
 
         /// <summary>

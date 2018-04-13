@@ -177,11 +177,27 @@ namespace SeniorProjectECS.Controllers
                     return staff;
                 }, splitOn: "PositionID,CenterID,EducationID,DateCompleted,CertificationID,RequiredCerts", param: parameters);
 
+                staffMembers = CodeFilter(staffMembers, Model);
+
                 returnModel.StaffMembers = staffMembers;
                 returnModel.Filter = Model;
             }
 
             return View("Details", returnModel);
+        }
+
+        private List<StaffMember> CodeFilter(List<StaffMember> staffMembers, Filter filter)
+        {
+            // filter on days until expire
+            if(filter.TimeUntilExpire != null)
+            {
+                staffMembers.RemoveAll(x => x.CompletedCerts.All(c =>
+                    c.DaysUntilExpire != null &&
+                    c.DaysUntilExpire > filter.TimeUntilExpire
+                ));
+            }
+
+            return staffMembers;
         }
 
         [AdminOnly]
