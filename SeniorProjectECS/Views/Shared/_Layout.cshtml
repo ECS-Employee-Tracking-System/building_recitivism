@@ -50,26 +50,10 @@
             <div class=" navbar-collapse collapse">
                 <div>
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li AdminOnly class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="List">Dashboard</a><br />
-                                <a class="dropdown-item" asp-area="" asp-controller="Center" asp-action="Index">Centers</a><br />
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">View Only User</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="List">Dashboard</a><br />
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-controller="Reports" asp-action="Index">Custom Reports</a><br />
-                            </div>
-                        </li>
+                        <li><a asp-area="" asp-controller="Reports" asp-action="List">Home</a></li>                
+                        <li><a asp-area="" asp-controller="Reports" asp-action="List">Dash Board</a></li>
+                        <li AdminOnly><a asp-area="" asp-controller="Center" asp-action="Index">Centers</a></li>
+                        <li><a asp-area="" asp-controller="Reports" asp-action="Index">Reports</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     </ul>
                   
