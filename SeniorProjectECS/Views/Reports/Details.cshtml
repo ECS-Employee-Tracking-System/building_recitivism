@@ -298,7 +298,7 @@
                     var isReq = '@cert.IsRequired';
                     isReqFixed = isReq.toLowerCase();
                     var DaysUnitlExp = '@cert.DaysUntilExpire'
-
+                    console.log(staffID, certIDRazor);
                     //set all the object's values then push to array
                     var razorToPush = new Object;
                     razorToPush.staffID = staffID;
@@ -446,7 +446,7 @@
                 }//end 30 days
                 else if (razorCert.DaysUnitlExp <= 60)
                 {
-                    $("#" + (razorCert.staffID) + "># certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
                 }//end 60 days
                 else if ( razorCert.DaysUnitlExp <= 90)
                 {
