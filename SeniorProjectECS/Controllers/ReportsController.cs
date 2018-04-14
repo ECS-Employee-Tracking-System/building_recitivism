@@ -43,6 +43,8 @@ namespace SeniorProjectECS.Controllers
         [AdminOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
+            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
+            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             String sql = BuildSQLFromFilter(Model);
             var parameters = BuildParamsFromFilter(Model);
 

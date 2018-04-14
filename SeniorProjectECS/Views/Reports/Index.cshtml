@@ -2,14 +2,15 @@
 <script src="~/js/reports.js" asp-append-version="true"></script>
 <div class="row">
     <div class="col-md-4">
+        <h1>Custom Reports</h1>
         <h1>Select a Template:</h1>
         <form asp-action="LoadFilter">
             <div asp-validation-summary="None" class="text-danger"></div>
             <div class="form-group">
                 <select id="filterSelect" name="FilterID" class="form-control"></select>
             </div>
-            <input type="submit" value="Apply" class="btn btn-default" />
-            <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button>
+            <input type="submit" value="Apply" class="btn btn-default btn-primary" />
+            <button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button>
         </form>
     </div>
 </div>

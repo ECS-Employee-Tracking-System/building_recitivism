@@ -1,151 +1,282 @@
 ﻿@model SeniorProjectECS.Models.StaffFilterViewModel
 @using SeniorProjectECS.Library
+@{
+    ViewBag.ContentCssNoMargin = "margin-left: 100px; margin-right:100px";
+}
+<div class="row">
+    <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
+</div>
+<link rel="stylesheet" href="~/css/legendstyling.css" />
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-8"></div>
+    <div class="col-6 col-md-4">.</div>
+</div>
+<div class="col-2 col-md-2">
+    <div class='my-legend'>
+        <div class='legend-title'>Color Legend</div>
+        <div class='legend-scale'>
+            <ul class='legend-labels'>
+                <li><span style='background:#FB8072;'></span>30 Days before Expires and Required</li>
+                <li><span style='background:#FFFFB3;'></span>60 Days before Expires and Required</li>
+                <li><span style='background:#80B1D3;'></span>90 Days before Expires and Required</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-md-10 container page-header">
+    <h2>@Html.Raw(ViewBag.LoggedUser)'s @Html.Raw(ViewBag.AccessRole) Custom Reports Display Panel</h2>
+</div>
+<div class="col-12 col-md-10 container">
+    <!-- Button trigger modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add or Remove Columns</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="grpChkBox">
+                        <ul id="checks" class="col-2" style="list-style-type: none; display: inline-block;">
+                            Individual
+                            <li><input type="checkbox" class="toggle-vis" data-column="0" /> First Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="1" /> Last Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="2" /> Email</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="3" /> Date Of Hire</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="4" /> Center Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="5" /> Center County</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="6" /> Ceter Region</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="7" /> Position</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="8" /> Goal</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="9" /> Mid Year</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="10" /> End Year</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="11" /> GoalMet </li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="12" /> TA</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="13" /> Class Completed</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="14" /> Class Paid</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="15" /> Required Hours</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="16" /> Hours Earned></li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="17" /> Term Date</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="18" /> Degree Abrv</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="19" /> Degree Level</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="20" /> Degree Type</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="21" /> Degree Detail</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="22" /> Required Cert</li>
+                        </ul>
+                        <ul class="col-2" style="list-style-type: none; display: inline-block;">
+                            Groups
+
+                            <li><button type="button" id="unselectCenters" class="btn btn-default btn-danger">Unselect Centers</button></li>
+                            <li><button type="button" id="unselectGoals" class="btn btn-default btn-danger">Unselect Goals</button></li>
+                            <li><button type="button" id="unselectTA" class="btn btn-default btn-danger">Unselect Tuition</button></li>
+                            <li><button type="button" id="unselectTraining" class="btn btn-default btn-danger">Unselect Training Hours</button></li>
+                            <li><button type="button" id="unselectEdu" class="btn btn-default btn-danger">Unselect Education</button></li>
+                            <li><button type="button" id="selectCenters" class="btn btn-default btn-primary">Select Centers</button></li>
+                            <li><button type="button" id="selectGoals" class="btn btn-default btn-primary">Select Goals</button></li>
+                            <li><button type="button" id="selectTA" class="btn btn-default btn-primary">Select Tuition</button></li>
+                            <li><button type="button" id="selectTraining" class="btn btn-default btn-primary">Select Training Hours</button></li>
+                            <li><button type="button" id="selectEdu" class="btn btn-default btn-primary">Select Education</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-condensed tablesorter" id="StaffTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].DateOfHire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Center.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Center.County)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Center.Region)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Positions)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].Goal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].MidYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].EndYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].GoalMet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].TAndAApp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].ClassCompleted)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].ClassPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].RequiredHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].HoursEarned)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StaffMembers[0].TermDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.StaffMembers[0].Education[0].DegreeAbrv)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.StaffMembers[0].Education[0].DegreeLevel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.StaffMembers[0].Education[0].DegreeType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.StaffMembers[0].Education[0].DegreeDetail)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.StaffMembers)
+            {
+                // Filter inactive staff members
+                if (!item.IsInactive)
+                {
+
+                    <tr id="@item.StaffMemberID">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfHire)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.County)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.Region)
+                        </td>
+                        <td>
+                            @foreach (Position pos in item.Positions)
+                            {
+                                @Html.DisplayFor(model => pos.PositionTitle)
+                            }
+                        </td>
+                        <td>
+                            @(item.Goal ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.MidYear ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.EndYear ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.GoalMet ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.TAndAApp ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.ClassCompleted ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.ClassPaid ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequiredHours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoursEarned)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TermDate)
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeAbrv)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeLevel)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeType)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeDetail)
+                            }
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+    <div AdminOnly class="container">
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
+        <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Edit Filter", "EditFilter", Model.Filter, new { @class = "btn btn-primary btn-large" })<br />
+    <input type="button" class="btn btn-default btn-primary" value="Save Filter" data-toggle="modal" data-target="#saveFilter" /><br />
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button><br />
+    <br />
+    <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+</div>
 
 <script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="~/lib/moment/min/moment.min.js"></script>
-
-@Html.ActionLink("Edit Filter", "EditFilter", Model.Filter)
-<br />
-<input type="button" class="btn btn-default" value="Save Filter" data-toggle="modal" data-target="#saveFilter" />
-<table class="table table-bordered table-condensed tablesorter" id="StaffTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].StaffMemberID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].DateOfHire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].CDAInProgress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].CDARenewalProcess)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].Goal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].MidYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].EndYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].GoalMet)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].TAndAApp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].AppApp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].ClassCompleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].ClassPaid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].RequiredHours)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].HoursEarned)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].TermDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffMembers[0].IsInactive)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.StaffMembers)
-        {
-            // Filter inactive staff members
-            if (!item.IsInactive)
-            {
-              
-                <tr id="@item.StaffMemberID">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffMemberID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfHire)
-                    </td>
-                    <td>
-                        @(item.CDAInProgress ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CDARenewalProcess)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comments)
-                    </td>
-                    <td>
-                        @(item.Goal ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.MidYear ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.EndYear ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.GoalMet ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.TAndAApp ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.AppApp ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.ClassCompleted ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.ClassPaid ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequiredHours)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HoursEarned)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TermDate)
-                    </td>
-                    <td>
-                        @(item.IsInactive ? "Yes" : "No")
-                    </td>
-                </tr>
-            }
-
-        }
-    </tbody>
-</table>
 <script>
      var RTBody=[];
              @foreach (var item in Model.StaffMembers)
@@ -172,10 +303,10 @@
                     RTBody.push(razorToPush);
                     </text>
                  }
-                
+
              }
 </script>
-<button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
+
 
 <!-- Begin name filter save modal -->
 <script type="text/javascript">
@@ -261,15 +392,22 @@
 </div>
 <!-- End name filter save modal -->
 <script type="text/javascript">
+    //takes the current view on the page without hidden elements and exports it to excel
     function exportexcel() {
-        $("#myTable").table2excel({
+        var $clonedTable = $("#StaffTable").clone();
+        $clonedTable.find('[style*="display: none"]').remove();
+        $($clonedTable).table2excel({
             name: "Table2Excel",
             filename: "ECSReport",
             fileext: ".xls"
         });
     }
+    //toggles css tooltips for bootstrap
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 
-       //gets the list of all available certs to create table headers and then passes them to getTable function
+    //gets the list of all available certs to create table headers and then passes them to getTable function
     function getCerts() {
         $.getJSON('/Reports/GetCertList', function (json) {
             var trCenter = '';
@@ -286,46 +424,107 @@
 
         });
     }
-     function getTable(trCenter, tdCenter, modalCenter) {
-            done='';
-            $('#StaffTable thead tr').append(trCenter);
-            $('#StaffTable tbody tr').append(tdCenter);
-            console.log(RTBody);
-         $.each(RTBody, function (index, razorCert) {
-             if (razorCert.isReqFix == 'true')
-             {
-                 if (razorCert.DaysUnitlExp <= 30) {
-                     console.log(razorCert.isReqFix);
-                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp +  ')*<span>');
-                 }//end 30 days
-                 else if (razorCert.DaysUnitlExp <= 60) {
-                     $("#" + (razorCert.staffID) + "># certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
-                 }//end 60 days
-                 else if ( razorCert.DaysUnitlExp <= 90) {
-                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
-                 }//end 90 days
-                 else if (razorCert.certName != "") {
-                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
-                     }//end found certs
-                 else
+    function getTable(trCenter, tdCenter, modalCenter)
+    {
+        done='';
+        $('#StaffTable thead tr').append(trCenter);
+        $('#StaffTable tbody tr').append(tdCenter);
+        $.each(RTBody, function (index, razorCert)
+        {
+            if (razorCert.isReqFix == 'true')
+            {
+                if (razorCert.DaysUnitlExp <= 30)
                 {
-                 $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('*');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp +  ')*<span>');
+                }//end 30 days
+                else if (razorCert.DaysUnitlExp <= 60)
+                {
+                    $("#" + (razorCert.staffID) + "># certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
+                }//end 60 days
+                else if ( razorCert.DaysUnitlExp <= 90)
+                {
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
+                }//end 90 days
+                else if (razorCert.certName != "")
+                {
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
+                }//end found certs
+                else
+                {
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('*');
                 }
              }//end required cert if check
-             if (razorCert.isReqFix == 'false') {
-                 if (razorCert.certName != "") {
+             if (razorCert.isReqFix == 'false')
+             {
+                 if (razorCert.certName != "")
+                 {
                      $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
                  }
-             }
+             }//end check if not required
          });
-            //$('#checks').append(modalCenter);
+         $('#checks').append(modalCenter);
 
-            //build data table after js is done
-            buildTable(done);
+         //build data table after js is done
+         buildTable(done);
         };
-     //datatable section
-    function buildTable(data) {
-        var table = $("#StaffTable").DataTable();
+    //datatable section
+    function buildTable(data)
+    {
+        var table = $("#StaffTable").DataTable({"order": [[1, "asc"]], "pageLength": 15, columnDefs: [
+                { targets: [7,8,9,10,11,12,13,14,15,16,17], visible: false },
+            ]});
+         $('.toggle-vis:checkbox').on('click', function () {
+            // Get the column API object
+            var column = table.column($(this).attr('data-column'));
+
+            // Toggle the visibility
+            column.visible(!column.visible());
+        });
+
+    $("#unselectCenters").click(function () {
+            table.columns([4, 5, 6]).visible(false, false);
+            table.columns.adjust().draw(false); // adjust column sizing and redraw
+        });
+        $("#selectCenters").click(function () {
+            table.columns([4, 5, 6]).visible(true, true);
+            table.columns.adjust().draw(true); // adjust column sizing and redraw
+        });
+
+        $("#unselectGoals").click(function () {
+            table.columns([7, 8, 9, 10, 11]).visible(false, false);
+            table.columns.adjust().draw(false); // adjust column sizing and redraw
+        });
+        $("#selectGoals").click(function () {
+            table.columns([7, 8, 10, 11]).visible(true, true);
+            table.columns.adjust().draw(true); // adjust column sizing and redraw
+        });
+
+        $("#unselectTA").click(function () {
+            table.columns([12, 13, 14, 17]).visible(false, false);
+            table.columns.adjust().draw(false); // adjust column sizing and redraw
+        });
+        $("#selectTA").click(function () {
+            table.columns([12, 13, 14, 17]).visible(true, true);
+            table.columns.adjust().draw(true); // adjust column sizing and redraw
+        });
+
+        $("#unselectTraining").click(function () {
+            table.columns([15, 16]).visible(false, false);
+            table.columns.adjust().draw(false); // adjust column sizing and redraw
+        });
+        $("#selectTraining").click(function () {
+            table.columns([15, 16]).visible(true, true);
+            table.columns.adjust().draw(true); // adjust column sizing and redraw
+        });
+
+        $("#unselectEdu").click(function () {
+            table.columns([18, 19, 20, 21]).visible(false, false);
+            table.columns.adjust().draw(false); // adjust column sizing and redraw
+        });
+        $("#selectEdu").click(function () {
+            table.columns([18, 19, 20, 21]).visible(true, true);
+            table.columns.adjust().draw(true); // adjust column sizing and redraw
+        });
     };
 
     //start first function to lead to callbacks getCerts=>getTable=>buildTable
