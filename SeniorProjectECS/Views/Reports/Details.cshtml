@@ -49,29 +49,29 @@
                     <div id="grpChkBox">
                         <ul id="checks" class="col-2" style="list-style-type: none; display: inline-block;">
                             Individual
-                            <li><input type="checkbox" class="toggle-vis" data-column="0" /> First Name</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="1" /> Last Name</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="2" /> Email</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="3" /> Date Of Hire</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="4" /> Center Name</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="5" /> Center County</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="6" /> Ceter Region</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="7" /> Position</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="8" /> PDP Goal Begining of Year on File</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="9" /> PDP Mid Year Goal on File</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="10" /> PDP End of Year Goal on File</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="11" /> GoalMet </li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="12" /> TA</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="13" /> Application Aproved</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="14" /> Class Completed</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="15" /> Class Paid</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="16" /> Required Hours</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="17" /> Hours Earned></li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="18" /> Term Date</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="19" /> Degree Abrv</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="20" /> Degree Level</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="21" /> Degree Type</li>
-                            <li><input type="checkbox" class="toggle-vis" data-column="22" /> Degree Detail</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="1" /> First Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="2" /> Last Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="3" /> Email</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="4" /> Date Of Hire</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="5" /> Center Name</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="6" /> Center County</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="7" /> Ceter Region</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="8" /> Position</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="9" /> PDP Goal Begining of Year on File</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="10" /> PDP Mid Year Goal on File</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="11" /> PDP End of Year Goal on File</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="12" /> GoalMet </li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="13" /> TA</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="14" /> Application Aproved</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="15" /> Class Completed</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="16" /> Class Paid</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="17" /> Required Hours</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="18" /> Hours Earned></li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="19" /> Term Date</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="20" /> Degree Abrv</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="21" /> Degree Level</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="22" /> Degree Type</li>
+                            <li><input type="checkbox" class="toggle-vis" data-column="23" /> Degree Detail</li>
                         </ul>
                         <ul class="col-2" style="list-style-type: none; display: inline-block;">
                             Groups
@@ -99,6 +99,9 @@
     <table class="table table-bordered table-condensed tablesorter" id="StaffTable">
         <thead>
             <tr>
+                <th>
+                    <span AdminOnly>Edit</span>
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.StaffMembers[0].FirstName)
                 </th>
@@ -178,8 +181,11 @@
                 {
 
             <tr id="@item.StaffMemberID">
+                <td> 
+                    <span AdminOnly>@Html.ActionLink("Edit", "Edit", "StaffMember", new { id = item.StaffMemberID })</span>
+                </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.ActionLink(item.FirstName, "Details", "StaffMember", new { id = item.StaffMemberID })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LastName)
@@ -201,9 +207,9 @@
                 </td>
                 <td>
                     @foreach (Position pos in item.Positions)
-        {
-            @Html.DisplayFor(model => pos.PositionTitle)
-}
+                     {
+                        @Html.DisplayFor(model => pos.PositionTitle)
+                     }
                 </td>
                 <td>
                     @(item.Goal ? "Yes" : "No")
@@ -240,27 +246,27 @@
                 </td>
                 <td>
                     @foreach (Education edu in item.Education)
-        {
-            @Html.DisplayFor(model => edu.DegreeAbrv)
-}
+                    {
+                        @Html.DisplayFor(model => edu.DegreeAbrv)
+                     }
                 </td>
                 <td>
                     @foreach (Education edu in item.Education)
-        {
-            @Html.DisplayFor(model => edu.DegreeLevel)
-}
+                    {
+                        @Html.DisplayFor(model => edu.DegreeLevel)
+                    }
                 </td>
                 <td>
                     @foreach (Education edu in item.Education)
-        {
-            @Html.DisplayFor(model => edu.DegreeType)
-}
+                    {
+                        @Html.DisplayFor(model => edu.DegreeType)
+                    }
                 </td>
                 <td>
                     @foreach (Education edu in item.Education)
-        {
-            @Html.DisplayFor(model => edu.DegreeDetail)
-}
+                    {
+                        @Html.DisplayFor(model => edu.DegreeDetail)
+                    }
                 </td>
             </tr>
                 }
@@ -420,7 +426,7 @@
             var trCenter = '';
             var tdCenter = '';
             var modalCenter = '';
-            var i = 23;
+            var i = 24;
             $.each(json, function (index, cert) {
                 trCenter += '<th class="certID' + cert.CertificationID + '">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, Negative Numbers are Expired, * are required)"></i></th>';
                 tdCenter += '<td id ="certID' + cert.CertificationID + '"></td > '
@@ -478,7 +484,7 @@
     function buildTable(data)
     {
         var table = $("#StaffTable").DataTable({"order": [[1, "asc"]], "pageLength": 15, columnDefs: [
-                { targets: [7,8,9,10,11,12,13,14,15,16,17,18], visible: false },
+                { targets: [8,9,10,11,12,13,14,15,16,17,18,19], visible: false },
             ]});
          $('.toggle-vis:checkbox').on('click', function () {
             // Get the column API object
@@ -489,47 +495,47 @@
         });
 
     $("#unselectCenters").click(function () {
-            table.columns([4, 5, 6]).visible(false, false);
+            table.columns([ 5, 6, 7]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectCenters").click(function () {
-            table.columns([4, 5, 6]).visible(true, true);
+            table.columns([ 5, 6, 7]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
 
         $("#unselectGoals").click(function () {
-            table.columns([ 8, 9, 10, 11]).visible(false, false);
+            table.columns([ 9, 10, 11, 12]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectGoals").click(function () {
-            table.columns([ 8, 9, 10, 11]).visible(true, true);
+            table.columns([ 9, 10, 11, 12]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
 
         $("#unselectTA").click(function () {
-            table.columns([12, 13, 14, 15, 18]).visible(false, false);
+            table.columns([ 13, 14, 15, 16, 18]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectTA").click(function () {
-            table.columns([12, 13, 14, 15,18]).visible(true, true);
+            table.columns([13, 14, 15, 16, 18]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
 
         $("#unselectTraining").click(function () {
-            table.columns([16, 17]).visible(false, false);
+            table.columns([ 17, 18]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectTraining").click(function () {
-            table.columns([16, 17]).visible(true, true);
+            table.columns([ 17, 18]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
 
         $("#unselectEdu").click(function () {
-            table.columns([19, 20, 21,22]).visible(false, false);
+            table.columns([20, 21,22, 23]).visible(false, false);
             table.columns.adjust().draw(false); // adjust column sizing and redraw
         });
         $("#selectEdu").click(function () {
-            table.columns([ 19, 20, 21,22]).visible(true, true);
+            table.columns([ 20, 21,22, 23]).visible(true, true);
             table.columns.adjust().draw(true); // adjust column sizing and redraw
         });
     };
