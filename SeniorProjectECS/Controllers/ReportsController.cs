@@ -15,7 +15,7 @@ namespace SeniorProjectECS.Controllers
 {
     public class ReportsController : Controller
     {
-        [AdminOnly]
+        [ViewOnly]
         public ActionResult Index()
         {
             return View();
@@ -27,7 +27,7 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
-        [AdminOnly]
+        [ViewOnly]
         public ActionResult LoadFilter(int? filterID)
         {
             if(filterID != null)
@@ -40,7 +40,7 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("ApplyFilter", new Filter());
         }
 
-        [AdminOnly]
+        [ViewOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
             ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");

@@ -1,8 +1,5 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/reports.js" asp-append-version="true"></script>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 
 <div class="container page-header">
@@ -185,7 +182,10 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/reports.js" asp-append-version="true"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
