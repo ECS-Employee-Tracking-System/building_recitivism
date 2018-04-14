@@ -482,7 +482,7 @@ namespace SeniorProjectECS.Controllers
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = @"select distinct(CertName) from Certification ";
+                String sql = @"select distinct(CertName), CertificationID from Certification ";
                 var certs = con.Query(sql);
                 return Json(certs);
             }

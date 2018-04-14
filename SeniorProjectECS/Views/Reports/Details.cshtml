@@ -155,19 +155,21 @@
                     <text>
                     var staffID = '@item.StaffMemberID';
                     var certExpDate ='@cert.ExpireDate';
-                    var certToJS =findAndReplace('@cert.Cert.CertName', " ", "_") ;
+                    var certToJS = findAndReplace('@cert.Cert.CertName', " ", "_");
+                    var certIDRazor = '@cert.Cert.CertificationID';
                     var isReq = '@cert.IsRequired';
-                    var DaysUnitlExp= @cert.DaysUntilExpire
-                   
-                    console.log(staffID,certToJS, isReq);
+                    isReqFixed = isReq.toLowerCase();
+                    var DaysUnitlExp = '@cert.DaysUntilExpire'
+                    console.log(staffID, certToJS, isReq, isReqFixed, certIDRazor);
+                    //set all the object's values then push to array
                     var razorToPush = new Object;
                     razorToPush.staffID = staffID;
                     razorToPush.certName =certToJS;
-                    razorToPush.certExpDate=certExpDate;
-                    razorToPush.isReq = isReq;
+                    razorToPush.certExpDate = certExpDate;
+                    razorToPush.isReqFix = isReqFixed;
                     razorToPush.DaysUnitlExp = parseInt(DaysUnitlExp);
+                    razorToPush.certID =certIDRazor;
                     RTBody.push(razorToPush);
-
                     </text>
                  }
                 
@@ -274,9 +276,9 @@
             var tdCenter = '';
             var modalCenter = '';
             var i = 23;
-            $.each(json, function (index, cert) {   
-                trCenter += '<th class="' + findAndReplace(cert.CertName, " ", "_") + '">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, Negative Numbers are Expired, * are required)"></i></th>';
-                tdCenter += '<td id ="' + findAndReplace(cert.CertName, " ", "_") + '"></td > '
+            $.each(json, function (index, cert) {
+                trCenter += '<th class="certID' + cert.CertificationID + '">' + cert.CertName + ' Expire Date<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Expire Date(Days Until Expire, Negative Numbers are Expired, * are required)"></i></th>';
+                tdCenter += '<td id ="certID' + cert.CertificationID + '"></td > '
                 modalCenter += '<li><input type="checkbox" class="toggle-vis" data-column="' + i + '"> ' + cert.CertName + '</li>'
                 i++;
                 });
@@ -290,25 +292,29 @@
             $('#StaffTable tbody tr').append(tdCenter);
             console.log(RTBody);
          $.each(RTBody, function (index, razorCert) {
-             if (razorCert.isReq) {
-                 if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 30) {
-                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+             if (razorCert.isReqFix == 'true')
+             {
+                 if (razorCert.DaysUnitlExp <= 30) {
+                     console.log(razorCert.isReqFix);
+                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp +  ')*<span>');
                  }//end 30 days
-                 else if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 60) {
-                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 else if (razorCert.DaysUnitlExp <= 60) {
+                     $("#" + (razorCert.staffID) + "># certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
                  }//end 60 days
-                 else if (razorCert.certName != "" && razorCert.DaysUnitlExp <= 90) {
-                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                 else if ( razorCert.DaysUnitlExp <= 90) {
+                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
                  }//end 90 days
-                 else {
-                     if (razorCert.certName != "") {
-                         $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                     }//end 90 days
-                 }
+                 else if (razorCert.certName != "") {
+                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')*<span>');
+                     }//end found certs
+                 else
+                {
+                 $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('*');
+                }
              }//end required cert if check
-             if (razorCert.isReq = false) {
+             if (razorCert.isReqFix == 'false') {
                  if (razorCert.certName != "") {
-                     $("#" + (razorCert.staffID) + "> #" + (razorCert.certName)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
+                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
                  }
              }
          });
