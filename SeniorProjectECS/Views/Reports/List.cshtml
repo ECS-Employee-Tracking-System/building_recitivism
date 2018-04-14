@@ -271,7 +271,7 @@
                     });
                     //append * to all requeried Certs
                     $.each(reqCertsArray, function (index, reqCA) {
-                        $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(reqCA, " ", "_"))).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held"></i>');
+                        $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(reqCA, " ", "_"))).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
                     });
                 }
             });
