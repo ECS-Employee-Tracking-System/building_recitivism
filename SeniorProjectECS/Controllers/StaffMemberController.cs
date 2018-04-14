@@ -24,6 +24,7 @@ namespace SeniorProjectECS.Controllers
             return View(results);
         }//end View Index
 
+        [AdminOnly]
         public IActionResult Details(int? id)
         {
             if (id != null)
@@ -80,7 +81,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.UpdateModel(model);
             }
-            return RedirectToAction("Edit", new { id = model.StaffMemberID });
+            return RedirectToAction("List", "Reports");
         }
 
         public IActionResult Inactive()

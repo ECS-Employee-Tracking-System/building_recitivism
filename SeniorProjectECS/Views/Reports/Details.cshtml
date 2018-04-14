@@ -276,6 +276,7 @@
 <div>
     @Html.ActionLink("Edit Filter", "EditFilter", Model.Filter, new { @class = "btn btn-primary btn-large" })<br />
     <input type="button" class="btn btn-default btn-primary" value="Save Filter" data-toggle="modal" data-target="#saveFilter" /><br />
+    @Html.ActionLink("Create Filter", "Index", Model.Filter, new { @class = "btn btn-primary btn-large" })<br />
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button><br />
     <br />
     <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
