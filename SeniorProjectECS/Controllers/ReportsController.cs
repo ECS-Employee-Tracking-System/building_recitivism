@@ -442,24 +442,6 @@ namespace SeniorProjectECS.Controllers
             return Json(FilterHandlerJSON.FilterList);
         }
 
-        //expiremental for Kendo UI remove before deploying
-        [AdminOnly]
-        public JsonResult GetKendoLists()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                var dataList = con.Query("GetKendoLists", commandType: CommandType.StoredProcedure);
-                return Json(dataList);
-            }
-        }
-
-        //expiremental for Kendo UI remove before deploying
-        [AdminOnly]
-        public IActionResult ListData()
-        {
-            return View();
-        }
-
         //gets all the information to pass to the dashboard in JSON format
         [ViewOnly]
         public JsonResult GetDashBoardLists()

@@ -14,16 +14,6 @@ namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        [ViewOnly]
-        public IActionResult Index(int? page)
-        {
-            var handler = new StaffHandlerDapper();
-            var results = handler.GetModels();
-            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
-            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
-            return View(results);
-        }//end View Index
-
         [AdminOnly]
         public IActionResult Details(int? id)
         {
