@@ -130,23 +130,3 @@ $.ajax({
         })
     }
 })
-//fills the autoslect box for the user to be able to select an available center
-$.ajax({
-    dataType: "json",
-    url: '/Center/GetAllCenters',
-    data: 'centers',
-    success: function (data) {
-        centArray = [];
-        $('<option>').val('').text('').appendTo("#centSelect");
-        $.each(data, function (index, value) {
-            var centersSelect = new Object();
-            centersSelect.centerID = value.centerID;
-            centersSelect.name = value.name;
-            centersSelect.county = value.county;
-            centersSelect.region = value.region;
-            centArray.push(centersSelect);
-            $('<option>').val(value.centerID).text(value.name + ', ' + value.county + ', ' + value.region).appendTo("#centSelect");
-            return centArray;
-        })
-    }
-});
