@@ -57,6 +57,7 @@ namespace SeniorProjectECS.Controllers
                         {
                             HttpContext.Session.SetInt32("AccessLevel", data.First().AccessLevel);
                             HttpContext.Session.SetString("LogUserName", data.First().FirstName);
+                            HttpContext.Session.SetInt32("UserID", data.First().UserID);
 
                             if (HttpContext.Session.GetInt32("AccessLevel") == 0)
                             {

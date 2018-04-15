@@ -7,6 +7,7 @@ using SeniorProjectECS.Models;
 using BCrypt;
 using SeniorProjectECS.Library;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 
 namespace SeniorProjectECS.Controllers
 {
@@ -65,6 +66,19 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("Index");
         }
 
+        [ViewOnly]
+        public IActionResult ResetPassword()
+        {
+            int? id = HttpContext.Session.GetInt32("UserID");
+            if (id != null)
+            {
+                var handle = new UserHandlerDapper();
+                var result = handle.GetModel(id.GetValueOrDefault());
+                return View(result);
+            }
+
+            return RedirectToAction("Index");
+        }
         [AdminOnly]
         public IActionResult Delete(int? id)
         {

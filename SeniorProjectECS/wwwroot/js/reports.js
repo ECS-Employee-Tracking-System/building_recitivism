@@ -130,6 +130,7 @@ $.ajax({
         })
     }
 })
+//fills the autoslect box for the user to be able to select an available center
 $.ajax({
     dataType: "json",
     url: '/Center/GetAllCenters',
