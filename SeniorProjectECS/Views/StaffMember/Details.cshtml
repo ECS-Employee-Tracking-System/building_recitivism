@@ -141,5 +141,5 @@
 </div>
 <div>
     <span AdminOnly>@Html.ActionLink("Edit", "Edit", new { id = Model.StaffMemberID }) |</span>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to Dashboard", "List", "Reports")
 </div>
