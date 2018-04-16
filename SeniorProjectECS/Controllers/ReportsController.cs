@@ -245,8 +245,8 @@ namespace SeniorProjectECS.Controllers
                 var handle = new FilterHandlerJSON();
                 handle.DeleteModel(id.Value);
             }
-            
-            return RedirectToAction("Index");
+
+            return RedirectToAction("LoadFilter");
         }
 
         /// <summary>
