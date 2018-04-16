@@ -220,10 +220,12 @@
                             @Html.DisplayFor(modelItem => item.Center.Region)
                         </td>
                         <td>
-                            @foreach (Position pos in item.Positions)
-                            {
-                                @Html.DisplayFor(model => pos.PositionTitle)
-                            }
+                            <ul class="list-unstyled">
+                                @foreach (Position pos in item.Positions)
+    {
+                                <li>@Html.DisplayFor(model => pos.PositionTitle)</li>
+}
+                            </ul>
                         </td>
                         <td>
                             @(item.Goal ? "Yes" : "No")
@@ -259,29 +261,38 @@
                             @Html.DisplayFor(modelItem => item.TermDate)
                         </td>
                         <td>
+                            <ul class="list-unstyled">
                             @foreach (Education edu in item.Education)
                             {
-                                @Html.DisplayFor(model => edu.DegreeAbrv)
+                                <li>@Html.DisplayFor(model => edu.DegreeAbrv)</li>
                             }
+                            </ul>
                         </td>
                         <td>
-                            @foreach (Education edu in item.Education)
-                            {
-                                @Html.DisplayFor(model => edu.DegreeLevel)
-                            }
+                            <ul class="list-unstyled">
+                                @foreach (Education edu in item.Education)
+                                 {
+                                <li>@Html.DisplayFor(model => edu.DegreeLevel)</li>
+                                 }
+                            </ul>
                         </td>
                         <td>
-                            @foreach (Education edu in item.Education)
-                            {
-                                @Html.DisplayFor(model => edu.DegreeType)
-                            }
+                            <ul class="list-unstyled">
+                                @foreach (Education edu in item.Education)
+                                {
+                                 <li> @Html.DisplayFor(model => edu.DegreeType)</li>
+                                }
+                            </ul>
                         </td>
                         <td>
-                            @foreach (Education edu in item.Education)
-                            {
-                                @Html.DisplayFor(model => edu.DegreeDetail)
-                            }
+                            <ul class="list-unstyled">
+                                @foreach (Education edu in item.Education)
+                                {
+                                    <li> @Html.DisplayFor(model => edu.DegreeDetail)</li>
+                                }
+                            </ul>
                         </td>
+                        
                     </tr>
                 }
 
