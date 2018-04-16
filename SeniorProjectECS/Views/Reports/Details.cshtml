@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="row">
-        <img src="~/images/ecslogo.png" class="img-responsive" align="left" style="width: 165px; height: 55px" />
+        <img src="~/images/ecslogo.png" alt="Company Logo" class="img-responsive" align="left" style="width: 165px; height: 55px" />
     </div>
 <div class="col-2 col-md-2">
     <div class='my-legend'>
@@ -32,8 +32,7 @@
                 </div>
                 <table class="table col-12">
                     <tr>
-                       <th><input type="submit" value="Load Filter" class="btn btn-default btn-primary" /></th>
-                        <h4>Select a Filter</h4>
+                       <th><label>Select a Filter</label><input type="submit" value="Load Filter" class="btn btn-default btn-primary" /></th>
                         <span AdminOnly>
                             <th><button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button></th>
                             <th><button type="button" class="btn btn-danger" onclick="delFilter()">Delete Filter <span class="glyphicon glyphicon-trash"></span>&nbsp;</button></th>
