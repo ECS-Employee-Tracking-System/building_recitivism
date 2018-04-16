@@ -438,11 +438,11 @@
                 modalCenter += '<li><input type="checkbox" class="toggle-vis" data-column="' + i + '"> ' + cert.CertName + '</li>'
                 i++;
                 });
-            getTable(trCenter, tdCenter, modalCenter);
+            getTable(trCenter, tdCenter, modalCenter, i);
 
         });
     }
-    function getTable(trCenter, tdCenter, modalCenter)
+    function getTable(trCenter, tdCenter, modalCenter, i)
     {
         done='';
         $('#StaffTable thead tr').append(trCenter);
@@ -491,10 +491,10 @@
          $('#checks').append(modalCenter);
 
          //build data table after js is done
-         buildTable(done);
+         buildTable(done, i);
         };
     //datatable section
-    function buildTable(data)
+    function buildTable(data, i)
     {
         var table = $("#StaffTable").DataTable({"order": [[1, "asc"]], "pageLength": 15, columnDefs: [
                 { targets: [8,9,10,11,12,13,14,15,16,17,18,19], visible: false },
