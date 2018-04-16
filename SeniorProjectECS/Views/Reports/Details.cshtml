@@ -36,12 +36,12 @@
                         <h4>Select a Filter</h4>
                         <span AdminOnly>
                             <th><button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button></th>
-                            <th><button type="button" class="btn btn-danger" onclick="delFilter()">Delete Filter</button></th>
+                            <th><button type="button" class="btn btn-danger" onclick="delFilter()">Delete Filter <span class="glyphicon glyphicon-trash"></span>&nbsp;</button></th>
                             <th>@Html.ActionLink("Edit Current Filter", "EditFilter", Model.Filter, new { @class = "btn btn-primary btn-large" })</th>
-                            <th><input type="button" class="btn btn-default btn-primary" value="Save Current Filter" data-toggle="modal" data-target="#saveFilter" /></th>
+                            <th><button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#saveFilter">Save Current Filter <span class="glyphicon glyphicon-save"></span>&nbsp;</button></th>
                         </span>
-                        <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button></th>
-                        <th><button type="button" class="btn btn-primary" onclick="exportexcel()">Export to Excel</button></th>
+                        <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Toggle Specific Columns</button></th>
+                        <th><button type="button" class="btn btn-primary" onclick="exportexcel()">Export Curent View to Excel <span class="glyphicon glyphicon-export"></span>&nbsp;</button></th>
                     </tr>
                 </table>
             </form>
