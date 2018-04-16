@@ -24,7 +24,7 @@ namespace SeniorProjectECS.Controllers
             using (var con = DBHandler.GetSqlConnection())
             {
                 con.Query("AnnualReset", commandType: CommandType.StoredProcedure);
-                return RedirectToAction("Index");
+                return RedirectToAction("List", "Reports");
             }
         }
         [AdminOnly]
@@ -51,7 +51,7 @@ namespace SeniorProjectECS.Controllers
             using (var con = DBHandler.GetSqlConnection())
             {
                 con.Query("SeedDatabase", commandType: CommandType.StoredProcedure);
-                return RedirectToAction("Index");
+                return RedirectToAction("List", "Reports");
             }
         }
     }

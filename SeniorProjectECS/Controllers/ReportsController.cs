@@ -508,7 +508,7 @@ namespace SeniorProjectECS.Controllers
         {
             ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
             ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
-            return View();
+            return RedirectToAction("LoadFilter");
         }
             
     }

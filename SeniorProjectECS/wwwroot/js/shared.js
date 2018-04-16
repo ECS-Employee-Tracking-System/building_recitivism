@@ -12,3 +12,13 @@ function findAndReplace(string, target, replacement) {
     }
     return string;
 }
+$(function () {
+    $('.annualReset').click(function () {
+        return window.confirm("You are about to reset EVERYONES goals and training hours. Are you sure?");
+    });
+});
+$(function () {
+    $('.seedData').click(function () {
+        return window.confirm("You are about to reload all the default positions and certification if they are missing. Are you sure?");
+    });
+});

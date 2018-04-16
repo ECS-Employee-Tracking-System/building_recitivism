@@ -50,14 +50,26 @@
             <div class=" navbar-collapse collapse">
                 <div>
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Reports" asp-action="List">Home</a></li>
+                        <li AdminOnly class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a asp-area="" asp-controller="StaffMember" asp-action="Create">Add Staff Member</a></li>
+                                    <li><a asp-area="" asp-controller="StaffMember" asp-action="Inactive">View Inactive Staff</a></li>
+                                    <li><a asp-area="" asp-controller="User" asp-action="Index">Manage User Accounts</a></li>
+                                    <li><a asp-area="" asp-controller="Position" asp-action="Index">Edit Positions</a></li>
+                                    <li><a asp-area="" asp-controller="Cert" asp-action="Index">Edit Certs</a></li>
+                                    <li><a asp-area="" class="annualReset" asp-controller="Maintenance" asp-action="AnnualReset">Annual Reset</a></li>
+                                    <li><a asp-area="" asp-controller="Maintenance" asp-action="CleanEducation">Delete Unused Educations</a></li>
+                                    <li><a asp-area=""  class="seedData" asp-controller="Maintenance" asp-action="SeedDatabase">Add Default Items(Inital Install)</a></li>
+                                </ul>                
+                            </div>
+                        </li>
                         <li><a asp-area="" asp-controller="Reports" asp-action="List">Dash Board</a></li>
                         <li AdminOnly><a asp-area="" asp-controller="Center" asp-action="Index">Centers</a></li>
-                        <li><a asp-area="" asp-controller="Reports" asp-action="Index">Reports</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#resetpassword">Reset Password</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     </ul>
-
                 </div>
                 <div class="navbar navbar-right">
                     <button type="button" class="navbar-btn btn-primary" onclick="location.href='@Url.Action("Logout", "Home")'">Logout <span class="glyphicon glyphicon-log-out"></span></button>
@@ -112,7 +124,6 @@
                                 }
                         </script>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" onsubmit="return CancelPassword()">Close</button>
-
                         <input type="submit" value="Submit" class="btn btn-primary" onclick="return validatePassword()" />
                     </div>
                 </form>

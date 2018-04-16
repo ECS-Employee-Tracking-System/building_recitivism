@@ -182,116 +182,113 @@
                 if (!item.IsInactive)
                 {
 
-            <tr id="@item.StaffMemberID">
-                <td> 
-                    <span AdminOnly>@Html.ActionLink("Edit", "Edit", "StaffMember", new { id = item.StaffMemberID })</span>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfHire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Center.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Center.County)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Center.Region)
-                </td>
-                <td>
-                    @foreach (Position pos in item.Positions)
-                     {
-                        @Html.DisplayFor(model => pos.PositionTitle)
-                     }
-                </td>
-                <td>
-                    @(item.Goal ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.MidYear ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.EndYear ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.GoalMet ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.TAndAApp ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.AppApp ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.ClassCompleted ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.ClassPaid ? "Yes" : "No")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequiredHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HoursEarned)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TermDate)
-                </td>
-                <td>
-                    @foreach (Education edu in item.Education)
-                    {
-                        @Html.DisplayFor(model => edu.DegreeAbrv)
-                     }
-                </td>
-                <td>
-                    @foreach (Education edu in item.Education)
-                    {
-                        @Html.DisplayFor(model => edu.DegreeLevel)
-                    }
-                </td>
-                <td>
-                    @foreach (Education edu in item.Education)
-                    {
-                        @Html.DisplayFor(model => edu.DegreeType)
-                    }
-                </td>
-                <td>
-                    @foreach (Education edu in item.Education)
-                    {
-                        @Html.DisplayFor(model => edu.DegreeDetail)
-                    }
-                </td>
-            </tr>
+                    <tr id="@item.StaffMemberID">
+                        <td>
+                            <span AdminOnly>@Html.ActionLink("Edit", "Edit", "StaffMember", new { id = item.StaffMemberID })</span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfHire)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.County)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Center.Region)
+                        </td>
+                        <td>
+                            @foreach (Position pos in item.Positions)
+                            {
+                                @Html.DisplayFor(model => pos.PositionTitle)
+                            }
+                        </td>
+                        <td>
+                            @(item.Goal ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.MidYear ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.EndYear ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.GoalMet ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.TAndAApp ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.AppApp ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.ClassCompleted ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @(item.ClassPaid ? "Yes" : "No")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequiredHours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HoursEarned)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TermDate)
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeAbrv)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeLevel)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeType)
+                            }
+                        </td>
+                        <td>
+                            @foreach (Education edu in item.Education)
+                            {
+                                @Html.DisplayFor(model => edu.DegreeDetail)
+                            }
+                        </td>
+                    </tr>
                 }
 
             }
         </tbody>
     </table>
-    <div AdminOnly class="container">
-        <a class="btn btn-primary btn-default" @Html.ActionLink("Add New User", "Create", "StaffMember")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("View Inactive Staff", "Inactive", "StaffMember")</a>
-        <a class="btn btn-primary btn-default" @Html.ActionLink("Manage User Accounts", "Index", "User")</a> <a class="btn btn-primary btn-default" @Html.ActionLink("Maintenance Page", "Index", "Maintenance")</a>
+    <div AdminOnly>
+        @Html.ActionLink("Edit Current Filter", "EditFilter", Model.Filter, new { @class = "btn btn-primary btn-large" })
+        <input type="button" class="btn btn-default btn-primary" value="Save Current Filter" data-toggle="modal" data-target="#saveFilter" />
     </div>
-</div>
-<div AdminOnly>
-    @Html.ActionLink("Edit Current Filter", "EditFilter", Model.Filter, new { @class = "btn btn-primary btn-large" })<br />
-    <input type="button" class="btn btn-default btn-primary" value="Save Current Filter" data-toggle="modal" data-target="#saveFilter" /><br />
+        @Html.ActionLink("Create/Load Filter", "Index", Model.Filter, new { @class = "btn btn-primary btn-large" })
+
 </div>
 <div>
-    @Html.ActionLink("Create/Load Filter", "Index", Model.Filter, new { @class = "btn btn-primary btn-large" })<br />
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button><br />
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Filter Specific Columns</button>
+    <br />
     <br />
     <button class="btn-primary" onclick="exportexcel()">Export to Excel</button>
 </div>
-
 <script src="~/lib/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="~/lib/moment/min/moment.min.js"></script>
 <script>
