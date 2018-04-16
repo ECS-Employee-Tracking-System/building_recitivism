@@ -159,17 +159,19 @@
                         <tr>
                             <th>Name</th>
                             <th>Completion Date</th>
+                            <th>Cert In Progress</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @for (int j=0; j<Model.CompletedCerts.Count; j++)
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(model => model.CompletedCerts[j].Cert.CertName)</td>
-                                <td>@Html.DisplayFor(model => model.CompletedCerts[j].DateCompleted)</td>
-                                <td><input type="button" class="btn btn-danger" value="Remove" onclick="removeCertification(url='@Url.Action("RemoveCertification", "StaffMember", new { CertificationID = Model.CompletedCerts[j].Cert.CertificationID })', @Model.StaffMemberID)" /></td>
-                            </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.CompletedCerts[j].Cert.CertName)</td>
+                            <td>@Html.DisplayFor(model => model.CompletedCerts[j].DateCompleted)</td>
+                            <td>@Html.DisplayFor(model => model.CompletedCerts[j].CertInProgress)</td>
+                            <td><input type="button" class="btn btn-danger" value="Remove" onclick="removeCertification(url='@Url.Action("RemoveCertification", "StaffMember", new { CertificationID = Model.CompletedCerts[j].Cert.CertificationID })', @Model.StaffMemberID)" /></td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -298,6 +300,10 @@
                             <div class="form-group">
                                 <label class="control-label">Date Completed</label>
                                 <input type="date" id="DateCompleted" name="DateCompleted" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Cert In Progress</label>
+                                <input type="checkbox" id="CertInProgress" name="CertInProgress" value="true"/>
                             </div>
                         </div>
                         <div class="modal-footer">

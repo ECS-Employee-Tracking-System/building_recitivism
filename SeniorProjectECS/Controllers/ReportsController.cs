@@ -88,8 +88,12 @@ namespace SeniorProjectECS.Controllers
                                     staff.CompletedCerts[i].Cert = cert;
                                     staff.CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
                                     staff.CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
-                                    staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
-                                    staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    if(certCompleted.DateCompleted.HasValue)
+                                    {
+                                        staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                        staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    }
+                                    
                                     found = true;
                                     break;
                                 }
@@ -98,8 +102,13 @@ namespace SeniorProjectECS.Controllers
                             if(!found)
                             {
                                 certCompleted.Cert = cert;
-                                certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
-                                certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+
+                                if(certCompleted.DateCompleted.HasValue)
+                                {
+                                    certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                }
+                                
                                 certCompleted.IsRequired = false;
                                 staff.CompletedCerts.Add(certCompleted);
                             }
@@ -159,8 +168,12 @@ namespace SeniorProjectECS.Controllers
                                     staffMembers[foundStaff].CompletedCerts[i].Cert = cert;
                                     staffMembers[foundStaff].CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
                                     staffMembers[foundStaff].CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
-                                    staffMembers[foundStaff].CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
-                                    staffMembers[foundStaff].CompletedCerts[i].DaysUntilExpire = (staffMembers[foundStaff].CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    if(certCompleted.DateCompleted.HasValue)
+                                    {
+                                        staffMembers[foundStaff].CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                        staffMembers[foundStaff].CompletedCerts[i].DaysUntilExpire = (staffMembers[foundStaff].CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    }
+                                    
                                     found = true;
                                     break;
                                 }
@@ -169,15 +182,19 @@ namespace SeniorProjectECS.Controllers
                             if (!found)
                             {
                                 certCompleted.Cert = cert;
-                                certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
-                                certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                if(certCompleted.DateCompleted.HasValue)
+                                {
+                                    certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                }
+                                
                                 certCompleted.IsRequired = false;
                                 staffMembers[foundStaff].CompletedCerts.Add(certCompleted);
                             }
                         }
                     }
                     return staff;
-                }, splitOn: "PositionID,CenterID,EducationID,DateCompleted,CertificationID,RequiredCerts", param: parameters);
+                }, splitOn: "PositionID,CenterID,EducationID,CertInProgress,CertificationID,RequiredCerts", param: parameters);
 
                 staffMembers = CodeFilter(staffMembers, Model);
 
@@ -302,7 +319,7 @@ namespace SeniorProjectECS.Controllers
             String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email, sm.DateofHire, sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
                          "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " +
-                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate as DateCompleted, cc.CertInProgress, cert.CertificationID, cert.CertName, cert.CertExpireAmount, " +
+                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertInProgress, cc.CertCompletionDate as DateCompleted, cert.CertificationID, cert.CertName, cert.CertExpireAmount, " +
                          "(select c.CertificationID from Certification as c " +
                          "inner join PositionReq as pr on pr.CertificationID = c.CertificationID " +
                          "inner join Position as pos on pos.PositionID = pr.PositionID " +

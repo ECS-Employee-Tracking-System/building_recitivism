@@ -181,15 +181,15 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
-        public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime DateCompleted)
+        public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime? DateCompleted, bool CertInProgress = false)
         {
             if(StaffMemberID != null && CertificationID != null)
             {
                 using(var con = DBHandler.GetSqlConnection())
                 {
-                    String sql = "INSERT INTO CertCompletion (StaffMemberID, CertificationID, CertCompletionDate) VALUES (@StaffID, @CertID, @DateCompleted)";
+                    String sql = "INSERT INTO CertCompletion (StaffMemberID, CertificationID, CertCompletionDate, CertInProgress) VALUES (@StaffID, @CertID, @DateCompleted, @CertInProgress)";
                     try { 
-                        con.Execute(sql, new { StaffID = StaffMemberID, CertID = CertificationID, DateCompleted = DateCompleted });
+                        con.Execute(sql, new { StaffID = StaffMemberID, CertID = CertificationID, DateCompleted, CertInProgress });
                     } catch (System.Data.SqlClient.SqlException e) { }
                 }
             }

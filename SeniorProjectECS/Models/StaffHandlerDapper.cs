@@ -21,7 +21,7 @@ namespace SeniorProjectECS.Models
             using (var con = DBHandler.GetSqlConnection())
             {
                 StaffMember staffMember = null;
-                con.Query<StaffMember, Position, Center, Education, DateTime?, Certification, StaffMember>("GetStaffMember", (staff, pos, center, edu, certCompleted, cert) =>
+                con.Query<StaffMember, Position, Center, Education, CertCompletion, Certification, StaffMember>("GetStaffMember", (staff, pos, center, edu, certCompleted, cert) =>
                 {
                     if(staffMember == null)
                     {
@@ -40,18 +40,14 @@ namespace SeniorProjectECS.Models
 
                     if(cert != null && !staffMember.CompletedCerts.Any(cc => cc.Cert.CertificationID == cert.CertificationID))
                     {
-                        var newCertCompleted = new CertCompletion
-                        {
-                            Cert = cert,
-                            DateCompleted = certCompleted
-                        };
-                        staffMember.CompletedCerts.Add(newCertCompleted);
+                        certCompleted.Cert = cert;
+                        staffMember.CompletedCerts.Add(certCompleted);
                     }
 
                     staffMember.Center = center;
 
                     return staff;
-                }, new { StaffMemberID = id }, splitOn: "PositionID,CenterID,EducationID,CertCompletionDate,CertificationID", commandType: CommandType.StoredProcedure);
+                }, new { StaffMemberID = id }, splitOn: "PositionID,CenterID,EducationID,CertInProgress,CertificationID", commandType: CommandType.StoredProcedure);
 
                 return staffMember;
             }//en using
