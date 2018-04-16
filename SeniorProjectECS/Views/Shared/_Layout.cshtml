@@ -52,18 +52,21 @@
                     <ul class="nav navbar-nav">
                         <li AdminOnly class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li><a asp-area="" asp-controller="StaffMember" asp-action="Create">Add Staff Member</a></li>
-                                    <li><a asp-area="" asp-controller="StaffMember" asp-action="Inactive">View Inactive Staff</a></li>
-                                    <li><a asp-area="" asp-controller="User" asp-action="Index">Manage User Accounts</a></li>
-                                    <li><a asp-area="" asp-controller="Position" asp-action="Index">Edit Positions</a></li>
-                                    <li><a asp-area="" asp-controller="Cert" asp-action="Index">Edit Certs</a></li>
-                                    <li><a asp-area="" class="annualReset" asp-controller="Maintenance" asp-action="AnnualReset">Annual Reset</a></li>
-                                    <li><a asp-area="" asp-controller="Maintenance" asp-action="CleanEducation">Delete Unused Educations</a></li>
-                                    <li><a asp-area=""  class="seedData" asp-controller="Maintenance" asp-action="SeedDatabase">Add Default Items(Inital Install)</a></li>
-                                </ul>                
-                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><h4>Manage Staff</h4></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="StaffMember" asp-action="Create">Add Staff Member</a></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="StaffMember" asp-action="Inactive">View Inactive Staff</a></li>
+                                <hr class="dropdown-item">
+                                <li class="dropdown-item"><h4>Maintenance</h4></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="User" asp-action="Index">Manage User Accounts</a></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="Position" asp-action="Index">Edit Positions</a></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="Cert" asp-action="Index">Edit Certs</a></li>
+                                <li><a asp-area="" class="dropdown-item annualReset" asp-controller="Maintenance" asp-action="AnnualReset">Annual Reset</a></li>
+                                <li><a asp-area="" class="dropdown-item" asp-controller="Maintenance" asp-action="CleanEducation">Delete Unused Educations</a></li>
+                                <hr class="dropdown-item">
+                                <li class="dropdown-item"><h4>Super Users</h4></li>
+                                <li><a asp-area="" class="dropdown-item seedData" asp-controller="Maintenance" asp-action="SeedDatabase">Add Default Items(Inital Install)</a></li>
+                            </ul>
                         </li>
                         <li><a asp-area="" asp-controller="Reports" asp-action="List">Dash Board</a></li>
                         <li AdminOnly><a asp-area="" asp-controller="Center" asp-action="Index">Centers</a></li>
