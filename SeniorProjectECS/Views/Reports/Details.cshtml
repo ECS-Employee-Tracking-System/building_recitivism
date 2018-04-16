@@ -454,26 +454,26 @@
                 if (razorCert.DaysUnitlExp <= 30  && razorCert.certExpDate != "")
                 {
                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="thirtyDays btn-danger">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip"  style="color:red" title="Certification required by Position held">R</i>');
                 }//end 30 days
                 else if (razorCert.DaysUnitlExp <= 60  && razorCert.certExpDate != "")
                 {
                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="sixtyDays btn-warning">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" style="color:red" title="Certification required by Position held">R</i>');
                 }//end 60 days
                 else if ( razorCert.DaysUnitlExp <= 90  && razorCert.certExpDate != "")
                 {
                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="ninetyDays btn-info">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" style="color:red" title="Certification required by Position held">R</i>');
                 }//end 90 days
                 else if (razorCert.certName != ""  && razorCert.certExpDate != "")
                 {
                     $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
-                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip"style="color:red"  title="Certification required by Position held">R</i>');
                 }//end found certs
                 else
                 {
-                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" data-toggle="tooltip" title="Certification required by Position held">R</i>');
+                    $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-asterisk" style="color:red" data-toggle="tooltip" title="Certification required by Position held">R</i>');
                 }
              }//end required cert if check
              if (razorCert.isReqFix == 'false' && razorCert.certExpDate != "")
