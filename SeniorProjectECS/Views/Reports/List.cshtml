@@ -178,10 +178,11 @@
         var todaysDate = moment();
         var calcDate = expDate.diff(todaysDate, 'days');
         var calcOut = '';
+        if (expDateIn != null){ 
         if ((calcDate <= 30) && (needsColor==true)) { calcOut = '<span class ="thirtyDays btn-danger">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         else if ((calcDate <= 60) && (needsColor == true)) { calcOut = '<span class ="sixtyDays btn-warning">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
         else if ((calcDate <= 90) && (needsColor == true)) { calcOut = '<span class ="ninetyDays btn-info">' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
-        else { calcOut = '<span>' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }
+        else { calcOut = '<span>' + moment(expDate).format("M/D/YYYY") + '(' + calcDate + ')<span>'; }}
         return calcOut;
     }
 
@@ -267,6 +268,10 @@
                             $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append(colorCodeDate(certs.dateCompleted, certs.cert.certExpireAmount, needsColor));
                         }
                         CertInProgress += certs.certInProgress + ', '; CertName += certs.cert.certName + ', '; CertExpireAmount += certs.cert.certExpireAmount + ', ';
+                        if (certs.certInProgress)
+                        {
+                            $("#" + (staff.staffMemberID) + "> #" + (findAndReplace(certs.cert.certName, " ", "_"))).append('<i class="glyphicon glyphicon-refresh" style="color:green" data-toggle="tooltip" title="Certification is in Progress">I</i>');
+                        }
                         done++;
                     });
                     //append * to all requeried Certs

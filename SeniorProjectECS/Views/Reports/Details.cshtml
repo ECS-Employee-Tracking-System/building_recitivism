@@ -305,8 +305,10 @@
                     var certIDRazor = '@cert.Cert.CertificationID';
                     var isReq = '@cert.IsRequired';
                     isReqFixed = isReq.toLowerCase();
-                    var DaysUnitlExp = '@cert.DaysUntilExpire'
-                    console.log(staffID, certIDRazor);
+                    var DaysUnitlExp = '@cert.DaysUntilExpire';
+                    var inProgressRaw='@cert.CertInProgress';
+                    inProgressConverted= inProgressRaw.toLowerCase();
+                    console.log(staffID, certIDRazor, inProgressConverted);
                     //set all the object's values then push to array
                     var razorToPush = new Object;
                     razorToPush.staffID = staffID;
@@ -315,6 +317,7 @@
                     razorToPush.isReqFix = isReqFixed;
                     razorToPush.DaysUnitlExp = parseInt(DaysUnitlExp);
                     razorToPush.certID =certIDRazor;
+                    razorToPush.inProgress=inProgressConverted;
                     RTBody.push(razorToPush);
                     </text>
                  }
@@ -480,6 +483,10 @@
                      $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<span class ="">' + moment(razorCert.certExpDate).format("M/D/YYYY") + '(' + razorCert.DaysUnitlExp + ')<span>');
                  }
              }//end check if not required
+             if (razorCert.inProgress =='true')
+             {
+                 $("#" + (razorCert.staffID) + ">#certID" + (razorCert.certID)).append('<i class="glyphicon glyphicon-refresh" data-toggle="tooltip" title="Certification is in Progress">I</i>');
+             }//end in progress check
          });
          $('#checks').append(modalCenter);
 
