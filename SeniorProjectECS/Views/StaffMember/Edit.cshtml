@@ -49,23 +49,6 @@
                 }
                 <input type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#addNewPosition" value="Add New Position"/>
             </div>
-            <span data-toggle="collapse" data-target="#CDA">
-                <input type="checkbox" data-toggle="toggle" data-on="Hide CDA" data-width="300" data-off="Show CDA" data-target="#CDA"><br><br />
-            </span>
-            <div id="CDA" class="collapse">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDARenewalProcess" class="control-label"></label>
-                    <input asp-for="CDARenewalProcess" placeholder="CDA Renewal Process" class="form-control" />
-                    <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
-                </div>
-            </div>
             <span data-toggle="collapse" data-target="#Goals">
                 <input type="checkbox" data-toggle="toggle" data-on="Hide Goals" data-width="300" data-off="Show Goals" data-target="#Goals"><br><br />
             </span>

@@ -14,20 +14,6 @@ namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        [AdminOnly]
-        public IActionResult Details(int? id)
-        {
-            if (id != null)
-            {
-                var handle = new StaffHandlerDapper();
-                var result = handle.GetModel(id.GetValueOrDefault());
-                return View(result);
-            } else
-            {
-                return View();
-            }
-        }//end View Details
-
         public IActionResult Create()
         {
             return View();

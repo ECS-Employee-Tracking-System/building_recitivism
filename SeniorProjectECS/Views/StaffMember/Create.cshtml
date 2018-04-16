@@ -34,23 +34,6 @@
                 <input asp-for="Positions[0].PositionTitle" class="form-control" list=Position_0_ placeholder="Lead Teacher"><datalist id=Position_0_ name="Positions[0].PositionTitle"></datalist>
                 <span asp-validation-for="Positions[0].PositionTitle" class="text-danger"></span>
             </div>
-            <span data-toggle="collapse" data-target="#CDA">
-                <input type="checkbox" data-toggle="toggle" data-off="Hide CDA" data-width="300" data-on="Show CDA" data-target="#CDA"><br><br />
-            </span>
-            <div id="CDA" class="collapse in">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDARenewalProcess" class="control-label"></label>
-                    <input asp-for="CDARenewalProcess" placeholder="CDA Renewal Process" class="form-control" />
-                    <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
-                </div>
-            </div>
             <span data-toggle="collapse" data-target="#Goals">
                 <input type="checkbox" data-toggle="toggle" data-off="Hide Goals" data-width="300" data-on="Show Goals" data-target="#Goals"><br><br />
             </span>

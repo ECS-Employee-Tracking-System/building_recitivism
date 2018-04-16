@@ -31,7 +31,7 @@
                     if (staff.IsInactive)
                     {
                         <tr>
-                            <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                            <td>@staff.FirstName</td>
                             <td>@staff.LastName</td>
                             <td>@staff.Email</td>
                             <td>@foreach (Position pos in staff.Positions)

@@ -185,7 +185,7 @@
                     <span AdminOnly>@Html.ActionLink("Edit", "Edit", "StaffMember", new { id = item.StaffMemberID })</span>
                 </td>
                 <td>
-                    @Html.ActionLink(item.FirstName, "Details", "StaffMember", new { id = item.StaffMemberID })
+                    @Html.DisplayFor(modelItem => item.FirstName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LastName)
