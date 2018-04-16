@@ -239,6 +239,18 @@ namespace SeniorProjectECS.Controllers
             return RedirectToAction("ApplyFilter", model.Filter);
         }
 
+        [AdminOnly]
+        public ActionResult DeleteFilter(int? id)
+        {
+            if(id.HasValue)
+            {
+                var handle = new FilterHandlerJSON();
+                handle.DeleteModel(id.Value);
+            }
+            
+            return RedirectToAction("Index");
+        }
+
         /// <summary>
         /// Build a parameter object for use with SQL
         /// </summary>

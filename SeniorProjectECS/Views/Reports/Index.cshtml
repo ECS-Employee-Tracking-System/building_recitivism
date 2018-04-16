@@ -1,5 +1,15 @@
 ﻿@page
 <script src="~/js/reports.js" asp-append-version="true"></script>
+
+<script>
+    function delFilter() {
+        if (confirm("Are you sure you want to delete the " + $("#filterSelect option:selected").text() + " filter?")) {
+            var id = $('#filterSelect').val()
+            window.location = '@Url.Action("DeleteFilter")' + '?id=' + id
+        }
+    }
+</script>
+
 <div class="row">
     <div class="col-md-4">
         <h1>Custom Reports</h1>
@@ -10,7 +20,10 @@
                 <select id="filterSelect" name="FilterID" class="form-control"></select>
             </div>
             <input type="submit" value="Load Filter" class="btn btn-default btn-primary" />
-            <span AdminOnly><button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button></span>
+            <span AdminOnly>
+                <button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button>
+                <button type="button" class="btn btn-danger" onclick="delFilter()">Delete Filter</button>
+            </span>
         </form>
     </div>
 </div>

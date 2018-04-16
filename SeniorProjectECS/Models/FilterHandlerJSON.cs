@@ -80,7 +80,11 @@ namespace SeniorProjectECS.Models
 
         public void DeleteModel(int id)
         {
-            throw new NotImplementedException();
+            if(FilterList.Remove(id, out string filterName))
+            {
+                File.Delete("filters/" + filterName + ".json");
+                UpdateFilterList();
+            }
         }
 
         public Filter GetModel(int id)
