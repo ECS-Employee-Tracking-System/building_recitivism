@@ -32,7 +32,8 @@
                 </div>
                 <table class="table col-12">
                     <tr>
-                       <th><label>Select a Filter</label><input type="submit" value="Load Filter" class="btn btn-default btn-primary" /></th>
+                       <th><input type="submit" value="Load Filter" class="btn btn-default btn-primary" /></th>
+                        <h4>Select a Filter</h4>
                         <span AdminOnly>
                             <th><button type="button" class="btn btn-default btn-primary" onclick="location.href='@Url.Action("CreateFilter")'">Create New Filter</button></th>
                             <th><button type="button" class="btn btn-danger" onclick="delFilter()">Delete Filter <span class="glyphicon glyphicon-trash"></span>&nbsp;</button></th>
@@ -318,7 +319,7 @@
                     var DaysUnitlExp = '@cert.DaysUntilExpire';
                     var inProgressRaw='@cert.CertInProgress';
                     inProgressConverted= inProgressRaw.toLowerCase();
-                    console.log(staffID, certIDRazor, inProgressConverted);
+                    //console.log(certExpDate);
                     //set all the object's values then push to array
                     var razorToPush = new Object;
                     razorToPush.staffID = staffID;

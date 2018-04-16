@@ -67,8 +67,7 @@ namespace SeniorProjectECS.Controllers
                             temp.ForEach(f => reqCerts.Add(f.FirstOrDefault().Value));
 
                             foreach (int reqCert in reqCerts)
-                            {
-                                Debug.WriteLine(reqCert, staff.StaffMemberID.ToString());
+                            {                   
                                 staff.CompletedCerts.Add(new CertCompletion
                                 {
                                     Cert = new Certification { CertificationID = reqCert },
@@ -135,7 +134,6 @@ namespace SeniorProjectECS.Controllers
 
                             foreach (int reqCert in reqCerts)
                             {
-                                Debug.WriteLine(reqCert, staff.StaffMemberID.ToString());
                                 if (!staffMembers[foundStaff].CompletedCerts.Any(rq => rq.Cert.CertificationID == reqCert))
                                 {
                                     staffMembers[foundStaff].CompletedCerts.Add(new CertCompletion
