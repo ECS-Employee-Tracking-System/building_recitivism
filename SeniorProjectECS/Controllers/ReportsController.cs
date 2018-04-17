@@ -1,21 +1,21 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SeniorProjectECS.Library;
 using SeniorProjectECS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SeniorProjectECS.Controllers
 {
     public class ReportsController : Controller
     {
-        [AdminOnly]
+        [ViewOnly]
         public ActionResult Index()
         {
             return View();
@@ -27,9 +27,24 @@ namespace SeniorProjectECS.Controllers
             return View();
         }
 
-        [AdminOnly]
+        [ViewOnly]
+        public ActionResult LoadFilter(int? filterID)
+        {
+            if(filterID != null)
+            {
+                var handle = new FilterHandlerJSON();
+                Filter filter = handle.GetModel(filterID.Value);
+                return RedirectToAction("ApplyFilter", filter);
+            }
+
+            return RedirectToAction("ApplyFilter", new Filter());
+        }
+
+        [ViewOnly]
         public ActionResult ApplyFilter(Filter Model)
         {
+            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
+            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
             String sql = BuildSQLFromFilter(Model);
             var parameters = BuildParamsFromFilter(Model);
 
@@ -37,7 +52,7 @@ namespace SeniorProjectECS.Controllers
             using (var con = DBHandler.GetSqlConnection())
             {
                 var staffMembers = new List<StaffMember>();
-                con.Query<StaffMember, Position, Center, Education, StaffMember>(sql, (staff, pos, center, edu) =>
+                con.Query<StaffMember, Position, Center, Education, CertCompletion, Certification, string, StaffMember>(sql, (staff, pos, center, edu, certCompleted, cert, requiredCerts) =>
                 {
                     int foundStaff = staffMembers.FindIndex(s => s.StaffMemberID == staff.StaffMemberID);
                     if (foundStaff == -1)
@@ -45,6 +60,58 @@ namespace SeniorProjectECS.Controllers
                         if (pos != null) { staff.Positions.Add(pos); }
                         if (center != null) { staff.Center = center; }
                         if (edu != null) { staff.Education.Add(edu); }
+                        if(requiredCerts != null)
+                        {
+                            var reqCerts = new List<int>();
+                            var temp = JsonConvert.DeserializeObject<List<Dictionary<string, int>>>(requiredCerts);
+                            temp.ForEach(f => reqCerts.Add(f.FirstOrDefault().Value));
+
+                            foreach (int reqCert in reqCerts)
+                            {                   
+                                staff.CompletedCerts.Add(new CertCompletion
+                                {
+                                    Cert = new Certification { CertificationID = reqCert },
+                                    IsRequired = true,
+                                    CertInProgress = false
+                                });
+                            }
+                        }
+
+                        if (certCompleted != null && cert != null)
+                        {
+                            bool found = false;
+                            for(int i=0; i<staff.CompletedCerts.Count; i++)
+                            {
+                                if(staff.CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
+                                {
+                                    staff.CompletedCerts[i].Cert = cert;
+                                    staff.CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
+                                    staff.CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
+                                    if(certCompleted.DateCompleted.HasValue)
+                                    {
+                                        staff.CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                        staff.CompletedCerts[i].DaysUntilExpire = (staff.CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    }
+                                    
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if(!found)
+                            {
+                                certCompleted.Cert = cert;
+
+                                if(certCompleted.DateCompleted.HasValue)
+                                {
+                                    certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                }
+                                
+                                certCompleted.IsRequired = false;
+                                staff.CompletedCerts.Add(certCompleted);
+                            }
+                        }
                         staffMembers.Add(staff);
                     }
                     else
@@ -58,15 +125,96 @@ namespace SeniorProjectECS.Controllers
                         {
                             staffMembers[foundStaff].Education.Add(edu);
                         }
+
+                        if (requiredCerts != null)
+                        {
+                            var reqCerts = new List<int>();
+                            var temp = JsonConvert.DeserializeObject<List<Dictionary<string, int>>>(requiredCerts);
+                            temp.ForEach(f => reqCerts.Add(f.FirstOrDefault().Value));
+
+                            foreach (int reqCert in reqCerts)
+                            {
+                                if (!staffMembers[foundStaff].CompletedCerts.Any(rq => rq.Cert.CertificationID == reqCert))
+                                {
+                                    staffMembers[foundStaff].CompletedCerts.Add(new CertCompletion
+                                    {
+                                        Cert = new Certification { CertificationID = reqCert },
+                                        IsRequired = true,
+                                        CertInProgress = false
+                                    });
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < staffMembers[foundStaff].CompletedCerts.Count; i++)
+                                    {
+                                        if (staffMembers[foundStaff].CompletedCerts[i].Cert.CertificationID == reqCert)
+                                        {
+                                            staffMembers[foundStaff].CompletedCerts[i].IsRequired = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (certCompleted != null && cert != null)
+                        {
+                            bool found = false;
+                            
+                            for (int i = 0; i < staffMembers[foundStaff].CompletedCerts.Count; i++)
+                            {
+                                if (staffMembers[foundStaff].CompletedCerts[i].Cert.CertificationID == cert.CertificationID)
+                                {
+                                    staffMembers[foundStaff].CompletedCerts[i].Cert = cert;
+                                    staffMembers[foundStaff].CompletedCerts[i].DateCompleted = certCompleted.DateCompleted;
+                                    staffMembers[foundStaff].CompletedCerts[i].CertInProgress = certCompleted.CertInProgress;
+                                    if(certCompleted.DateCompleted.HasValue)
+                                    {
+                                        staffMembers[foundStaff].CompletedCerts[i].ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                        staffMembers[foundStaff].CompletedCerts[i].DaysUntilExpire = (staffMembers[foundStaff].CompletedCerts[i].ExpireDate - DateTime.Now).Value.Days;
+                                    }
+                                    
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                            {
+                                certCompleted.Cert = cert;
+                                if(certCompleted.DateCompleted.HasValue)
+                                {
+                                    certCompleted.ExpireDate = certCompleted.DateCompleted.Value.AddMonths(cert.CertExpireAmount);
+                                    certCompleted.DaysUntilExpire = (certCompleted.ExpireDate - DateTime.Now).Value.Days;
+                                }
+                                
+                                certCompleted.IsRequired = false;
+                                staffMembers[foundStaff].CompletedCerts.Add(certCompleted);
+                            }
+                        }
                     }
                     return staff;
-                }, splitOn: "PositionID,CenterID,EducationID", param: parameters);
+                }, splitOn: "PositionID,CenterID,EducationID,CertInProgress,CertificationID,RequiredCerts", param: parameters);
+
+                staffMembers = CodeFilter(staffMembers, Model);
 
                 returnModel.StaffMembers = staffMembers;
                 returnModel.Filter = Model;
             }
 
             return View("Details", returnModel);
+        }
+
+        private List<StaffMember> CodeFilter(List<StaffMember> staffMembers, Filter filter)
+        {
+            // filter on days until expire
+            if(filter.TimeUntilExpire != null)
+            {
+                staffMembers.RemoveAll(x => x.CompletedCerts.All(c =>
+                    c.DaysUntilExpire != null &&
+                    c.DaysUntilExpire > filter.TimeUntilExpire
+                ));
+            }
+
+            return staffMembers;
         }
 
         [AdminOnly]
@@ -79,14 +227,26 @@ namespace SeniorProjectECS.Controllers
         public ActionResult SaveFilter(StaffFilterViewModel model)
         {
             var handle = new FilterHandlerJSON();
-            if (model.Filter.FilterID == null)
+            if (model.Filter.FilterID == null || (ValidateSave(model.Filter.FilterName) as ContentResult).Content.Equals("true"))
             {
                 handle.AddModel(model.Filter);
             } else {
                 handle.UpdateModel(model.Filter);
             }
 
-            return RedirectToAction("ApplyFilter", model);
+            return RedirectToAction("ApplyFilter", model.Filter);
+        }
+
+        [AdminOnly]
+        public ActionResult DeleteFilter(int? id)
+        {
+            if(id.HasValue)
+            {
+                var handle = new FilterHandlerJSON();
+                handle.DeleteModel(id.Value);
+            }
+
+            return RedirectToAction("LoadFilter");
         }
 
         /// <summary>
@@ -166,10 +326,14 @@ namespace SeniorProjectECS.Controllers
         /// <returns>The completed SQL string.</returns>
         private string BuildSQLFromFilter(Filter model)
         {
-            String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email,sm.DateofHire,sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
+            String sql = "Select sm.StaffMemberID, sm.FirstName, sm.LastName, sm.Email, sm.DateofHire, sm.DirectorCredentials, sm.DCExpiration, sm.CDAInProgress, sm.CDAType, " +
                          "sm.CDAExpiration,sm.CDARenewalProcess,sm.Comments,sm.Goal,sm.MidYear,sm.EndYear,sm.GoalMet,sm.TAndAApp,sm.AppApp,sm.ClassCompleted,sm.ClassPaid, " +
-                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " + 
-                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertCompletionDate, cert.CertificationID, cert.CertName, cert.CertExpireAmount " +
+                         "sm.RequiredHours,sm.HoursEarned,sm.Notes, sm.TermDate,sm.IsInactive, p.PositionID,p.PositionTitle, c.CenterID, c.Name, c.County, c.Region, e.EducationID,e.DegreeAbrv, " +
+                         "e.DegreeLevel, e.DegreeType, e.DegreeDetail, cc.CertInProgress, cc.CertCompletionDate as DateCompleted, cert.CertificationID, cert.CertName, cert.CertExpireAmount, " +
+                         "(select c.CertificationID from Certification as c " +
+                         "inner join PositionReq as pr on pr.CertificationID = c.CertificationID " +
+                         "inner join Position as pos on pos.PositionID = pr.PositionID " +
+                         "where pos.PositionID like p.PositionID for json path) as RequiredCerts " +
                          "FROM StaffMember as sm " +
                          "left Outer JOIN StaffPosition as sp on sp.StaffMemberID=sm.StaffMemberID " +
                          "left Outer JOIN Position as p on p.PositionID = sp.PositionID " +
@@ -192,8 +356,8 @@ namespace SeniorProjectECS.Controllers
             if (model.AppApp != null) { sql += " AND (sm.AppApp=@AppApp)"; }
             if (model.ClassCompleted != null) { sql += " AND (sm.ClassCompleted=@ClassCompleted)"; }
             if (model.ClassPaid != null) { sql += " AND (sm.ClassPaid=@ClassPaid)"; }
-            //RequiredHours
-            //HoursEarned
+            sql = HandleNum(sql, model.BeginRequiredHours, model.EndRequiredHours, "RequiredHours");
+            sql = HandleNum(sql, model.BeginHoursEarned, model.EndHoursEarned, "HoursEarned");
             sql = HandleDate(sql, model.BeginTermDate, model.EndTermDate, "TermDate");
             if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
@@ -204,6 +368,7 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.CenterName, "Name", "c");
             sql = BuildSQLFromArray(sql, model.CenterCounty, "County", "c");
             sql = BuildSQLFromArray(sql, model.CenterRegion, "Region", "c");
+
             //TimeUntilExpire
             //ShouldCheckPosition
 
@@ -232,7 +397,23 @@ namespace SeniorProjectECS.Controllers
                 sql += "AND (" + name + " <= '" + endDate + "')";
             }
 
-            // Don't search on date
+            return sql;
+        }
+
+        private string HandleNum(string sql, int? beginNum, int? endNum, string name)
+        {
+            // Get entries after the begin date
+            if (beginNum != null)
+            {
+                sql += "AND (" + name + " >= '" + beginNum + "')";
+            }
+
+            // Get entries before the end date
+            if (endNum != null)
+            {
+                sql += "AND (" + name + " <= '" + endNum + "')";
+            }
+
             return sql;
         }
 
@@ -273,6 +454,7 @@ namespace SeniorProjectECS.Controllers
             return Content("true");
         }
 
+        //gets all the data to prepare the select list called in reports.js
         public JsonResult GetSelectLists()
         {
             using (var con = DBHandler.GetSqlConnection())
@@ -287,67 +469,44 @@ namespace SeniorProjectECS.Controllers
             return Json(FilterHandlerJSON.FilterList);
         }
 
-        [AdminOnly]
-        public JsonResult GetKendoLists()
+        //gets all the information to pass to the dashboard in JSON format
+        [ViewOnly]
+        public JsonResult GetDashBoardLists()
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                var dataList = con.Query("GetKendoLists", commandType: CommandType.StoredProcedure);
-                return Json(dataList);
-            }
-        }
-
-        [AdminOnly]
-        public JsonResult GetFilterLists()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetFilterLists", (staffMember, center, edu, pos, cert) =>
+                var dataList = con.Query<StaffMember, string, string, string, string, StaffMember>("GetDashBoardLists", (staffMember, center, edu, pos, cert) =>
                 {
                     if (center != null) { staffMember.Center = JsonConvert.DeserializeObject<Center>(center); }
                     if (edu != null) { staffMember.Education = JsonConvert.DeserializeObject<List<Education>>(edu); }
-                    if(pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
+                    if (pos != null) { staffMember.Positions = JsonConvert.DeserializeObject<List<Position>>(pos); }
                     if (cert != null) { staffMember.CompletedCerts = JsonConvert.DeserializeObject<List<CertCompletion>>(cert); }
 
                     return staffMember;
-                },splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
+                }, splitOn: "Center,Education,Position,Cert", commandType: CommandType.StoredProcedure);
                 return Json(dataList);
             }
         }
 
-        [AdminOnly]
-        public IActionResult CDACompliance(int NumberOfDays = 90)
-        {
-            var con = DBHandler.GetSqlConnection();
-            String sql = @"SELECT StaffMemberID, FirstName, LastName, Email, CDAExpiration FROM StaffMember 
-                WHERE CDAExpiration is not NULL 
-                and datediff(""dd"",CONVERT(date, getdate()),""CDAExpiration"") <=@NumberOfDays";
-
-            
-            var cdaexpiration = con.Query<StaffMember>(sql ,new{ NumberOfDays = NumberOfDays});
-            return View(cdaexpiration);
-        }//end View Index
-
+        //used in reports.js to display CertID and CertName in select list 
         public JsonResult GetCertList()
         {
             using (var con = DBHandler.GetSqlConnection())
             {
-                String sql = @"select distinct(CertName) from Certification ";
+                String sql = @"select distinct(CertName), CertificationID from Certification ";
                 var certs = con.Query(sql);
                 return Json(certs);
             }
         }
 
-        [AdminOnly]
-        public IActionResult ListData()
-        {
-            return View();
-        }
 
-        [AdminOnly]
+        //used to display current Dashboard
+        [ViewOnly]
         public IActionResult List()
         {
-            return View();
+            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
+            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
+            return RedirectToAction("LoadFilter");
         }
             
     }

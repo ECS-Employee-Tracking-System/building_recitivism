@@ -1,7 +1,6 @@
 ﻿@model SeniorProjectECS.Models.StaffMember
-<script src="~/js/site.js" asp-append-version="true"></script>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
 
 <div class="container page-header">
     <h2>Add New Staff Member Page</h2>
@@ -32,53 +31,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Positions[0].PositionTitle" class="control-label"></label>
-                <input asp-for="Positions[0].PositionTitle" class="form-control" list=Position placeholder="Lead Teacher"><datalist id=Position name="Positions[0].PositionTitle"></datalist>
+                <input asp-for="Positions[0].PositionTitle" class="form-control" list=Position_0_ placeholder="Lead Teacher"><datalist id=Position_0_ name="Positions[0].PositionTitle"></datalist>
                 <span asp-validation-for="Positions[0].PositionTitle" class="text-danger"></span>
-            </div>
-            <span data-toggle="collapse" data-target="#DirCred">
-                <input type="checkbox" data-toggle="toggle" data-off='Hide Director Credentials' data-width="300" data-on='Show Director Credentials' data-target="#CDA"><br><br />
-            </span>
-            <div id="DirCred" class="collapse in">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="DirectorCredentials" /> @Html.DisplayNameFor(model => model.DirectorCredentials)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DCExpiration" class="control-label"></label>
-                    <input asp-for="DCExpiration" class="form-control" />
-                    <span asp-validation-for="DCExpiration" class="text-danger"></span>
-                </div>
-            </div>
-            <span data-toggle="collapse" data-target="#CDA">
-                <input type="checkbox" data-toggle="toggle" data-off="Hide CDA" data-width="300" data-on="Show CDA" data-target="#CDA"><br><br />
-            </span>
-            <button type="button" class="btn btn-default btn-danger" onclick="naCDA()">NA CDA Info</button><br /><br />
-            <div id="CDA" class="collapse in">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="CDAInProgress" /> @Html.DisplayNameFor(model => model.CDAInProgress)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDAType" class="control-label"></label>
-                    <input asp-for="CDAType" placeholder="CDA Type" class="form-control" />
-                    <span asp-validation-for="CDAType" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDAExpiration" class="control-label"></label>
-                    <input asp-for="CDAExpiration" class="form-control" />
-                    <span asp-validation-for="CDAExpiration" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDARenewalProcess" class="control-label"></label>
-                    <input asp-for="CDARenewalProcess" placeholder="CDA Renewal Process" class="form-control" />
-                    <span asp-validation-for="CDARenewalProcess" class="text-danger"></span>
-                </div>
             </div>
             <span data-toggle="collapse" data-target="#Goals">
                 <input type="checkbox" data-toggle="toggle" data-off="Hide Goals" data-width="300" data-on="Show Goals" data-target="#Goals"><br><br />
@@ -153,57 +107,80 @@
             </div>
             <div class="form-group">
                 <label asp-for="RequiredHours" class="control-label"></label>
-                <input asp-for="RequiredHours" placeholder="0-40" class="form-control" />
+                <input asp-for="RequiredHours" placeholder="" class="form-control" />
                 <span asp-validation-for="RequiredHours" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HoursEarned" class="control-label"></label>
-                <input asp-for="HoursEarned" placeholder="0-40" class="form-control" />
+                <input asp-for="HoursEarned" placeholder="" class="form-control" />
                 <span asp-validation-for="HoursEarned" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" placeholder="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Comments" class="control-label"></label>
                 <input asp-for="Comments" placeholder="Comments" class="form-control" />
                 <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
+            <div>
+                <label class="control-label">Available Centers</label>
+                <select id="centSelect" name="centSelect" class="form-control" placeholer="Select Center"></select>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.querySelector('select[name="centSelect"]').onchange = changeEventHandler;
+                    }, false);
+                    function changeEventHandler(event) {
+                        // You can use “this” to refer to the selected element.
+                        if (!event.target.value)
+                        {
+                            alert('Please Select a Center or Add a New Center');
+                            document.getElementById('Center_Name').value = '';
+                            document.getElementById('Center_County').value = '';
+                            document.getElementById('Center_Region').value = '';
+                        }
+                        else {
+                            $.each(centArray, function (index, center) {
+                                if (center.centerID == event.target.value) {
+                                    document.getElementById('Center_Name').value = center.name;
+                                    document.getElementById('Center_County').value = center.county;
+                                    document.getElementById('Center_Region').value = center.region;
+                                }
+                            });
+                        }
+                    }
+                </script>
+            </div>
             <div class="form-group">
                 <label asp-for="Center.Name" class="control-label"></label>
-                <input asp-for="Center.Name" class="form-control" type=text list=CenterName name="Center.Name" placeholder="Orange Park"><datalist id=CenterName name="Center.Name"></datalist>
+                <input asp-for="Center.Name" class="form-control" type=text list=CenterName_0_ name="Center.Name" placeholder="Orange Park"><datalist id=CenterName_0_ name="Center.Name"></datalist>
                 <span asp-validation-for="Center.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Center.County" class="control-label"></label>
-                <input asp-for="Center.County" class="form-control" type=text list=CenterCounty name="Center.County" placeholder="Clay"><datalist id=CenterCounty name="Center.County"></datalist>
+                <input asp-for="Center.County" class="form-control" type=text list=CenterCounty_0_ name="CenterCounty_0_" placeholder="Clay"><datalist id=CenterCounty_0_ name="Center.County"></datalist>
                 <span asp-validation-for="Center.County" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Center.Region" class="control-label"></label>
-                <input asp-for="Center.Region" class="form-control" type=text list=CenterRegion name="Center.Region" placeholder="1A"><datalist id=CenterRegion name="Center.Region"></datalist>
+                <input asp-for="Center.Region" class="form-control" type=text list=CenterRegion_0_ name="Center.Region" placeholder="1A"><datalist id=CenterRegion_0_ name="Center.Region"></datalist>
                 <span asp-validation-for="Center.Region" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Education[0].DegreeAbrv" class="control-label"></label>
-                <input class="form-control" type=text list=degreeSelect name="Education[0].DegreeAbrv" placeholder="AS"><datalist id=degreeSelect name="Education[0].DegreeAbrv"></datalist>
+                <input class="form-control" type=text list=EducationAbrv_0_ name="Education[0].DegreeAbrv" placeholder="AS"><datalist id=EducationAbrv_0_ name="Education[0].DegreeAbrv"></datalist>
                 <span asp-validation-for="Education[0].DegreeAbrv" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Education[0].DegreeLevel" class="control-label"></label>
-                <input class="form-control" type=text list=degreeLevel name="Education[0].DegreeLevel" placeholder="Associates"><datalist id=degreeLevel name="Education[0].DegreeLevel"></datalist>
+                <input class="form-control" type=text list=EducationLevel_0_ name="Education[0].DegreeLevel" placeholder="Associates"><datalist id=EducationLevel_0_ name="Education[0].DegreeLevel"></datalist>
                 <span asp-validation-for="Education[0].DegreeLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Education[0].DegreeType" class="control-label"></label>
-                <input class="form-control" type=text list=degreeType name="Education[0].DegreeType" placeholder="Education"><datalist id=degreeType name="Education[0].DegreeType"></datalist>
+                <input class="form-control" type=text list=EducationType_0_ name="Education[0].DegreeType" placeholder="Education"><datalist id=EducationType_0_ name="Education[0].DegreeType"></datalist>
                 <span asp-validation-for="Education[0].DegreeType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Education[0].DegreeDetail" class="control-label"></label>
-                <input class="form-control" type=text list=degreeDetail name="Education[0].DegreeDetail" placeholder="Early Childhood"><datalist id=degreeDetail name="Education[0].DegreeDetail"></datalist>
+                <input class="form-control" type=text list=EducationDetail_0_ name="Education[0].DegreeDetail" placeholder="Early Childhood"><datalist id=EducationDetail_0_ name="Education[0].DegreeDetail"></datalist>
                 <span asp-validation-for="Education[0].DegreeDetail" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -214,8 +191,35 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+  @Html.ActionLink("Back to Dashboard","List","Reports")
 </div>
+<script>
+    //fills the autoslect box for the user to be able to select an available center
+$.ajax({
+    dataType: "json",
+    url: '/Center/GetAllCenters',
+    data: 'centers',
+    success: function (data) {
+        centArray = [];
+        $('<option>').val('').text('').appendTo("#centSelect");
+        $.each(data, function (index, value) {
+            var centersSelect = new Object();
+            centersSelect.centerID = value.centerID;
+            centersSelect.name = value.name;
+            centersSelect.county = value.county;
+            centersSelect.region = value.region;
+            centArray.push(centersSelect);
+            $('<option>').val(value.centerID).text(value.name + ', ' + value.county + ', ' + value.region).appendTo("#centSelect");
+            return centArray;
+        })
+    }
+});
+
+</script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/reports.js" asp-append-version="true"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

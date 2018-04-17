@@ -4,7 +4,7 @@
 <!--Used to sort table with tablesorter script and css in layout -->
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#myTable").tablesorter({ sortList: [[1, 0], [0, 0]] });
+        $("#myTable").DataTable({"pageLength": 100});
     });
 </script>
 <div class="page-header">
@@ -21,8 +21,6 @@
                     <th>Position</th>
                     <th>Date of Hire</th>
                     <th>Center</th>
-                    <th>CDA Type</th>
-                    <th>CDA Expiration</th>
                     <th></th>
                 </tr>
             </thead>
@@ -33,15 +31,14 @@
                     if (staff.IsInactive)
                     {
                         <tr>
-                            <td>@Html.ActionLink(staff.FirstName, "Details", new { id = staff.StaffMemberID })</td>
+                            <td>@staff.FirstName</td>
                             <td>@staff.LastName</td>
                             <td>@staff.Email</td>
-                            <td>@foreach (Position pos in staff.Positions) { @pos.PositionTitle; }</td>
+                            <td>@foreach (Position pos in staff.Positions)
+                            {@pos.PositionTitle;
+                        }</td>
                             <td>@staff.DateOfHire.Value.ToShortDateString()</td>
                             <td>@staff.Center.Name</td>
-
-                            <td>@staff.CDAType</td>
-                            <td>@staff.CDAExpiration?.ToShortDateString()</td>
                             <td>@Html.ActionLink("Edit", "Edit", new { id = staff.StaffMemberID })</td>
                         </tr>
                     }
@@ -50,3 +47,4 @@
         </table>
     </div>
 </div>
+@Html.ActionLink("Back to Dashboard", "List", "Reports")

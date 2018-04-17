@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<SeniorProjectECS.Models.Certification>
+<script>
+     $(document).ready(function () {
+     $("#myTable").DataTable({"pageLength": 100});
+    });
+</script>
 <div class="page-header">
     <h2>Certification List</h2>
 </div>
 
-<table class="table">
+<table class="table table-hover table-bordered table-condensed tablesorter" id="myTable">
     <thead>
         <tr>
                 <th>
@@ -41,3 +46,4 @@
 </table>
 <a class="btn btn-primary btn-default" @Html.ActionLink("Create New Certification", "Create", "Cert")</a>
 <a class="btn btn-primary btn-default" @Html.ActionLink("Edit Positions", "Index", "Position")</a>
+<a class="btn btn-primary btn-default" @Html.ActionLink("Add Default Items ", "SeedDatabase", "Maintenance")</a>

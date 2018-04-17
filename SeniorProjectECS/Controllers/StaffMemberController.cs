@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PagedList;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
@@ -15,37 +14,6 @@ namespace SeniorProjectECS.Controllers
 {
     public class StaffMemberController : Controller
     {
-        private int PageSize = 20;
-        private int PageNumber;
-        [ViewOnly]
-        public IActionResult Index(int? page)
-        {
-            PageNumber = (page ?? 1);
-            if (PageNumber <= 0) { PageNumber = 1; }
-            ViewBag.PageNumber = PageNumber;
-
-            var handler = new StaffHandlerDapper();
-            var results = handler.GetModels();
-            DateTime nDaysAgo = DateTime.Today.AddMonths(12);
-            TempData["SomeProperty"] = nDaysAgo;
-            ViewBag.LoggedUser = HttpContext.Session.GetString("LogUserName");
-            ViewBag.AccessRole = HttpContext.Session.GetString("AccessRole");
-            return View(results.ToList().ToPagedList(PageNumber, PageSize));
-        }//end View Index
-
-        public IActionResult Details(int? id)
-        {
-            if (id != null)
-            {
-                var handle = new StaffHandlerDapper();
-                var result = handle.GetModel(id.GetValueOrDefault());
-                return View(result);
-            } else
-            {
-                return View();
-            }
-        }//end View Details
-
         public IActionResult Create()
         {
             return View();
@@ -61,7 +29,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.AddModel(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("List", "Reports");
         }
 
         [AdminOnly]
@@ -75,7 +43,7 @@ namespace SeniorProjectECS.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("List", "Reports");
             }
         }
 
@@ -89,7 +57,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.UpdateModel(model);
             }
-            return RedirectToAction("Edit", new { id = model.StaffMemberID });
+            return RedirectToAction("List", "Reports");
         }
 
         public IActionResult Inactive()
@@ -108,7 +76,7 @@ namespace SeniorProjectECS.Controllers
                 var handle = new StaffHandlerDapper();
                 handle.DeleteModel(id.GetValueOrDefault());
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("List", "Reports");
         }
 
         [AdminOnly]
@@ -199,94 +167,21 @@ namespace SeniorProjectECS.Controllers
         }
 
         [AdminOnly]
-        public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime DateCompleted)
+        public IActionResult AddCompletedCert(int? StaffMemberID, int? CertificationID, DateTime? DateCompleted, bool CertInProgress = false)
         {
             if(StaffMemberID != null && CertificationID != null)
             {
                 using(var con = DBHandler.GetSqlConnection())
                 {
-                    String sql = "INSERT INTO CertCompletion (StaffMemberID, CertificationID, CertCompletionDate) VALUES (@StaffID, @CertID, @DateCompleted)";
+                    String sql = "INSERT INTO CertCompletion (StaffMemberID, CertificationID, CertCompletionDate, CertInProgress) VALUES (@StaffID, @CertID, @DateCompleted, @CertInProgress)";
                     try { 
-                        con.Execute(sql, new { StaffID = StaffMemberID, CertID = CertificationID, DateCompleted = DateCompleted });
+                        con.Execute(sql, new { StaffID = StaffMemberID, CertID = CertificationID, DateCompleted, CertInProgress });
                     } catch (System.Data.SqlClient.SqlException e) { }
                 }
             }
 
             return RedirectToAction("Edit", new { id = StaffMemberID.GetValueOrDefault() });
         }
-
-        //returns json to ajax call a list of all available degree abreviations
-        [HttpGet]
-        public JsonResult GetDegreeAbrvList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT DegreeAbrv FROM Education";
-                var degreeAbrvlist = con.Query(sql);
-                return Json(degreeAbrvlist);
-            }
-        }//end GetDegreeAbrvList
-
-        //returns json to ajax call a list of all available degree level
-        [HttpGet]
-        public JsonResult GetDegreeLevelList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT DegreeLevel FROM Education";
-                var degreeLevellist = con.Query(sql);
-                return Json(degreeLevellist);
-            }
-        }//end GetDegreeLevelList
-
-        //returns json to ajax call a list of all available degree type
-        [HttpGet]
-        public JsonResult GetDegreeTypeList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT DegreeType FROM Education";
-                var degreeTypelist = con.Query(sql);
-                return Json(degreeTypelist);
-            }
-        }//end GetDegreetypeList
-
-        //returns json to ajax call a list of all available degree detail
-        [HttpGet]
-        public JsonResult GetDegreeDetailList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT DegreeDetail FROM Education";
-                var degreeDetaillist = con.Query(sql);
-                return Json(degreeDetaillist);
-            }
-        }//end GetDegreeDetailList
-
-        //returns json to ajax call a list of all available centers
-        [HttpGet]
-        public JsonResult GetPositionList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT PositionTitle FROM Position";
-                var positions = con.Query(sql);
-                return Json(positions);
-            }
-        }//end GetCenterList
-
-
-        //returns json to ajax call a list of all available positions
-        [HttpGet]
-        public JsonResult GetCenterList()
-        {
-            using (var con = DBHandler.GetSqlConnection())
-            {
-                String sql = @"SELECT DISTINCT * FROM Center";
-                var centers = con.Query<Center>(sql);
-                return Json(centers);
-            }
-        }//end GetCenterList
     }
 
 

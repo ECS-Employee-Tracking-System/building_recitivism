@@ -80,14 +80,22 @@ namespace SeniorProjectECS.Models
 
         public void DeleteModel(int id)
         {
-            throw new NotImplementedException();
+            if(FilterList.Remove(id, out string filterName))
+            {
+                File.Delete("filters/" + filterName + ".json");
+                UpdateFilterList();
+            }
         }
 
         public Filter GetModel(int id)
         {
             if(FilterList.TryGetValue(id, out string filterName))
             {
-
+                using(StreamReader sr = new StreamReader("filters/" + filterName + ".json"))
+                {
+                    string jString = sr.ReadToEnd();
+                    return JsonConvert.DeserializeObject<Filter>(jString);
+                }
             }
 
             return null;
@@ -98,9 +106,28 @@ namespace SeniorProjectECS.Models
             throw new NotImplementedException();
         }
 
-        public void UpdateModel(Filter Model)
+        public void UpdateModel(Filter model)
         {
-            throw new NotImplementedException();
+            if (model.FilterName != null && model.FilterName.Length > 0)
+            {
+                // Convert to json
+                string jString = JsonConvert.SerializeObject(model);
+
+                // Write the filter to a json file
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter("filters/" + model.FilterName + ".json", false))
+                    {
+                        sw.WriteLine(jString);
+                    }
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Directory.CreateDirectory("filters");
+                    AddModel(model);
+                    return;
+                }
+            }
         }
     }
 }

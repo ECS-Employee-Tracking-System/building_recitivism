@@ -24,7 +24,7 @@ namespace SeniorProjectECS.Controllers
             using (var con = DBHandler.GetSqlConnection())
             {
                 con.Query("AnnualReset", commandType: CommandType.StoredProcedure);
-                return RedirectToAction("Index");
+                return RedirectToAction("List", "Reports");
             }
         }
         [AdminOnly]
@@ -43,6 +43,15 @@ namespace SeniorProjectECS.Controllers
             {
                 con.Query<Education>("DELETE from Education where EducationID=@id",   new {id=id}).FirstOrDefault();
                 return RedirectToAction("CleanEducation");
+            }
+        }
+        [AdminOnly]
+        public IActionResult SeedDatabase()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Query("SeedDatabase", commandType: CommandType.StoredProcedure);
+                return RedirectToAction("List", "Reports");
             }
         }
     }

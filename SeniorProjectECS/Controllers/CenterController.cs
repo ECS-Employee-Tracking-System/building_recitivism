@@ -64,5 +64,13 @@ namespace SeniorProjectECS.Controllers
                 return RedirectToAction("Index");
             }
         }
+        public JsonResult GetAllCenters()
+        {
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                var center =con.Query<Center>(@"SELECT * from Center");
+                return Json(center);
+            }
+        }
     }
 }

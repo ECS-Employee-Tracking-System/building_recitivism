@@ -5,8 +5,8 @@ $.ajax({
     data: 'dataList',
     success: function (data) {
         $.each(data, function (index, value) {
-            console.log(index);
-            console.log(value);
+            //console.log(index);
+           // console.log(value);
             $('#filterSelect').append($('<option>', {
                 value: index,
                 text: value
@@ -21,11 +21,12 @@ $.ajax({
     url: '/Reports/GetSelectLists',
     data: 'dataList',
     success: function (data) {
-        console.log(data);
+        //console.log(data);
         var centerNames = [];
         var centerCounties = [];
         var centerRegions = [];
         var positions = [];
+        var degreeAbrvs = [];
         var degreeLevels = [];
         var degreeTypes = [];
         var degreeDetails = [];
@@ -39,6 +40,9 @@ $.ajax({
             }
             if (value.CenterRegion != undefined) {
                 centerRegions.push(value.CenterRegion);
+            }
+            if (value.EducationAbrv != undefined) {
+                degreeAbrvs.push(value.EducationAbrv);
             }
             if (value.EducationLevel != undefined) {
                 degreeLevels.push(value.EducationLevel);
@@ -60,6 +64,7 @@ $.ajax({
         centerCounties = [...new Set(centerCounties)];
         centerRegions = [...new Set(centerRegions)];
         positions = [...new Set(positions)];
+        degreeAbrvs = [...new Set(degreeAbrvs)];
         degreeLevels = [...new Set(degreeLevels)];
         degreeTypes = [...new Set(degreeTypes)];
         degreeDetails = [...new Set(degreeDetails)];
@@ -86,6 +91,12 @@ $.ajax({
             $('<option>').val(value).text(value).appendTo("#Position_0_");
         })
 
+        $('<option>').val('').text('').appendTo("#EducationAbrv_0_");
+        $.each(degreeAbrvs, function (index, value) {
+            $('<option>').val(value).text(value).appendTo("#EducationAbrv_0_");
+        })
+
+
         $('<option>').val('').text('').appendTo("#EducationLevel_0_");
         $.each(degreeLevels, function (index, value) {
             $('<option>').val(value).text(value).appendTo("#EducationLevel_0_");
@@ -107,3 +118,15 @@ $.ajax({
         })
     }
 });
+
+//gets Certifications list from database and puts in a select list
+$.ajax({
+    dataType: "json",
+    url: '/cert/GetCertificationList',
+    data: 'certifications',
+    success: function (data) {
+        $.each(data, function (index, value) {
+            $('<option>').val(value.CertificationID).text(value.CertName).appendTo("#certSelect");
+        })
+    }
+})
