@@ -1,7 +1,7 @@
-# ECS Employee Tracking System User Manual
+## ECS Employee Tracking System User Manual
 Made with love by Chistopher Kingdon, Austin Dolby, Michael Dimmitt, Jerrad Monagan
 
-# Dashboard Page (View/Only and Admin)
+## Dashboard Page (View/Only and Admin)
 
 ### Color Legend: 
 located in the top left corner will affect the Dashboard by changing the cells that contain certifications nearing or having passed the expiration date. 
