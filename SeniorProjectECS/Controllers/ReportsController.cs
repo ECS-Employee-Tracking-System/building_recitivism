@@ -269,7 +269,10 @@ namespace SeniorProjectECS.Controllers
             parameters = AddPropertyToExpando(parameters, "AppApp", model.AppApp);
             parameters = AddPropertyToExpando(parameters, "ClassCompleted", model.ClassCompleted);
             parameters = AddPropertyToExpando(parameters, "ClassPaid", model.ClassPaid);
-            parameters = AddPropertyToExpando(parameters, "IsInactive", model.IsInactive);
+            //parameters = AddPropertyToExpando(parameters, "IsInactive", model.IsInactive);
+            if(model.IsInactive == true) { parameters = AddPropertyToExpando(parameters, "IsInactive", 1); }
+            else { parameters = AddPropertyToExpando(parameters, "IsInactive", 0); }
+
             parameters = AddArrayToExpando(parameters, "CertName", model.CertCompleted);
             parameters = AddArrayToExpando(parameters, "PositionTitle", model.Position);
             parameters = AddArrayToExpando(parameters, "DegreeLevel", model.EducationLevel);
@@ -359,7 +362,7 @@ namespace SeniorProjectECS.Controllers
             sql = HandleNum(sql, model.BeginRequiredHours, model.EndRequiredHours, "RequiredHours");
             sql = HandleNum(sql, model.BeginHoursEarned, model.EndHoursEarned, "HoursEarned");
             sql = HandleDate(sql, model.BeginTermDate, model.EndTermDate, "TermDate");
-            if (model.IsInactive) { sql += " AND (sm.IsInactive=@IsInactive)"; }
+            sql += " AND (sm.IsInactive=@IsInactive)";
             sql = BuildSQLFromArray(sql, model.CertCompleted, "CertName", "cert");
             sql = BuildSQLFromArray(sql, model.Position, "PositionTitle", "p");
             sql = BuildSQLFromArray(sql, model.EducationLevel, "DegreeLevel", "e");
@@ -368,9 +371,6 @@ namespace SeniorProjectECS.Controllers
             sql = BuildSQLFromArray(sql, model.CenterName, "Name", "c");
             sql = BuildSQLFromArray(sql, model.CenterCounty, "County", "c");
             sql = BuildSQLFromArray(sql, model.CenterRegion, "Region", "c");
-
-            //TimeUntilExpire
-            //ShouldCheckPosition
 
             return sql;
         }

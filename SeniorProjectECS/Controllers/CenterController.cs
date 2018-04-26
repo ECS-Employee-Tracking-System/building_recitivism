@@ -46,6 +46,34 @@ namespace SeniorProjectECS.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [AdminOnly]
+        public ActionResult Edit(int? id)
+        {
+            if(id.HasValue)
+            {
+                var handle = new CenterHandlerDapper();
+                Center center = handle.GetModel(id.Value);
+
+                return View(center);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [AdminOnly]
+        [HttpPost]
+        public ActionResult Edit(Center model)
+        {
+            string sql = "UPDATE Center SET Name=@Name, County=@County, Region=@Region WHERE CenterID=@CenterID";
+            using (var con = DBHandler.GetSqlConnection())
+            {
+                con.Execute(sql, new { model.Name, model.County, model.Region, model.CenterID });
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [AdminOnly]
         public IActionResult CleanCenters()
         {
@@ -55,6 +83,7 @@ namespace SeniorProjectECS.Controllers
                 return View(results);
             }
         }
+
         [AdminOnly]
         public IActionResult Delete(int id)
         {
