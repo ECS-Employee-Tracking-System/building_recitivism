@@ -18,6 +18,7 @@
             <th>Name</th>
             <th>County</th>
             <th>Region</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
                 <td>@Html.ActionLink(center.Name, "Details", new { id = center.CenterID })</td>
                 <td>@center.County</td>
                 <td>@center.Region</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = center.CenterID })</td>
             </tr>
         }
     </tbody>

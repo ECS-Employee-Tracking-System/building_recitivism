@@ -190,9 +190,6 @@
         <tbody>
             @foreach (var item in Model.StaffMembers)
             {
-                // Filter inactive staff members
-                if (!item.IsInactive)
-                {
 
                     <tr id="@item.StaffMemberID">
                         <td>
@@ -294,7 +291,6 @@
                         </td>
                         
                     </tr>
-                }
 
             }
         </tbody>
